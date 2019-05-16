@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+}
+
+@page {
+  size: 210mm 210mm;
+  overflow: hidden;
+}
+
+.slide {
+  width: 210mm;
+  height: 210mm;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  display: block;
+  border: 1px solid black;
+  overflow: hidden;
+}
+
+.content {
+  max-width: 210mm;
+  max-height: 210mm;
+  overflow: hidden;
+
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+h1 {
+  text-align: center;
+}
