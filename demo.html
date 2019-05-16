@@ -22,14 +22,32 @@
 
       <h1>实验报告</h1>
       <h2>kmt</h2>
-      <figure class="highlight cpp">
+      
+      <h3>线程创建</h3>
+      <h3>信号量</h3>
+
+      <figure class="highlight c">
         <pre>
-<code class="cpp">
-int main() {
-  int a = b;
+<code class="c">
+static int kcreate(task_t *task, const char *name, void (*entry)(void *arg), void *arg)
+{
+  task->name = name;
+  task->fence1 = (uint8_t *)pmm->alloc(32);
+  task->stack = (uint8_t *)pmm->alloc(4096);
+  task->fence2 = (uint8_t *)pmm->alloc(32);
+  memset(task->fence1, 0xcc, 32);// 保护1
+  memset(task->fence2, 0xdd, 32);// 保护2
+  _Area stack = (_Area) {task->stack, task->stack + 4096};// TODO
+  task->context = *_kcontext(stack, entry, arg);// TODO
+  task->id = total_task;
+  task->state = 1;// 可以运行
+  tasks[total_task] = task;
+  Info("create task[%d]: %s", total_task, name);
+  total_task ++;
+  return 0;
 }
 </code>
-</pre>
+        </pre>
       </figure>
 
       <p>$$ a^b_{a + b} $$</p>

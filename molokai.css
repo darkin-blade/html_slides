@@ -11,12 +11,12 @@
 
 .code_figure {
   /* 代码框 */
-  border: 1px solid var(--shadow_grey);
+  border: 1px solid rgb(200, 200, 200);
   border-radius: 3px;
   background-color: var(--molokai_black);
   padding-left: 20px;
   padding-right: 20px;
-  padding-top: 20px;
+  /* padding-top: 20px; */
 
   font-size: 15px;
   position: relative;
@@ -66,10 +66,15 @@
 
 pre code {
   color: var(--molokai_white);
+  margin: 0px;
+  padding: 0px;
+  position: relative;
+  bottom: -25px;
   /* 所有普通字符 */
 }
 
 pre {
+  padding-bottom: -10px;
   /* 强制换行必须要修改pre */
   word-break: break-all;
   white-space: pre-wrap;
