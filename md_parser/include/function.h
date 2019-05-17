@@ -224,6 +224,10 @@ void footer()
 {
   tag = -1;
   clearTag();
+  if (strlen(clear) != 0) {// 如果有表,那么不应该处于段落之中
+    assert(paragraph == 0);
+  }
+  endPara();// 注意endPara会直接写入文件
 
   FILE *body = fopen("./partial/body.html", "r");
   if (body == NULL) {// 没有模板文件
