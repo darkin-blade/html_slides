@@ -69,10 +69,9 @@ void readFile()
         tag ++;// 缩进级数增加
       }
 
-      if (line[i] == '-' && line[i + 1] == ' ') {// 无序表
+      if (line[i] == '-' && line[i + 1] != '\0') {// 无序表,TODO 条件
         isUL();
-      } else if (line[i] >= '1' && line[i] <= '9' && line[i + 1] == '.' 
-          && line[i + 2] == ' ') {// 有序表
+      } else if (line[i] >= '1' && line[i] <= '9' && line[i + 1] != '\0') {// 有序表
         isOL();
       } else {
         isPlain();
@@ -117,25 +116,26 @@ void isUL()
   while (line[i] == ' ') i ++;// 清除空格
   length = strlen(line + i);
 
-  if (length == 0 || i == tag) {// 不合语法
+  if (length == 0 || i == tag + 1) {// 不合语法
     isPlain();
+    return;// TODO
   }
 
-  if ((tagStackTop == 0)||(tag > tagStack[tagStackTop - 1])) {// 更小一级
-    assert(tagStackTop < 8);
-    tagStack[tagStackTop] = tag;
-    typeStack[tagStackTop] = 1;// ul
-    tagStackTop ++;
-    assert(tagStack[tagStackTop] == -1);
-    assert(typeStack[tagStackTop] == 0);
-    sprintf(render, "<ul>\n<li>\n%s\n</li>\n", line + i);// TODO
-  } else if (tag == tagStack[tagStackTop - 1]) {// 同级
+  // if ((tagStackTop == 0)||(tag > tagStack[tagStackTop - 1])) {
+  //   tagStack[tagStackTop] = tag;
+  //   typeStack[tagStackTop] = 1;// ul
+  //   tagStackTop ++;
+  //   assert(tagStack[tagStackTop] == -1);
+  //   assert(typeStack[tagStackTop] == 0);
+  //   sprintf(render, "<ul>\n<li>\n%s\n</li>\n", line + i);// TODO
+  // } else 
+  if ((tagStackTop >= 1)&&(tag == tagStack[tagStackTop - 1])) {// 同级
     assert(tagStackTop != 0);
     sprintf(render, "<li>\n%s</li>\n", line + i);
   } else {// 向前回溯
-    assert(tagStackTop != 0);
     clearTag();
-    if (tag > tagStack[tagStackTop - 1]) {// 没有找到符合之前级数的缩进
+    if (tag > tagStack[tagStackTop - 1]) {// 没有找到符合之前级数的缩进/更小一级
+      assert(tagStackTop < 8);
       tagStack[tagStackTop] = tag;
       typeStack[tagStackTop] = 1;// ul
       tagStackTop ++;
@@ -150,7 +150,53 @@ void isUL()
 
 void isOL()
 {
-  assert(0);// TODO
+  int i = tag;// 不跳过
+  int num = 0;
+  assert(tag != -1);
+  while (line[i] >= '1' && line[i] <= '9') {
+    i ++;
+    num = num * 10 + line[i] - 48;
+  }
+  if (line[i] != '.' || line[i + 1] != ' ') {
+    isPlain();// 不合语法
+    return;// TODO
+  } else {
+    i ++;// 跳转至空格处
+  }
+
+  while (line[i] == ' ') i ++;// 清除空格
+  length = strlen(line + i);
+
+  if (length == 0 || i == tag) {// 不合语法
+    isPlain();
+    return;// TODO
+  }
+
+  if ((tagStackTop == 0)||(tag > tagStack[tagStackTop - 1])) {// 更小一级
+    assert(tagStackTop < 8);
+    tagStack[tagStackTop] = tag;
+    typeStack[tagStackTop] = 2;// ol
+    tagStackTop ++;
+    assert(tagStack[tagStackTop] == -1);
+    assert(typeStack[tagStackTop] == 0);
+    sprintf(render, "<ol start=\"%d\">\n<li>\n%s\n</li>\n", num, line + i);// TODO
+  } else if (tag == tagStack[tagStackTop - 1]) {// 同级
+    assert(tagStackTop != 0);
+    sprintf(render, "<li>\n%s</li>\n", line + i);
+  } else {// 向前回溯
+    assert(tagStackTop != 0);
+    clearTag();
+    if (tag > tagStack[tagStackTop - 1]) {// 没有找到符合之前级数的缩进
+      tagStack[tagStackTop] = tag;
+      typeStack[tagStackTop] = 2;// ol
+      tagStackTop ++;
+      assert(tagStack[tagStackTop] == -1);
+      assert(typeStack[tagStackTop] == 0);
+      sprintf(render, "%s<ol start=\"%d\">\n<li>\n%s\n</li>\n", clear, num, line + i);// TODO
+    } else {
+      sprintf(render, "%s<li>\n%s\n</li>\n", clear, line + i);
+    }
+  }
 }
 
 void isPlain()
