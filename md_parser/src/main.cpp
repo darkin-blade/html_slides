@@ -54,7 +54,7 @@ void readFile()
   int i = 0;
 
   header();
-  while (fgets(line, 500, md)) {// 读取一行
+  while (fgets(line, 1000, md)) {// 读取一行
     length = strlen(line);
     if (line[length - 1] == '\n') {// 过滤换行
       line[length - 1] = '\0';
@@ -68,20 +68,24 @@ void readFile()
       for (i = 0, tag = 0; line[i] == ' '; i ++) {// 清除空格
         tag ++;// 缩进级数增加
       }
+      assert(i == tag);
 
-      if (line[i] == '-' && line[i + 1] != '\0') {// 无序表,TODO 条件
+      if (line[i] == '-' && line[i + 1] != '\0') 
+      {// 无序表,TODO 条件
         isUL();
-      } else if (line[i] >= '1' && line[i] <= '9' && line[i + 1] != '\0') {// 有序表
+      } 
+      else if (line[i] >= '1' && line[i] <= '9' && line[i + 1] != '\0') 
+      {// 有序表
         isOL();
-      } else if (line[i] == '`') {// 代码段
-        if (line[i + 1] == '`' && line[i + 2] == '`' && line[i + 3] != '`') {
-          code3();
-        } else if (line[i + 1] == '`' && line[i + 2] != '`') {
-          code2();
-        } else {
-          code1();
-        }
-      } else {
+      } 
+      else if (line[i] == '`' && line[i + 1] == '`'
+          && line[i + 2] == '`' && line[i + 3] != '`') 
+      {// 大代码块
+        isCode();
+        continue;
+      } 
+      else 
+      {// 正文
         tag = -1;
         isPlain();
       }
@@ -204,7 +208,6 @@ void isOL()
 
 void isPlain()
 {
-  YELLOW("%d", tagStackTop);
   int i = my_max(tag, 0);
   tag = -1;
   clearTag();
@@ -266,7 +269,23 @@ void footer()
   fputs(render, html);
 }
 
-void code1()
+void isCode()
 {
-  ;
+  int i = tag + 3;// 跳过```
+  char language[16];// 语言类型
+  clearTag();
+
+  while (line[i] == ' ') i ++;// 跳过空格
+  sprintf(language, "%s", line + i);// 有可能为空
+  sprintf(render, "%s<figure class=\"highlight %s\">\n<pre>\n<code>\n",
+      clear, language);
+  WHITE("%s", line);
+  MAGENTA("%s", render);
+  fputs(render, html);
+
+  while (fgets(line, 1000, md)) {// 读取一行
+    if (line[0] == '`' && line[1] == '`' && line[2] == '`' && line[3] != '`') {
+      ;
+    }
+  }
 }
