@@ -101,6 +101,7 @@ void isTitle()
     sprintf(render, "<h%d>%s</h%d>\n", title, line + i, title);
   } else {
     title = 0;// 不合语法
+    isPlain();
   }
 }
 
@@ -139,4 +140,9 @@ void isUL()
 void isOL()
 {
   assert(0);// TODO
+}
+
+void isPlain()
+{
+  sprintf(render, "%s\n", line + tag);// TODO
 }
