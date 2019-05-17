@@ -41,6 +41,7 @@ void openFile()
 }
 
 char line[512];// 每一行
+int length = 0;// 每一行的长度
 char render[1024];// 解析后的字符串
 int tag = 0;// 缩进级数
 int tagStack[8]; // 最多8种缩进
@@ -49,17 +50,14 @@ int tagStackTop = 0;// 栈顶
 void readFile()
 {
   int i = 0;
-  int length = 0;
 
   for (i = 0; i < 8; i ++) {// 初始化tag栈,TODO 有序,无序
     tagStack[i] = -1;
   }
 
   while (fgets(line, 500, md)) {// 读取一行
-    WHITE("%s", line);
     length = strlen(line);
     if (line[length - 1] == '\n') {// 过滤换行
-      RED("%c", line[length - 1]);
       line[length - 1] = '\0';
       length --;
     }
@@ -80,6 +78,7 @@ void readFile()
         isOL();
       }
     }
+    WHITE("%s", line);
     MAGENTA("%s", render);
     // fputs(render, html);
   }
@@ -91,17 +90,20 @@ void isTitle()
 {
   int i = 0;
   int title = 0;// 标题级数
+  tag = 0;// 清空tag
+
   for (i = 0; line[i] == '#'; i ++) {
     title ++;// 标题级数增加,TODO 最大标题级数
   }
-  if (line[i] == ' ') {// 判断语法,#后接空格,TODO
-    i ++;// 空格
-    tag = 0;// 清空tag
-    memset(render, 0, sizeof(render));
-    sprintf(render, "<h%d>%s</h%d>\n", title, line + i, title);
-  } else {
-    title = 0;// 不合语法
+  assert(i == title);
+  while (line[i] == ' ') i ++;// 除去空格
+  length = strlen(line + i);
+
+  if (length == 0 || i == title) {// 不是标题
+    title = 0;
     isPlain();
+  } else {
+    sprintf(render, "<h%d>%s</h%d>\n", title, line + i, title);
   }
 }
 
