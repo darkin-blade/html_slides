@@ -74,6 +74,8 @@ void readFile()
       } else if (line[i] >= '1' && line[i] <= '9' && line[i + 1] == '.' 
           && line[i + 2] == ' ') {// 有序表
         isOL();
+      } else {
+        isPlain();
       }
     }
     WHITE("%s", line);
@@ -100,7 +102,7 @@ void isTitle()
   length = strlen(line + i);
 
   if (length == 0 || i == title) {// 不合语法
-    title = 0;
+    assert(tag == 0);
     isPlain();
   } else {
     sprintf(render, "%s<h%d>%s</h%d>\n", clear, title, line + i, title);
@@ -145,7 +147,10 @@ void isOL()
 
 void isPlain()
 {
-  sprintf(render, "%s\n", line + tag);// TODO
+  int i = tag;
+  tag = -1;
+  clearTag();
+  sprintf(render, "%s%s\n", clear, line + i);// TODO
 }
 
 void clearTag()
@@ -181,7 +186,7 @@ void header()
 
 void footer()
 {
-  tag = 0;
+  tag = -1;
   clearTag();
   sprintf(render, "%s</body>\n</html>\n", clear);
   MAGENTA("%s", render);
