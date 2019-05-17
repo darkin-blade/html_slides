@@ -169,15 +169,19 @@ void header()
   }
   if (1) {// 初始化latex环境
     latexPar[0].id = 0;
+    latexPar[0].len = 1;
     sprintf(latexPar[0].left, "$");
     sprintf(latexPar[0].right, "$");
     latexPar[1].id = 1;
+    latexPar[1].len = 2;
     sprintf(latexPar[1].left, "$$");
     sprintf(latexPar[1].right, "$$");
     latexPar[2].id = 2;
+    latexPar[2].len = 2;
     sprintf(latexPar[2].left, "\\[");
     sprintf(latexPar[2].right, "\\]");
-    latexPar[3].id = 3;
+    // latexPar[3].id = 3;
+    // latexPar[3].len = 2;
     // sprintf(latexPar[3].left, "\\(");
     // sprintf(latexPar[3].right, "\\)");
   }
