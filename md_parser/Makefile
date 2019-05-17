@@ -1,5 +1,7 @@
-CFLAGS := -Wall -Werror
+SRCS    := $(shell find ./src/ -maxdepth 1 -name "*.cpp")
+DEPS    := $(shell find ./include/ -maxdepth 1 -name "*.h") $(SRCS)
+CFLAGS  := -Wall -Werror
 
-run:
-	g++ $(CFLAGS) md.cpp -o shit
-	./shit
+run:    $(DEPS)
+	g++ $(CFLAGS) $(SRCS) -o md_parser
+	./md_parser
