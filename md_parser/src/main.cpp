@@ -61,32 +61,45 @@ void readFile()
 void isText()
 {
   int i = my_max(tag, 0);
-  int head = i;// 字符串头
+  int line_head = i;// line头
   tag = -1;
   clearTag();
   sprintf(render, "%s", clear);
+  int rend_tail = strlen(render);// render尾
 
   for (; line[i] != '\0'; i ++) {
     if (textEvn == 0) {// 正常文本
       if (line[i] == '`') {// 行间代码
         if (line[i + 1] == '`') {
           line[i] = line[i + 1] = 0;// 切断
-          strcat(render, line + head);
+          strcat(render, line + line_head);
           strcat(render, "<code class=\"code\">");
           i += 2;
-          head = i;
+          line_head = i;
           textEvn = 2;// ``code``
         } else {
           line[i] = 0;// 切断
-          strcat(render, line + head);
+          strcat(render, line + line_head);
           strcat(render, "<code class=\"code\">");
-          strcat(render, line + head);
+          strcat(render, line + line_head);
           i += 1;
-          head = i;
+          line_head = i;
           textEvn = 1;// `code`
         }
-      } else {
-        ;
+      } else if (line[i] == '$') {// latex公式
+        if (line[i + 1] == '$') {// $$ latex $$
+          line[i] = line[i + 1] = 0;// 切断
+          strcat(render, line + line_head);
+          i += 2;
+          line_head = i;
+          textEvn = 4;
+        } else {
+          line[i] = 0;// 切断
+          strcat(render, line + line_head);
+          i += 1;
+          line_head = i;
+          textEvn = 3;
+        }
       }
     } else {// 非正常文本
       ;

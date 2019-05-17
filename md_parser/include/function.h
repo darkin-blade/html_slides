@@ -13,7 +13,7 @@ int tagStack[8]; // 最多8种缩进
 int tagStackTop = 0;// 栈顶
 int typeStack[8]; // 1 for ul, 2 for ol
 char clear[64];// 存放</ol> </ul>
-int textEvn;// 当前语言环境 0: normal, 1: code`, 2: code``, 3: latex
+int textEvn;// 当前语言环境 0: normal, 1: code`, 2: code``, 3: latex$, 4: latex$$
 int paragraph;// 新的段落 0: ' ', 1: '\n'
 struct {
   int id, len;// 序号,长度
@@ -168,7 +168,7 @@ void header()
     tagStack[i] = -1;
     typeStack[i] = 0;
   }
-  if (1) {// 初始化latex环境
+  if (0) {// 初始化latex环境
     latexPar[0].id = 0;
     latexPar[0].len = 1;
     sprintf(latexPar[0].left, "$");
@@ -177,10 +177,10 @@ void header()
     latexPar[1].len = 2;
     sprintf(latexPar[1].left, "$$");
     sprintf(latexPar[1].right, "$$");
-    latexPar[2].id = 2;
-    latexPar[2].len = 2;
-    sprintf(latexPar[2].left, "\\[");
-    sprintf(latexPar[2].right, "\\]");
+    // latexPar[2].id = 2;
+    // latexPar[2].len = 2;
+    // sprintf(latexPar[2].left, "\\[");
+    // sprintf(latexPar[2].right, "\\]");
     // latexPar[3].id = 3;
     // latexPar[3].len = 2;
     // sprintf(latexPar[3].left, "\\(");
