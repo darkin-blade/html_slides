@@ -118,7 +118,6 @@ void isUL()
   length = strlen(line + i);
 
   if (length == 0 || i == tag + 1) {// 不合语法
-    tag = -1;
     isPlain();
     return;// TODO
   }
@@ -155,7 +154,6 @@ void isOL()
     i ++;
   }
   if (line[i] != '.' || line[i + 1] != ' ') {
-    tag = -1;
     isPlain();// 不合语法
     return;// TODO
   } else {
@@ -167,7 +165,6 @@ void isOL()
   length = strlen(line + i);
 
   if (length == 0 || i == j) {// 不合语法,TODO
-    tag = -1;
     isPlain();
     return;// TODO
   }
