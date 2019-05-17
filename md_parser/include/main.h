@@ -48,9 +48,7 @@ void isPlain();// 正文
 void header();// 添加<html>
 void footer();// 添加</html>
 void isCode();// 代码段
-void code1();// `{code}`
-void code2();// `{code,可使用`}`
-void code3();// ```{code}```
+void isLatex();// latex
 
 int my_max(int a, int b)
 {

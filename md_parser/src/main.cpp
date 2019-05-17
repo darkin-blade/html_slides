@@ -254,18 +254,39 @@ void header()
     typeStack[i] = 0;
   }
 
-  sprintf(render, "<html>\n<head>\n</head>\n<body>\n");
-  MAGENTA("%s", render);
-  fputs(render, html);
+  FILE *head = fopen("./partial/head.html", "r");
+  if (head == NULL) {// 没有模板文件
+    YELLOW("No head module");
+    sprintf(render, "<html>\n<head>\n</head>\n<body>\n");
+    MAGENTA("%s", render);
+    fputs(render, html);
+  } else {// 有模板文件
+    while (fgets(line, 1000, head)) {// 读取一行
+      sprintf(render, "%s", line);
+      MAGENTA("%s", render);
+      fputs(render, html);
+    }
+  }
 }
 
 void footer()
 {
   tag = -1;
   clearTag();
-  sprintf(render, "%s</body>\n</html>\n", clear);
-  MAGENTA("%s", render);
-  fputs(render, html);
+
+  FILE *body = fopen("./partial/body.html", "r");
+  if (body == NULL) {// 没有模板文件
+    YELLOW("No body module");
+    sprintf(render, "%s</body>\n</html>\n", clear);
+    MAGENTA("%s", render);
+    fputs(render, html);
+  } else {// 有body
+    while (fgets(line, 1000, body)) {// 读取一行
+      sprintf(render, "%s", line);
+      MAGENTA("%s", render);
+      fputs(render, html);
+    }
+  }
 }
 
 void isCode()
