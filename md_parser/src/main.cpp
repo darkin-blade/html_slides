@@ -128,7 +128,6 @@ void isUL()
     tagStackTop ++;
     assert(tagStack[tagStackTop] == -1);
     assert(typeStack[tagStackTop] == 0);
-
     sprintf(render, "<ul>\n<li>\n%s\n</li>\n", line + i);// TODO
   } else if (tag == tagStack[tagStackTop - 1]) {// 同级
     assert(tagStackTop != 0);
@@ -136,7 +135,16 @@ void isUL()
   } else {// 向前回溯
     assert(tagStackTop != 0);
     clearTag();
-    sprintf(render, "%s<li>\n%s\n</li>\n", clear, line + i);
+    if (tag > tagStack[tagStackTop - 1]) {// 没有找到符合之前级数的缩进
+      tagStack[tagStackTop] = tag;
+      typeStack[tagStackTop] = 1;// ul
+      tagStackTop ++;
+      assert(tagStack[tagStackTop] == -1);
+      assert(typeStack[tagStackTop] == 0);
+      sprintf(render, "%s<ul>\n<li>\n%s\n</li>\n", clear, line + i);// TODO
+    } else {
+      sprintf(render, "%s<li>\n%s\n</li>\n", clear, line + i);
+    }
   }
 }
 
