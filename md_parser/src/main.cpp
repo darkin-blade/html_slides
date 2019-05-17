@@ -79,26 +79,22 @@ void isText()
           strcat(render, "<code class=\"code\">");
           rend_tail += strlen(render + rend_tail);// TODO
           i += 2;
-          line_head = i;
           textEvn = 2;// ``code``
         } else {
           line[i] = 0;// 切断
           strcat(render, "<code class=\"code\">");
           rend_tail += strlen(render + rend_tail);// TODO
           i += 1;
-          line_head = i;
           textEvn = 1;// `code`
         }
       } else if (line[i] == '$') {// latex公式
         if (line[i + 1] == '$') {// $$ latex $$
           line[i] = line[i + 1] = 0;// 切断
           i += 2;
-          line_head = i;
           textEvn = 4;
         } else {
           line[i] = 0;// 切断
           i += 1;
-          line_head = i;
           textEvn = 3;
         }
       }
@@ -108,7 +104,6 @@ void isText()
           strcat(render, "</code>");
           rend_tail += strlen(render + rend_tail);// TODO
           i += 1;
-          line_head = i;
           textEvn = 0;
         }
       } else if (textEvn == 2) {
@@ -116,19 +111,16 @@ void isText()
           strcat(render, "</code>");
           rend_tail += strlen(render + rend_tail);// TODO
           i += 1;
-          line_head = i;
           textEvn = 0;
         }
       } else if (textEvn == 3) {
         if (line[i] == '$') {// 解除$latex$
           i += 1;
-          line_head = i;
           textEvn = 0;
         }
       } else if (textEvn == 4) {
         if (line[i] == '$' && line[i + 1] == '$') {// 解除$$ latex $$
           i += 2;
-          line_head = i;
           textEvn = 0;
         }
       } else {// 无视一切其他字符

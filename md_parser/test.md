@@ -64,3 +64,7 @@ int main
 sdfasfadsfsdf
 b > a
 ```
+
+###                   latex
+
+$$ a^b $$
