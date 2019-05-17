@@ -13,6 +13,12 @@ int tagStack[8]; // 最多8种缩进
 int tagStackTop = 0;// 栈顶
 int typeStack[8]; // 1 for ul, 2 for ol
 char clear[64];// 存放</ol> </ul>
+int textEvn;// 当前语言环境 0: plain, 1: code`, 2: code``, 3: latex
+struct {
+  int id, len;// 序号,长度
+  char left[4];
+  char right[4];
+} latexPar[4];// latex公式环境
 
 void isTitle()
 {
@@ -160,6 +166,20 @@ void header()
   for (i = 0; i < 8; i ++) {// 初始化tag栈,TODO 有序,无序
     tagStack[i] = -1;
     typeStack[i] = 0;
+  }
+  if (1) {// 初始化latex环境
+    latexPar[0].id = 0;
+    sprintf(latexPar[0].left, "$");
+    sprintf(latexPar[0].right, "$");
+    latexPar[1].id = 1;
+    sprintf(latexPar[1].left, "$$");
+    sprintf(latexPar[1].right, "$$");
+    latexPar[2].id = 2;
+    sprintf(latexPar[2].left, "\\[");
+    sprintf(latexPar[2].right, "\\]");
+    latexPar[3].id = 3;
+    // sprintf(latexPar[3].left, "\\(");
+    // sprintf(latexPar[3].right, "\\)");
   }
 
   FILE *head = fopen("./partial/head.html", "r");
