@@ -65,7 +65,7 @@ void readFile()
     if (line[0] == '#') {// 标题,标题前不能有空格,#后要有空格
       isTitle();
     } else {
-      for (i = 0; line[i] == ' '; i ++) {// 清除空格
+      for (i = 0, tag = 0; line[i] == ' '; i ++) {// 清除空格
         tag ++;// 缩进级数增加
       }
 
@@ -119,7 +119,7 @@ void isUL()
     isPlain();
   }
 
-  if (tag > tagStack[tagStackTop]) {// 更小一级
+  if ((tagStackTop == 0)||(tag > tagStack[tagStackTop - 1])) {// 更小一级
     assert(tagStackTop < 8);
     tagStack[tagStackTop] = tag;
     typeStack[tagStackTop] = 1;// ul
@@ -128,9 +128,11 @@ void isUL()
     assert(typeStack[tagStackTop] == 0);
 
     sprintf(render, "<ul>\n<li>\n%s\n</li>\n", line + i);// TODO
-  } else if (tag == tagStack[tagStackTop]) {// 同级
+  } else if (tag == tagStack[tagStackTop - 1]) {// 同级
+    assert(tagStackTop != 0);
     sprintf(render, "<li>\n%s</li>\n", line + i);
   } else {// 向前回溯
+    assert(tagStackTop != 0);
     clearTag();
     sprintf(render, "%s<li>\n%s\n</li>\n", clear, line + i);
   }
