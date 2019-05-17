@@ -73,8 +73,10 @@ void isText()
   assert(render[rend_tail] == '\0');
 
   for (; line[i] != '\0'; i ++) {
-    if (textEvn == 0) {// 正常文本
-      if (line[i] == '`') {// 行间代码
+    if (textEvn == 0)
+    {// 正常文本
+      if (line[i] == '`')
+      {// 行间代码
         if (line[i + 1] == '`') {
           line[i] = line[i + 1] = 0;// 切断
           strcat(render, "<code class=\"code\">");
@@ -87,7 +89,9 @@ void isText()
           rend_tail += strlen(render + rend_tail);// TODO
           textEvn = 1;// `code`
         }
-      } else if (line[i] == '$') {// latex公式
+      }
+      else if (line[i] == '$')
+      {// latex公式
         if (line[i + 1] == '$') {// $$ latex $$
           line[i] = line[i + 1] = 0;// 切断
           i ++;
@@ -96,37 +100,55 @@ void isText()
           line[i] = 0;// 切断
           textEvn = 3;
         }
-      } else {// 无视一切其他字符
+      }
+      else
+      {// TODO
         render[rend_tail] = line[i];
         rend_tail ++;
       }
-    } else {// 非正常文本
-      if (textEvn == 1) {
+    }
+    else
+    {// 非正常文本
+      if (textEvn == 1)
+      {
         if (line[i] == '`') {// 解除`code`
           strcat(render, "</code>");
           rend_tail += strlen(render + rend_tail);// TODO
           textEvn = 0;
         }
-      } else if (textEvn == 2) {
+      }
+      else if (textEvn == 2)
+      {
         if (line[i] == '`' && line[i + 1] == '`') {// 解除``code``
           strcat(render, "</code>");
           rend_tail += strlen(render + rend_tail);// TODO
           i ++;
           textEvn = 0;
         }
-      } else if (textEvn == 3) {
+      } 
+      else if (textEvn == 3) 
+      {
         if (line[i] == '$') {// 解除$latex$
           textEvn = 0;
         }
-      } else if (textEvn == 4) {
+      } 
+      else if (textEvn == 4)
+      {
         if (line[i] == '$' && line[i + 1] == '$') {// 解除$$ latex $$
           i ++;
           textEvn = 0;
         }
-      } else {// 不可能有其他环境
+      }
+      else
+      {// 不可能有其他环境
         assert(0);// TODO
       }
-      if (textEvn)
+
+      if (textEvn != 0)
+      {// 无视一切其他字符
+        render[rend_tail] = line[i];
+        rend_tail ++;
+      }
     }
   }
 
