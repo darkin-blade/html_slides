@@ -19,7 +19,7 @@ void readFile()
       length --;
     }
     if (length == 0) {// 空行 
-      paragraph = 1;// 新的段落
+      endPara();
       continue;
     }
 

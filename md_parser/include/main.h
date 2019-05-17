@@ -48,6 +48,7 @@ void header();// 添加<html>
 void footer();// 添加</html>
 void isCodeblock();// 代码段
 void isLatex();// latex
+void endPara();// 结束段落
 
 int my_max(int a, int b)
 {

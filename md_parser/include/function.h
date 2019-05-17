@@ -14,12 +14,24 @@ int tagStackTop = 0;// 栈顶
 int typeStack[8]; // 1 for ul, 2 for ol
 char clear[64];// 存放</ol> </ul>
 int textEvn;// 当前语言环境 0: normal, 1: code`, 2: code``, 3: latex$, 4: latex$$
-int paragraph;// 新的段落 0: ' ', 1: '\n'
+int paragraph;// 0: 没有新的段落, 1: 有段落没有结束
 struct {
   int id, len;// 序号,长度
   char left[4];
   char right[4];
 } latexPar[4];// latex公式环境
+
+void endPara()
+{
+  if (paragraph == 1) {// 有段落未结束
+    sprintf(render, "</p>");
+    MAGENTA("%s", render);
+    fputs(render, html);
+    paragraph = 0;// 之后的文字属于新的段落
+  } else {
+    assert(paragraph == 0);// 什么也不做
+  }
+}
 
 void isTitle()
 {
@@ -39,6 +51,7 @@ void isTitle()
     assert(tag == -1);// 注意初始化-1
     isText();
   } else {
+    endPara();// 结束之前的段落
     sprintf(render, "%s<h%d>%s</h%d>\n", clear, title, line + i, title);
   }
 }
@@ -54,6 +67,8 @@ void isUL()
   if (length == 0 || i == tag + 1) {// 不合语法
     isText();
     return;// TODO
+  } else {
+    endPara();// 结束之前的段落
   }
 
   if ((tagStackTop >= 1)&&(tag == tagStack[tagStackTop - 1])) {// 同级
@@ -101,6 +116,8 @@ void isOL()
   if (length == 0 || i == j) {// 不合语法,TODO
     isText();
     return;// TODO
+  } else {
+    endPara();// 结束之前的段落
   }
 
   if ((tagStackTop >= 1)&&(tag == tagStack[tagStackTop - 1])) {// 同级
@@ -186,7 +203,7 @@ void header()
     // sprintf(latexPar[3].left, "\\(");
     // sprintf(latexPar[3].right, "\\)");
   }
-  paragraph = 1;// 默认一开始就是新的段落
+  paragraph = 0;// 默认一开始就是新的段落
 
   FILE *head = fopen("./partial/head.html", "r");
   if (head == NULL) {// 没有模板文件
@@ -228,6 +245,7 @@ void isCodeblock()
   int i = tag + 3;// 跳过```
   char language[16];// 语言类型
   clearTag();
+  endPara();// 结束之前的段落
 
   while (line[i] == ' ') i ++;// 跳过空格
   sprintf(language, "%s", line + i);// 有可能为空
