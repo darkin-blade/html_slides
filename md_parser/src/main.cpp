@@ -84,6 +84,9 @@ void readFile()
     MAGENTA("%s", render);
     // fputs(render, html);
   }
+  tag = 0;
+  clearTag();
+  MAGENTA("%s", clear);
 
   return;
 }
@@ -131,15 +134,15 @@ void isUL()
     assert(typeStack[tagStackTop] == 0);
 
     if (tag != 0) {// 不贴边
-      sprintf(render, "<ul>\n<li>%s</li>\n", line + i);
+      sprintf(render, "<ul>\n<li>\n%s\n</li>\n", line + i);
     } else {
-      sprintf(render, "<li>%s</li>\n", line + i);
+      sprintf(render, "<li>\n%s\n</li>\n", line + i);
     }
   } else if (tag == tagStack[tagStackTop]) {// 同级
-    sprintf(render, "<li>%s</li>\n", line + i);
+    sprintf(render, "<li>\n%s</li>\n", line + i);
   } else {// 向前回溯
     clearTag();
-    sprintf(render, "%s<li>%s</li>\n", clear, line + i);
+    sprintf(render, "%s<li>\n%s\n</li>\n", clear, line + i);
   }
 }
 
@@ -155,15 +158,18 @@ void isPlain()
 
 void clearTag()
 {
-  for (memset(clear, 0, sizeof(clear)); tag < tagStack[tagStackTop]; tagStackTop --) 
+  if (tagStackTop == 0) return;// 没有tag
+  for (memset(clear, 0, sizeof(clear)); 
+      tagStackTop >= 1 && tag < tagStack[tagStackTop - 1]; tagStackTop --) 
   {
-    if (typeStack[tagStackTop] == 1) {// ul
+    if (typeStack[tagStackTop - 1] == 1) {// ul
       strcat(clear, "</ul>\n");
     } else {// ol
-      assert(typeStack[tagStackTop] == 2);
+      assert(typeStack[tagStackTop - 1] == 2);
       strcat(clear, "</ol>\n");
     }
-    tagStack[tagStackTop] = -1;// 复原
-    typeStack[tagStackTop] = 0;// 复原
+    tagStack[tagStackTop - 1] = -1;// 复原
+    typeStack[tagStackTop - 1] = 0;// 复原
   }
+  assert(tagStackTop >= 0);
 }
