@@ -199,7 +199,8 @@ void isOL()
 
 void isPlain()
 {
-  int i = tag;
+  YELLOW("%d", tagStackTop);
+  int i = my_max(tag, 0);
   tag = -1;
   clearTag();
   sprintf(render, "%s%s\n", clear, line + i);// TODO

@@ -47,3 +47,15 @@ void clearTag();// 清除ul,ol
 void isPlain();// 正文
 void header();// 添加<html>
 void footer();// 添加</html>
+
+int my_max(int a, int b)
+{
+  if (a > b) return a;
+  return b;
+}
+
+int my_min(int a, int b)
+{
+  if (a < b) return a;
+  return b;
+}
