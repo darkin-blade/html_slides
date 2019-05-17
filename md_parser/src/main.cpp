@@ -81,8 +81,7 @@ void readFile()
       else if (line[i] == '`' && line[i + 1] == '`'
           && line[i + 2] == '`' && line[i + 3] != '`') 
       {// 大代码块
-        isCode();
-        continue;
+        isCode();// TODO
       } 
       else 
       {// 正文
@@ -285,7 +284,14 @@ void isCode()
 
   while (fgets(line, 1000, md)) {// 读取一行
     if (line[0] == '`' && line[1] == '`' && line[2] == '`' && line[3] != '`') {
-      ;
+      sprintf(render, "</code>\n</pre>\n</figure>\n");
+      return;// TODO
+    } else {// 继续留在代码块
+      sprintf(render, "%s", line);// 包括回车,TODO 转义
+      WHITE("%s", line);
+      MAGENTA("%s", render);
+      fputs(render, html);
     }
   }
+  assert(0);
 }
