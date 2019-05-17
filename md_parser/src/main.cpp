@@ -42,14 +42,14 @@ void openFile()
 
 char line[512];// 每一行
 char render[1024];// 解析后的字符串
+int tag = 0;// 缩进级数
+int tagStack[8]; // 最多8种缩进
+int tagStackTop = 0;// 栈顶
 
 void readFile()
 {
   int i = 0;
   int title = 0;// 标题级数
-  int tag = 0;// 缩进级数
-  int tagStack[8]; // 最多8种缩进
-  int tagStackTop = 0;// 栈顶
   int length = 0;
 
   for (i = 0; i < 8; i ++) {// 初始化tag栈,TODO 有序,无序
@@ -69,32 +69,25 @@ void readFile()
 
     if (line[0] == '#') {// 标题,标题前不能有空格,#后要有空格
       isTitle();
-    }
-
-    for (i = 0; line[i] == ' '; i ++) {
-      tag ++;// 缩进级数增加
-    }
-    if (line[i] != ' ') {// 语法判断
-      tag = 0;// 不合语法
     } else {
-      i ++;// 空格
-      if (tag > tagStack[tagStackTop]) {// 更小一级
-        assert(tagStackTop < 8);
-        tagStack[tagStackTop] = tag;
-        tagStackTop ++;
-        assert(tagStack[tagStackTop] == -1);
-      } else if (tag == tagStack[tagStackTop]) {// 同级
-        assert(tag != -1);
-      } else {// 向前回溯
-        ;
+      for (i = 0; line[i] == ' '; i ++) {// 清除空格
+        tag ++;// 缩进级数增加
+      }
+
+      if (line[i] == '-' && line[i + 1] == ' ') {// 无序表
+        isUL();
+      } else if (line[i] >= '1' && line[i] <= '9' && line[i + 1] == '.' 
+          && line[i + 2] == ' ') {// 有序表
+        isOL();
       }
     }
+
   }
 
   return;
 }
 
-void isTitle()// 标题
+void isTitle()
 {
   int i = 0;
   for (i = 0; line[i] == '#'; i ++) {
@@ -110,4 +103,25 @@ void isTitle()// 标题
   } else {
     title = 0;// 不合语法
   }
+}
+
+void isUL()
+{
+  int i = 0;
+  i ++;// 空格
+  if (tag > tagStack[tagStackTop]) {// 更小一级
+    assert(tagStackTop < 8);
+    tagStack[tagStackTop] = tag;
+    tagStackTop ++;
+    assert(tagStack[tagStackTop] == -1);
+  } else if (tag == tagStack[tagStackTop]) {// 同级
+    assert(tag != -1);
+  } else {// 向前回溯
+    ;
+  }
+}
+
+void isOL()
+{
+  ;
 }

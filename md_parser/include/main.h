@@ -39,3 +39,7 @@
 
 void readFile();
 void openFile();
+void isTitle();// 标题
+void isTable();// 表格
+void isUL();// 无序表
+void isOL();// 有序表
