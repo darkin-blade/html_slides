@@ -200,7 +200,7 @@ void isPlain()
   int i = my_max(tag, 0);
   tag = -1;
   clearTag();
-  sprintf(render, "%s%s\n", clear, line + i);// TODO
+  sprintf(render, "%s<p>%s</p>\n", clear, line + i);// TODO
 }
 
 void clearTag()
