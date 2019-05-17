@@ -208,10 +208,9 @@ void isPlain()
 
 void clearTag()
 {
+  memset(clear, 0, sizeof(clear));
   if (tagStackTop == 0) return;// 没有tag
-  for (memset(clear, 0, sizeof(clear)); 
-      tagStackTop >= 1 && tag < tagStack[tagStackTop - 1]; tagStackTop --) 
-  {
+  for (; tagStackTop >= 1 && tag < tagStack[tagStackTop - 1]; tagStackTop --) {
     if (typeStack[tagStackTop - 1] == 1) {// ul
       strcat(clear, "</ul>\n");
     } else {// ol
