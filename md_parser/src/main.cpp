@@ -121,14 +121,6 @@ void isUL()
     return;// TODO
   }
 
-  // if ((tagStackTop == 0)||(tag > tagStack[tagStackTop - 1])) {
-  //   tagStack[tagStackTop] = tag;
-  //   typeStack[tagStackTop] = 1;// ul
-  //   tagStackTop ++;
-  //   assert(tagStack[tagStackTop] == -1);
-  //   assert(typeStack[tagStackTop] == 0);
-  //   sprintf(render, "<ul>\n<li>\n%s\n</li>\n", line + i);// TODO
-  // } else 
   if ((tagStackTop >= 1)&&(tag == tagStack[tagStackTop - 1])) {// 同级
     assert(tagStackTop != 0);
     sprintf(render, "<li>\n%s</li>\n", line + i);
@@ -142,7 +134,7 @@ void isUL()
       assert(tagStack[tagStackTop] == -1);
       assert(typeStack[tagStackTop] == 0);
       sprintf(render, "%s<ul>\n<li>\n%s\n</li>\n", clear, line + i);// TODO
-    } else {
+    } else {// 找到之前的同级
       sprintf(render, "%s<li>\n%s\n</li>\n", clear, line + i);
     }
   }
@@ -167,33 +159,26 @@ void isOL()
   while (line[i] == ' ') i ++;// 清除空格
   length = strlen(line + i);
 
-  if (length == 0 || i == tag) {// 不合语法
+  if (length == 0) {// 不合语法,TODO
     isPlain();
     return;// TODO
   }
 
-  if ((tagStackTop == 0)||(tag > tagStack[tagStackTop - 1])) {// 更小一级
-    assert(tagStackTop < 8);
-    tagStack[tagStackTop] = tag;
-    typeStack[tagStackTop] = 2;// ol
-    tagStackTop ++;
-    assert(tagStack[tagStackTop] == -1);
-    assert(typeStack[tagStackTop] == 0);
-    sprintf(render, "<ol start=\"%d\">\n<li>\n%s\n</li>\n", num, line + i);// TODO
-  } else if (tag == tagStack[tagStackTop - 1]) {// 同级
+  if ((tagStackTop >= 1)&&(tag == tagStack[tagStackTop - 1])) {// 同级
     assert(tagStackTop != 0);
     sprintf(render, "<li>\n%s</li>\n", line + i);
   } else {// 向前回溯
-    assert(tagStackTop != 0);
     clearTag();
-    if (tag > tagStack[tagStackTop - 1]) {// 没有找到符合之前级数的缩进
+    if (tag > tagStack[tagStackTop - 1]) {// 没有找到符合之前级数的缩进/更小一级
+      assert(tagStackTop < 8);
       tagStack[tagStackTop] = tag;
       typeStack[tagStackTop] = 2;// ol
       tagStackTop ++;
       assert(tagStack[tagStackTop] == -1);
       assert(typeStack[tagStackTop] == 0);
-      sprintf(render, "%s<ol start=\"%d\">\n<li>\n%s\n</li>\n", clear, num, line + i);// TODO
-    } else {
+      sprintf(render, "%s<ol start=\"%d\">\n<li>\n%s\n</li>\n", 
+          clear, num, line + i);// TODO
+    } else {// 找到之前的同级
       sprintf(render, "%s<li>\n%s\n</li>\n", clear, line + i);
     }
   }
