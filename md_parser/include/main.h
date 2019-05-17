@@ -44,11 +44,12 @@ void isTable();// 表格
 void isUL();// 无序表
 void isOL();// 有序表
 void clearTag();// 清除ul,ol
-void isPlain();// 正文
+void isText();// 正文
 void header();// 添加<html>
 void footer();// 添加</html>
-void isCode();// 代码段
+void isCodeblock();// 代码段
 void isLatex();// latex
+void isCode();// 行间代码
 
 int my_max(int a, int b)
 {

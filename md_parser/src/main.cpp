@@ -81,12 +81,12 @@ void readFile()
       else if (line[i] == '`' && line[i + 1] == '`'
           && line[i + 2] == '`' && line[i + 3] != '`') 
       {// 大代码块
-        isCode();// TODO
+        isCodeblock();// TODO
       } 
       else 
       {// 正文
         tag = -1;
-        isPlain();
+        isText();
       }
     }
     WHITE("%s", line);
@@ -114,7 +114,7 @@ void isTitle()
 
   if (length == 0 || i == title) {// 不合语法
     assert(tag == -1);// 注意初始化-1
-    isPlain();
+    isText();
   } else {
     sprintf(render, "%s<h%d>%s</h%d>\n", clear, title, line + i, title);
   }
@@ -129,7 +129,7 @@ void isUL()
   length = strlen(line + i);
 
   if (length == 0 || i == tag + 1) {// 不合语法
-    isPlain();
+    isText();
     return;// TODO
   }
 
@@ -165,7 +165,7 @@ void isOL()
     i ++;
   }
   if (line[i] != '.' || line[i + 1] != ' ') {
-    isPlain();// 不合语法
+    isText();// 不合语法
     return;// TODO
   } else {
     i ++;// 跳转至空格处
@@ -176,7 +176,7 @@ void isOL()
   length = strlen(line + i);
 
   if (length == 0 || i == j) {// 不合语法,TODO
-    isPlain();
+    isText();
     return;// TODO
   }
 
@@ -205,7 +205,7 @@ void isOL()
   }
 }
 
-void isPlain()
+void isText()
 {
   int i = my_max(tag, 0);
   tag = -1;
@@ -289,7 +289,7 @@ void footer()
   }
 }
 
-void isCode()
+void isCodeblock()
 {
   int i = tag + 3;// 跳过```
   char language[16];// 语言类型
