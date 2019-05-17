@@ -47,6 +47,9 @@ void clearTag();// 清除ul,ol
 void isPlain();// 正文
 void header();// 添加<html>
 void footer();// 添加</html>
+void code1();// `{code}`
+void code2();// `{code,可使用`}`
+void code3();// ```{code}```
 
 int my_max(int a, int b)
 {

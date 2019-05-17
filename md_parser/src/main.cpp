@@ -40,9 +40,9 @@ void openFile()
   }
 }
 
-char line[512];// 每一行
+char line[1024];// 每一行
 int length = 0;// 每一行的长度
-char render[1024];// 解析后的字符串
+char render[2048];// 解析后的字符串
 int tag = -1;// 缩进级数
 int tagStack[8]; // 最多8种缩进
 int tagStackTop = 0;// 栈顶
@@ -73,6 +73,14 @@ void readFile()
         isUL();
       } else if (line[i] >= '1' && line[i] <= '9' && line[i + 1] != '\0') {// 有序表
         isOL();
+      } else if (line[i] == '`') {// 代码段
+        if (line[i + 1] == '`' && line[i + 2] == '`' && line[i + 3] != '`') {
+          code3();
+        } else if (line[i + 1] == '`' && line[i + 2] != '`') {
+          code2();
+        } else {
+          code1();
+        }
       } else {
         tag = -1;
         isPlain();
@@ -256,4 +264,9 @@ void footer()
   sprintf(render, "%s</body>\n</html>\n", clear);
   MAGENTA("%s", render);
   fputs(render, html);
+}
+
+void code1()
+{
+  ;
 }
