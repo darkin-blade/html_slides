@@ -117,6 +117,7 @@ void isUL()
   length = strlen(line + i);
 
   if (length == 0 || i == tag + 1) {// 不合语法
+    tag = 0;
     isPlain();
     return;// TODO
   }
@@ -126,7 +127,8 @@ void isUL()
     sprintf(render, "<li>\n%s</li>\n", line + i);
   } else {// 向前回溯
     clearTag();
-    if (tag > tagStack[tagStackTop - 1]) {// 没有找到符合之前级数的缩进/更小一级
+    if ((tagStackTop == 0)||(tag > tagStack[tagStackTop - 1]))
+    {// 没有找到符合之前级数的缩进/更小一级
       assert(tagStackTop < 8);
       tagStack[tagStackTop] = tag;
       typeStack[tagStackTop] = 1;// ul
@@ -135,6 +137,7 @@ void isUL()
       assert(typeStack[tagStackTop] == 0);
       sprintf(render, "%s<ul>\n<li>\n%s\n</li>\n", clear, line + i);// TODO
     } else {// 找到之前的同级
+      assert(tag == tagStack[tagStackTop - 1]);
       sprintf(render, "%s<li>\n%s\n</li>\n", clear, line + i);
     }
   }
@@ -143,23 +146,27 @@ void isUL()
 void isOL()
 {
   int i = tag;// 不跳过
+  int j = 0;
   int num = 0;
   assert(tag != -1);
   while (line[i] >= '1' && line[i] <= '9') {
-    i ++;
     num = num * 10 + line[i] - 48;
+    i ++;
   }
   if (line[i] != '.' || line[i + 1] != ' ') {
+    tag = 0;
     isPlain();// 不合语法
     return;// TODO
   } else {
     i ++;// 跳转至空格处
+    j = i;
   }
 
   while (line[i] == ' ') i ++;// 清除空格
   length = strlen(line + i);
 
-  if (length == 0) {// 不合语法,TODO
+  if (length == 0 || i == j) {// 不合语法,TODO
+    tag = 0;
     isPlain();
     return;// TODO
   }
