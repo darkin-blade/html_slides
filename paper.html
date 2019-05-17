@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width initial-scale=1'>
+  <link rel="stylesheet" media="print" href="./css/main.css">
+  <link rel="stylesheet" media="screen" href="./css/main.css">
+  <link rel="stylesheet" media="print" href="./css/molokai.css">
+  <link rel="stylesheet" media="screen" href="./css/molokai.css">
+  <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/gh/hexo-simple-theme/hexo_latex@1.0.4/mathjax/MathJax.js?config=TeX-AMS_HTML-full">
+  </script>
+  <script type="text/javascript" src="./js/deep_highlight.js"></script>
+  <script type="text/javascript" src="./js/highlight.min.js"></script>
+  <title></title>
+</head>
+
+<body>
+  <div class="slide">
+    <div class="content">
+
+      <h1>Title</h1>
+
+      <h2><code class="code">latex</code> render</h2>
+
+      <p>$$ \sum_a^{a + b}\dfrac{n_i}{\alpha} $$</p>
+
+      <h2>molokai style code block</h2>
+
+<figure class="highlight c">
+<pre>
+<code>
+int main()
+{
+  printf("Hello world\n");
+  return 0;
+}
+</code>
+</pre>
+</figure>
+
+    </div>
+  </div>
+
+  <script type="text/x-mathjax-config">
+    console.log("mathjax rendering");
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [
+          ['$','$']
+        ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+    
+    /*
+    MathJax.Hub.Queue(function() { // 重新启动渲染
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+    */
+  
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub])
+  </script>
+  <script>
+    console.log("highlight");
+    hljs.initHighlightingOnLoad();
+    setTimeout("my_highlight_start()", 0);
+  </script>
+</body>
+
+</html>

@@ -69,7 +69,7 @@ pre code {
   margin: 0px;
   padding: 0px;
   position: relative;
-  bottom: -25px;
+  bottom: -10px;
   /* 所有普通字符 */
 }
 
@@ -97,7 +97,7 @@ pre {
 
 .code_comment {
   /* 注释 */
-  color: var(--text_grey);
+  color: rgb(100, 100, 100);
 }
 
 .code_keyword {

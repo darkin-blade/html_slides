@@ -9,7 +9,7 @@
 }
 
 @font-face {
-  font-family: 'varela round', 'DejaVu Sans Mono for Powerline';
+  font-family: 'varela round';
   src: url("./VarelaRound.ttf");
 }
 
@@ -26,8 +26,13 @@ body {
   margin-right: auto;
 
   display: block;
-  border: 1px solid black;
   overflow: hidden;
+}
+
+@media screen {
+  .slide {
+    border: 1px solid black;
+  }
 }
 
 .content {
