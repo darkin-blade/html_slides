@@ -7,12 +7,12 @@ FILE *html;
 
 int main()
 {
-  readFileName();
   openFile();
+  readFile();
   return 0;
 }
 
-void readFileName()
+void openFile()
 {
   YELLOW("Your current path: [%s]", getenv("PWD"));
 
@@ -39,7 +39,15 @@ void readFileName()
   }
 }
 
-void openFile()
+void readFile()
 {
+  int i = 0;
+  char line[512];// 每一行
+  while (fgets(line, 500, md)) {// 读取一行
+    WHITE("%s", line);
+    for (i = 0; i < (int)strlen(line); i ++) {
+      ;
+    }
+  }
   return;
 }

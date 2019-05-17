@@ -1,7 +1,8 @@
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
+#include <wchar.h>
 
 #define BLACK(format, ...) \
   printf("\033[1;30m" format "\33[0m\n", ## __VA_ARGS__)
@@ -36,5 +37,6 @@
 #define white(format, ...) \
   printf("\033[1;37m" format "\33[0m", ## __VA_ARGS__)
 
-void readFileName();
+void readFile();
 void openFile();
+
