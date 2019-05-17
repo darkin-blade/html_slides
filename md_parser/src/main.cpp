@@ -78,13 +78,11 @@ void isText()
       if (line[i] == '`')
       {// 行间代码
         if (line[i + 1] == '`') {
-          line[i] = line[i + 1] = 0;// 切断
           strcat(render, "<code class=\"code\">");
           rend_tail += strlen(render + rend_tail);// TODO
           i ++;
           textEvn = 2;// ``code``
         } else {
-          line[i] = 0;// 切断
           strcat(render, "<code class=\"code\">");
           rend_tail += strlen(render + rend_tail);// TODO
           textEvn = 1;// `code`
@@ -93,11 +91,13 @@ void isText()
       else if (line[i] == '$')
       {// latex公式
         if (line[i + 1] == '$') {// $$ latex $$
-          line[i] = line[i + 1] = 0;// 切断
+          render[rend_tail] = render[rend_tail + 1] = '$';
+          rend_tail += 2;
           i ++;
           textEvn = 4;
         } else {
-          line[i] = 0;// 切断
+          render[rend_tail] = '$';
+          rend_tail ++;
           textEvn = 3;
         }
       }
@@ -129,12 +129,16 @@ void isText()
       else if (textEvn == 3) 
       {
         if (line[i] == '$') {// 解除$latex$
+          render[rend_tail] = '$';
+          rend_tail += 1;
           textEvn = 0;
         }
       } 
       else if (textEvn == 4)
       {
         if (line[i] == '$' && line[i + 1] == '$') {// 解除$$ latex $$
+          render[rend_tail] = render[rend_tail + 1] = '$';
+          rend_tail += 2;
           i ++;
           textEvn = 0;
         }
