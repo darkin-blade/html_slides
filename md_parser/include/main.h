@@ -43,4 +43,5 @@ void isTitle();// 标题
 void isTable();// 表格
 void isUL();// 无序表
 void isOL();// 有序表
+void clearTag();// 清除ul,ol
 void isPlain();// 正文

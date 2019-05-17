@@ -46,6 +46,8 @@ char render[1024];// 解析后的字符串
 int tag = 0;// 缩进级数
 int tagStack[8]; // 最多8种缩进
 int tagStackTop = 0;// 栈顶
+int typeStack[8]; // 1 for ul, 2 for ol
+char clear[64];// 存放</ol> </ul>
 
 void readFile()
 {
@@ -91,6 +93,7 @@ void isTitle()
   int i = 0;
   int title = 0;// 标题级数
   tag = 0;// 清空tag
+  clearTag();// 清空之前的ul,ol
 
   for (i = 0; line[i] == '#'; i ++) {
     title ++;// 标题级数增加,TODO 最大标题级数
@@ -99,43 +102,44 @@ void isTitle()
   while (line[i] == ' ') i ++;// 除去空格
   length = strlen(line + i);
 
-  if (length == 0 || i == title) {// 不是标题
+  if (length == 0 || i == title) {// 不合语法
     title = 0;
     isPlain();
   } else {
-    sprintf(render, "<h%d>%s</h%d>\n", title, line + i, title);
+    sprintf(render, "%s<h%d>%s</h%d>\n", clear, title, line + i, title);
   }
 }
 
 void isUL()
 {
   int i = tag;
-  int j = 0;
-  char ul[64];// 存放</ul>
-  assert(line[i] != ' ');
   assert(tag != -1);
+
+  while (line[i] == ' ') i ++;// 清除空格
+  length = strlen(line + i);
+
+  if (length == 0 || i == tag) {// 不合语法
+    isPlain();
+  }
 
   if (tag > tagStack[tagStackTop]) {// 更小一级
     assert(tagStackTop < 8);
     tagStack[tagStackTop] = tag;
+    typeStack[tagStackTop] = 1;// ul
     tagStackTop ++;
     assert(tagStack[tagStackTop] == -1);
+    assert(typeStack[tagStackTop] == 0);
 
     if (tag != 0) {// 不贴边
-      sprintf(render, "<ul><li>%s</li>\n", line + i);
+      sprintf(render, "<ul>\n<li>%s</li>\n", line + i);
     } else {
       sprintf(render, "<li>%s</li>\n", line + i);
     }
   } else if (tag == tagStack[tagStackTop]) {// 同级
     sprintf(render, "<li>%s</li>\n", line + i);
   } else {// 向前回溯
-    for (memset(ul, 0, sizeof(ul)); tag < tagStack[tagStackTop]; tagStackTop --) {
-      strcat(ul, "</ul>\n");
-      j ++;
-    }
-    assert(j < 8);
-    assert((int)strlen(ul) == j * 6);
-    sprintf(render, "%s<li>%s</li>\n", ul, line + i);
+    clearTag();
+    sprintf(render, "%s<li>%s</li>\n", clear, line + i);
   }
 }
 
@@ -147,4 +151,19 @@ void isOL()
 void isPlain()
 {
   sprintf(render, "%s\n", line + tag);// TODO
+}
+
+void clearTag()
+{
+  for (memset(clear, 0, sizeof(clear)); tag < tagStack[tagStackTop]; tagStackTop --) 
+  {
+    if (typeStack[tagStackTop] == 1) {// ul
+      strcat(clear, "</ul>\n");
+    } else {// ol
+      assert(typeStack[tagStackTop] == 2);
+      strcat(clear, "</ol>\n");
+    }
+    tagStack[tagStackTop] = -1;// 复原
+    typeStack[tagStackTop] = 0;// 复原
+  }
 }
