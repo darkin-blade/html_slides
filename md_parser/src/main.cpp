@@ -49,7 +49,6 @@ int tagStackTop = 0;// 栈顶
 void readFile()
 {
   int i = 0;
-  int title = 0;// 标题级数
   int length = 0;
 
   for (i = 0; i < 8; i ++) {// 初始化tag栈,TODO 有序,无序
@@ -81,7 +80,8 @@ void readFile()
         isOL();
       }
     }
-
+    MAGENTA("%s", render);
+    // fputs(render, html);
   }
 
   return;
@@ -90,6 +90,7 @@ void readFile()
 void isTitle()
 {
   int i = 0;
+  int title = 0;// 标题级数
   for (i = 0; line[i] == '#'; i ++) {
     title ++;// 标题级数增加,TODO 最大标题级数
   }
@@ -98,8 +99,6 @@ void isTitle()
     tag = 0;// 清空tag
     memset(render, 0, sizeof(render));
     sprintf(render, "<h%d>%s</h%d>\n", title, line + i, title);
-    MAGENTA("%s", render);
-    // fputs(render, html);
   } else {
     title = 0;// 不合语法
   }
@@ -107,21 +106,37 @@ void isTitle()
 
 void isUL()
 {
-  int i = 0;
-  i ++;// 空格
+  int i = tag;
+  int j = 0;
+  char ul[64];// 存放</ul>
+  assert(line[i] != ' ');
+  assert(tag != -1);
+
   if (tag > tagStack[tagStackTop]) {// 更小一级
     assert(tagStackTop < 8);
     tagStack[tagStackTop] = tag;
     tagStackTop ++;
     assert(tagStack[tagStackTop] == -1);
+
+    if (tag != 0) {// 不贴边
+      sprintf(render, "<ul><li>%s</li>\n", line + i);
+    } else {
+      sprintf(render, "<li>%s</li>\n", line + i);
+    }
   } else if (tag == tagStack[tagStackTop]) {// 同级
-    assert(tag != -1);
+    sprintf(render, "<li>%s</li>\n", line + i);
   } else {// 向前回溯
-    ;
+    for (memset(ul, 0, sizeof(ul)); tag < tagStack[tagStackTop]; tagStackTop --) {
+      strcat(ul, "</ul>\n");
+      j ++;
+    }
+    assert(j < 8);
+    assert((int)strlen(ul) == j * 6);
+    sprintf(render, "%s<li>%s</li>\n", ul, line + i);
   }
 }
 
 void isOL()
 {
-  ;
+  assert(0);// TODO
 }
