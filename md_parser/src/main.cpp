@@ -43,7 +43,7 @@ void openFile()
 char line[512];// 每一行
 int length = 0;// 每一行的长度
 char render[1024];// 解析后的字符串
-int tag = 0;// 缩进级数
+int tag = -1;// 缩进级数
 int tagStack[8]; // 最多8种缩进
 int tagStackTop = 0;// 栈顶
 int typeStack[8]; // 1 for ul, 2 for ol
@@ -74,6 +74,7 @@ void readFile()
       } else if (line[i] >= '1' && line[i] <= '9' && line[i + 1] != '\0') {// 有序表
         isOL();
       } else {
+        tag = -1;
         isPlain();
       }
     }
@@ -90,7 +91,7 @@ void isTitle()
 {
   int i = 0;
   int title = 0;// 标题级数
-  tag = 0;// 清空tag
+  tag = -1;// 清空tag
   clearTag();// 清空之前的ul,ol
 
   for (i = 0; line[i] == '#'; i ++) {
@@ -101,7 +102,7 @@ void isTitle()
   length = strlen(line + i);
 
   if (length == 0 || i == title) {// 不合语法
-    assert(tag == 0);
+    assert(tag == -1);// 注意初始化-1
     isPlain();
   } else {
     sprintf(render, "%s<h%d>%s</h%d>\n", clear, title, line + i, title);
@@ -117,7 +118,7 @@ void isUL()
   length = strlen(line + i);
 
   if (length == 0 || i == tag + 1) {// 不合语法
-    tag = 0;
+    tag = -1;
     isPlain();
     return;// TODO
   }
@@ -154,7 +155,7 @@ void isOL()
     i ++;
   }
   if (line[i] != '.' || line[i + 1] != ' ') {
-    tag = 0;
+    tag = -1;
     isPlain();// 不合语法
     return;// TODO
   } else {
@@ -166,16 +167,19 @@ void isOL()
   length = strlen(line + i);
 
   if (length == 0 || i == j) {// 不合语法,TODO
-    tag = 0;
+    tag = -1;
     isPlain();
     return;// TODO
   }
 
   if ((tagStackTop >= 1)&&(tag == tagStack[tagStackTop - 1])) {// 同级
+    YELLOW("%s", line);
     assert(tagStackTop != 0);
     sprintf(render, "<li>\n%s</li>\n", line + i);
   } else {
     clearTag();// 向前回溯
+    assert(tagStackTop >= 0);
+
     if ((tagStackTop == 0)||(tag > tagStack[tagStackTop - 1]))
     {// 没有找到符合之前级数的缩进/更小一级
       assert(tagStackTop < 8);
@@ -215,6 +219,22 @@ void clearTag()
     }
     tagStack[tagStackTop - 1] = -1;// 复原
     typeStack[tagStackTop - 1] = 0;// 复原
+  }
+  if (tag == 0) {// 没有缩进时不能多li
+    assert(tagStackTop <= 1);
+    for (tag = -1; 
+        tagStackTop >= 1 && tag < tagStack[tagStackTop - 1]; tagStackTop --) 
+    {
+      if (typeStack[tagStackTop - 1] == 1) {// ul
+        strcat(clear, "</ul>\n");
+      } else {// ol
+        assert(typeStack[tagStackTop - 1] == 2);
+        strcat(clear, "</ol>\n");
+      }
+      tagStack[tagStackTop - 1] = -1;// 复原
+      typeStack[tagStackTop - 1] = 0;// 复原
+    }
+    tag = 0;
   }
   assert(tagStackTop >= 0);
 }
