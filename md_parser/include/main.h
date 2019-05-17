@@ -45,3 +45,5 @@ void isUL();// 无序表
 void isOL();// 有序表
 void clearTag();// 清除ul,ol
 void isPlain();// 正文
+void header();// 添加<html>
+void footer();// 添加</html>

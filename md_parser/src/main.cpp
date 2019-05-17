@@ -27,9 +27,9 @@ void openFile()
     GREEN("open [%s] successfully", mdFileName);
   }
 
-  return;// TODO
   GREEN("Input html file name");
-  scanf("%s", htmlFileName);
+  // scanf("%s", htmlFileName);// TODO
+  sprintf(htmlFileName, "test.html");// TODO
   green("html filename is ");
   CYAN("%s", htmlFileName);
   html = fopen(htmlFileName, "w+");
@@ -53,17 +53,13 @@ void readFile()
 {
   int i = 0;
 
-  for (i = 0; i < 8; i ++) {// 初始化tag栈,TODO 有序,无序
-    tagStack[i] = -1;
-  }
-
+  header();
   while (fgets(line, 500, md)) {// 读取一行
     length = strlen(line);
     if (line[length - 1] == '\n') {// 过滤换行
       line[length - 1] = '\0';
       length --;
     }
-
     if (length == 0) continue;// 空行
 
     if (line[0] == '#') {// 标题,标题前不能有空格,#后要有空格
@@ -82,11 +78,9 @@ void readFile()
     }
     WHITE("%s", line);
     MAGENTA("%s", render);
-    // fputs(render, html);
+    fputs(render, html);
   }
-  tag = 0;
-  clearTag();
-  MAGENTA("%s", clear);
+  footer();
 
   return;
 }
@@ -115,7 +109,7 @@ void isTitle()
 
 void isUL()
 {
-  int i = tag;
+  int i = tag + 1;// 跳过 "-"
   assert(tag != -1);
 
   while (line[i] == ' ') i ++;// 清除空格
@@ -133,11 +127,7 @@ void isUL()
     assert(tagStack[tagStackTop] == -1);
     assert(typeStack[tagStackTop] == 0);
 
-    if (tag != 0) {// 不贴边
-      sprintf(render, "<ul>\n<li>\n%s\n</li>\n", line + i);
-    } else {
-      sprintf(render, "<li>\n%s\n</li>\n", line + i);
-    }
+    sprintf(render, "<ul>\n<li>\n%s\n</li>\n", line + i);// TODO
   } else if (tag == tagStack[tagStackTop]) {// 同级
     sprintf(render, "<li>\n%s</li>\n", line + i);
   } else {// 向前回溯
@@ -172,4 +162,26 @@ void clearTag()
     typeStack[tagStackTop - 1] = 0;// 复原
   }
   assert(tagStackTop >= 0);
+}
+
+void header()
+{
+  int i = 0;
+  for (i = 0; i < 8; i ++) {// 初始化tag栈,TODO 有序,无序
+    tagStack[i] = -1;
+    typeStack[i] = 0;
+  }
+
+  sprintf(render, "<html>\n<head>\n</head>\n<body>\n");
+  MAGENTA("%s", render);
+  fputs(render, html);
+}
+
+void footer()
+{
+  tag = 0;
+  clearTag();
+  sprintf(render, "%s</body>\n</html>\n", clear);
+  MAGENTA("%s", render);
+  fputs(render, html);
 }
