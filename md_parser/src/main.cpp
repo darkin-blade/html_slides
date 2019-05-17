@@ -125,8 +125,8 @@ void isUL()
   if ((tagStackTop >= 1)&&(tag == tagStack[tagStackTop - 1])) {// 同级
     assert(tagStackTop != 0);
     sprintf(render, "<li>\n%s</li>\n", line + i);
-  } else {// 向前回溯
-    clearTag();
+  } else {
+    clearTag();// 向前回溯
     if ((tagStackTop == 0)||(tag > tagStack[tagStackTop - 1]))
     {// 没有找到符合之前级数的缩进/更小一级
       assert(tagStackTop < 8);
@@ -174,18 +174,20 @@ void isOL()
   if ((tagStackTop >= 1)&&(tag == tagStack[tagStackTop - 1])) {// 同级
     assert(tagStackTop != 0);
     sprintf(render, "<li>\n%s</li>\n", line + i);
-  } else {// 向前回溯
-    clearTag();
-    if (tag > tagStack[tagStackTop - 1]) {// 没有找到符合之前级数的缩进/更小一级
+  } else {
+    clearTag();// 向前回溯
+    if ((tagStackTop == 0)||(tag > tagStack[tagStackTop - 1]))
+    {// 没有找到符合之前级数的缩进/更小一级
       assert(tagStackTop < 8);
       tagStack[tagStackTop] = tag;
       typeStack[tagStackTop] = 2;// ol
       tagStackTop ++;
       assert(tagStack[tagStackTop] == -1);
       assert(typeStack[tagStackTop] == 0);
-      sprintf(render, "%s<ol start=\"%d\">\n<li>\n%s\n</li>\n", 
+      sprintf(render, "%s<ol start=\"%d\">\n<li>\n%s\n</li>\n",
           clear, num, line + i);// TODO
     } else {// 找到之前的同级
+      assert(tag == tagStack[tagStackTop - 1]);
       sprintf(render, "%s<li>\n%s\n</li>\n", clear, line + i);
     }
   }
