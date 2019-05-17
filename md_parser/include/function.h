@@ -214,7 +214,7 @@ void header()
   } else {// 有模板文件
     while (fgets(line, 1000, head)) {// 读取一行
       sprintf(render, "%s", line);
-      MAGENTA("%s", render);
+      // MAGENTA("%s", render);
       fputs(render, html);
     }
   }
@@ -238,7 +238,7 @@ void footer()
   } else {// 有body
     while (fgets(line, 1000, body)) {// 读取一行
       sprintf(render, "%s", line);
-      MAGENTA("%s", render);
+      // MAGENTA("%s", render);
       fputs(render, html);
     }
   }
