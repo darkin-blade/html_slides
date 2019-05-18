@@ -11,6 +11,10 @@ int main()
 void endText()
 {
   endLine();// 先处理行内环境
+  if (textEvn == 0) {
+    assert(stackTop == 0);
+    return;// 什么事也不做
+  }
   if (textEvn == 2) {// 有段落未结束
     sprintf(render, "\n</p>\n");// TODO
     MAGENTA("%s", render);
@@ -30,6 +34,7 @@ void endText()
 
 void endLine()
 {
+  if (lineEvn == 0) return;
   if (lineEvn == 1 || lineEvn == 2) {// code
     sprintf(render, "\n</code>\n");// TODO,换行
   } else {
