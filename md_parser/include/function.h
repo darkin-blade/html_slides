@@ -136,7 +136,7 @@ void isOL()
       sprintf(render + rend_tail, "\n</li>\n");// TODO
     } else {// 找到之前的同级
       assert(tag == tagStack[stackTop - 1]);
-      sprintf(render, "<li>\n", num);
+      sprintf(render, "<li>\n");
       textRend();
       rend_tail = strlen(render);
       sprintf(render + rend_tail, "\n</li>\n");// TODO

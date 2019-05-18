@@ -261,10 +261,10 @@ void readFile()
       {// 无序表,TODO 条件
         isUL();
       } 
-      /// else if (line[i] >= '1' && line[i] <= '9' && line[i + 1] != '\0') 
-      /// {// 有序表
-      ///   isOL();
-      /// } 
+      else if (line[i] >= '1' && line[i] <= '9' && line[i + 1] != '\0') 
+      {// 有序表
+        isOL();
+      } 
       else 
       {// 正文
         isPara();
