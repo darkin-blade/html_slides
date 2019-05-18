@@ -36,18 +36,22 @@ void charRend(int &i, int &rend_tail)// TODO
         if (paraEvn == 0) {// 进入strong
           strcat(render, "<strong>");
           paraEvn = 2;
-        } else {// 跳出strong
+        } else if (paraEvn == 2) {// 跳出strong
           strcat(render, "</strong>");
           paraEvn = 0;
+        } else {// 多个环境嵌套,未定义行为
+          goto normal_char;// TODO
         }
         i ++;// 跳过*
       } else {// em
         if (paraEvn == 0) {// 进入em
           strcat(render, "<em>");
           paraEvn = 1;
-        } else {// 跳出em
+        } else if (paraEvn == 1) {// 跳出em
           strcat(render, "</em>");
           paraEvn = 0;
+        } else {
+          goto normal_char;
         }
       }
       rend_tail += strlen(render + rend_tail);// 刷新长度,TODO
@@ -56,23 +60,28 @@ void charRend(int &i, int &rend_tail)// TODO
         if (paraEvn == 0) {// 进入strong
           strcat(render, "<strong>");
           paraEvn = 2;
-        } else {// 跳出strong
+        } else if (paraEvn == 2) {// 跳出strong
           strcat(render, "</strong>");
           paraEvn = 0;
+        } else {
+          goto normal_char;
         }
         i ++;// 跳过_
       } else {// em
         if (paraEvn == 0) {// 进入em
           strcat(render, "<em>");
           paraEvn = 1;
-        } else {// 跳出em
+        } else if (paraEvn == 1) {// 跳出em
           strcat(render, "</em>");
           paraEvn = 0;
+        } else {
+          goto normal_char;
         }
       }
     } else if (line[i] == '<' && isLetter(line[i + 1])) {
       assert(0);// TODO,html内嵌代码
     } else {// 正常字符
+normal_char:// 多个环境嵌套,未定义行为
       render[rend_tail] = line[i];
       rend_tail ++;
     }
