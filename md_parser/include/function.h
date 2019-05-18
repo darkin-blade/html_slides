@@ -22,7 +22,7 @@ void isTitle()
     assert(tag == -1);// 注意初始化-1
     textRend();
   } else {
-    endEvn();// 结束之前的段落
+    endText();// 结束之前的段落
     sprintf(render, "%s<h%d>%s</h%d>\n", clear_text, title, line + i, title);
   }
 }
@@ -40,7 +40,7 @@ void isUL()
     return;
   } else {
     if (textEvn != 4 && textEvn != 5) {// 之前不是表环境
-      endEvn();// 结束之前的所有环境,TODO
+      endText();// 结束之前的所有环境,TODO
       textEvn = 4;// 进入ul环境
     }
   }
@@ -91,7 +91,7 @@ void isOL()
     textRend();
     return;// TODO
   } else {
-    endEvn();// 结束之前的段落
+    endText();// 结束之前的段落
   }
 
   if ((stackTop >= 1)&&(tag == tagStack[stackTop - 1])) {// 同级
@@ -157,7 +157,7 @@ void isCodeblock()
   int i = tag + 3;// 跳过```
   char language[16];// 语言类型
   clearTag();
-  endEvn();// 结束之前的段落
+  endText();// 结束之前的段落
 
   while (line[i] == ' ') i ++;// 跳过空格
   sprintf(language, "%s", line + i);// 有可能为空

@@ -64,7 +64,8 @@ void isOL();// 有序表
 
 void clearTag();// 向前回溯
 void textRend();// 文字渲染(注意和段落区别)
-void endEvn();// 结束之前所有的环境,TODO
+void endText();// 结束之前所有的环境,TODO
+void endLine();// 除去行内环境
 void doEscape(int &i, int &rend_tail);// 正常文本的转义处理
 
 int my_max(int a, int b)
@@ -107,3 +108,10 @@ int escape = 0;// 转义'\'
 char escp_char[32] = "*_\\";
 int paragraph = 0;// 0: 没有新的段落, 1: 有段落没有结束
 int slide_num = 0;// 当前slide序号,初始0
+
+
+
+
+
+
+

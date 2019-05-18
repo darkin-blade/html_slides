@@ -8,7 +8,7 @@ int main()
   return 0;
 }
 
-void endEvn()
+void endText()
 {
   if (paragraph == 1) {// 有段落未结束
     sprintf(render, "\n</p>\n");// TODO
@@ -179,7 +179,7 @@ void isSlide()
     if (strlen(clear_text) != 0) {
       assert(paragraph == 0);
     }
-    endEvn();
+    endText();// 除去之前任何环境
     sprintf(render,
         "</div>\n</div>\n<div class=\"slide\">\n<div class=\"content\">\n");
     // 注意如果不是开头,不能够直接把html写进文件
@@ -200,7 +200,7 @@ void readFile()
       length --;
     }
     if (length == 0) {// 空行 
-      /// endEvn();
+      /// endText();
       continue;
     }
 

@@ -51,7 +51,7 @@ void footer()
   if (strlen(clear_text) != 0) {// 如果有表,那么不应该处于段落之中
     assert(paragraph == 0);
   }
-  endEvn();// 注意endEvn会直接写入文件
+  endText();// 注意endText会直接写入文件
   sprintf(render, "</div>\n</div>\n");// 结束slide
   MAGENTA("%s", render);// TODO
   fputs(render, html);
