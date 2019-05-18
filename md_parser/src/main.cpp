@@ -90,7 +90,7 @@ void isText()
     paragraph = 1;
   } else {
     sprintf(render, " ");// TODO
-    assert(tagStackTop == 0);// 处于段落之中不应该有表
+    assert(stackTop == 0);// 处于段落之中不应该有表
   }
   int rend_tail = strlen(render);
   assert(render[rend_tail] == '\0');

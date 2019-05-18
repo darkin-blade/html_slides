@@ -24,7 +24,7 @@ int tag = -1;// 缩进级数
 int tagStack[8]; // 最多8种缩进
 int evnStack[8]; // 语言环境栈
 // 0: default, 1: title, 2: paragraph, 3: blockquote, 4: ul, 5: ol
-int tagStackTop = 0;// 栈顶
+int stackTop = 0;// 栈顶
 char clear_text[64];// 清除语言环境
 int textEvn = 0;// 当前语言环境 
 // 0: plain, 1: title, 2: paragraph, 3: blockquote, 4: ul, 5: ol
@@ -80,22 +80,22 @@ void isUL()
     }
   }
 
-  if ((tagStackTop >= 1)&&(tag == tagStack[tagStackTop - 1])) {// 同级
-    assert(tagStackTop != 0);
+  if ((stackTop >= 1)&&(tag == tagStack[stackTop - 1])) {// 同级
+    assert(stackTop != 0);
     sprintf(render, "<li>\n%s</li>\n", line + i);
   } else {
     clearTag();// 向前回溯
-    if ((tagStackTop == 0)||(tag > tagStack[tagStackTop - 1]))
+    if ((stackTop == 0)||(tag > tagStack[stackTop - 1]))
     {// 没有找到符合之前级数的缩进/更小一级
-      assert(tagStackTop < 8);
-      tagStack[tagStackTop] = tag;
-      evnStack[tagStackTop] = 1;// ul
-      tagStackTop ++;
-      assert(tagStack[tagStackTop] == -1);
-      assert(evnStack[tagStackTop] == 0);
+      assert(stackTop < 8);
+      tagStack[stackTop] = tag;
+      evnStack[stackTop] = 1;// ul
+      stackTop ++;
+      assert(tagStack[stackTop] == -1);
+      assert(evnStack[stackTop] == 0);
       sprintf(render, "%s<ul>\n<li>\n%s\n</li>\n", clear_text, line + i);// TODO
     } else {// 找到之前的同级
-      assert(tag == tagStack[tagStackTop - 1]);
+      assert(tag == tagStack[stackTop - 1]);
       sprintf(render, "%s<li>\n%s\n</li>\n", clear_text, line + i);
     }
   }
@@ -129,26 +129,26 @@ void isOL()
     endEvn();// 结束之前的段落
   }
 
-  if ((tagStackTop >= 1)&&(tag == tagStack[tagStackTop - 1])) {// 同级
+  if ((stackTop >= 1)&&(tag == tagStack[stackTop - 1])) {// 同级
     YELLOW("%s", line);
-    assert(tagStackTop != 0);
+    assert(stackTop != 0);
     sprintf(render, "<li>\n%s</li>\n", line + i);
   } else {
     clearTag();// 向前回溯
-    assert(tagStackTop >= 0);
+    assert(stackTop >= 0);
 
-    if ((tagStackTop == 0)||(tag > tagStack[tagStackTop - 1]))
+    if ((stackTop == 0)||(tag > tagStack[stackTop - 1]))
     {// 没有找到符合之前级数的缩进/更小一级
-      assert(tagStackTop < 8);
-      tagStack[tagStackTop] = tag;
-      evnStack[tagStackTop] = 2;// ol
-      tagStackTop ++;
-      assert(tagStack[tagStackTop] == -1);
-      assert(evnStack[tagStackTop] == 0);
+      assert(stackTop < 8);
+      tagStack[stackTop] = tag;
+      evnStack[stackTop] = 2;// ol
+      stackTop ++;
+      assert(tagStack[stackTop] == -1);
+      assert(evnStack[stackTop] == 0);
       sprintf(render, "%s<ol start=\"%d\">\n<li>\n%s\n</li>\n",
           clear_text, num, line + i);// TODO
     } else {// 找到之前的同级
-      assert(tag == tagStack[tagStackTop - 1]);
+      assert(tag == tagStack[stackTop - 1]);
       sprintf(render, "%s<li>\n%s\n</li>\n", clear_text, line + i);
     }
   }
@@ -157,34 +157,34 @@ void isOL()
 void clearTag()
 {
   memset(clear_text, 0, sizeof(clear_text));
-  if (tagStackTop == 0) return;// 没有tag
-  for (; tagStackTop >= 1 && tag < tagStack[tagStackTop - 1]; tagStackTop --) {
-    if (evnStack[tagStackTop - 1] == 1) {// ul
+  if (stackTop == 0) return;// 没有tag
+  for (; stackTop >= 1 && tag < tagStack[stackTop - 1]; stackTop --) {
+    if (evnStack[stackTop - 1] == 1) {// ul
       strcat(clear_text, "</ul>\n");
     } else {// ol
-      assert(evnStack[tagStackTop - 1] == 2);
+      assert(evnStack[stackTop - 1] == 2);
       strcat(clear_text, "</ol>\n");
     }
-    tagStack[tagStackTop - 1] = -1;// 复原
-    evnStack[tagStackTop - 1] = 0;// 复原
+    tagStack[stackTop - 1] = -1;// 复原
+    evnStack[stackTop - 1] = 0;// 复原
   }
   if (tag == 0) {// 没有缩进时不能多li
-    assert(tagStackTop <= 1);
+    assert(stackTop <= 1);
     for (tag = -1; 
-        tagStackTop >= 1 && tag < tagStack[tagStackTop - 1]; tagStackTop --) 
+        stackTop >= 1 && tag < tagStack[stackTop - 1]; stackTop --) 
     {
-      if (evnStack[tagStackTop - 1] == 1) {// ul
+      if (evnStack[stackTop - 1] == 1) {// ul
         strcat(clear_text, "</ul>\n");
       } else {// ol
-        assert(evnStack[tagStackTop - 1] == 2);
+        assert(evnStack[stackTop - 1] == 2);
         strcat(clear_text, "</ol>\n");
       }
-      tagStack[tagStackTop - 1] = -1;// 复原
-      evnStack[tagStackTop - 1] = 0;// 复原
+      tagStack[stackTop - 1] = -1;// 复原
+      evnStack[stackTop - 1] = 0;// 复原
     }
     tag = 0;
   }
-  assert(tagStackTop >= 0);
+  assert(stackTop >= 0);
 }
 
 void isCodeblock()
