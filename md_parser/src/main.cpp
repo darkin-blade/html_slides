@@ -120,7 +120,6 @@ void isText()
       if (textEvn == 1)
       {
         if (line[i] == '`') {// 解除`code`
-          BLUE("%s", render);
           strcat(render, "</code>");
           rend_tail += strlen(render + rend_tail);// TODO
           textEvn = 0;
@@ -129,7 +128,6 @@ void isText()
       else if (textEvn == 2)
       {
         if (line[i] == '`' && line[i + 1] == '`') {// 解除``code``
-          BLUE("%s", render);
           strcat(render, "</code>");
           rend_tail += strlen(render + rend_tail);// TODO
           i ++;
@@ -173,11 +171,25 @@ void isText()
 
 void isSlide()
 {
-  if (slide_num != 0) {
+  if (slide_num == 0) {// 文章开头
     sprintf(render, "<div class=\"slide\">\n<div class=\"content\">\n");
     MAGENTA("%s", render);
     fputs(render, html);
-  } else {
+  } else {// 需要结束之前的段落
+    int i = tag + 3;// 跳过---
+    while (i == ' ') i ++;// 跳过空格
+    length = strlen(line + i);
+    if (length != 0) {// 不合语法
+      isText();
+      return;// TODO
+    }
+
+    tag = -1;
+    clearTag();
+    if (strlen(clear) != 0) {
+      assert(paragraph == 0);
+    }
+    endPara();
     sprintf(render, "</div></div><div class=\"slide\">\n<div class=\"content\">\n");
     MAGENTA("%s", render);
     fputs(render, html);
