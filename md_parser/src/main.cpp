@@ -103,7 +103,7 @@ void isPara()
 
 void textRend()
 {
-  int i = my_max(tag, 0);// TODO
+  int i = 0;// 在这个函数里面不会对i的位置进行修正,在调用之间要把字符串缩减,TODO
   escape = 0;// 转义:'\', 0: 之前一个字符不是'\', 1: 之前一个字符是'\'
   // 每新的一行,转义进行刷新
   int rend_tail = strlen(render);

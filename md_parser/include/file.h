@@ -7,14 +7,14 @@
 void header()
 {
   int i = 0;
-  for (i = 0; i < 8; i ++) {// 初始化tag栈,TODO 有序,无序
+  for (i = 0; i < MAX_TAG; i ++) {// 初始化tag栈,TODO 有序,无序
     tagStack[i] = -1;
     evnStack[i] = 0;
   }
   paragraph = 0;// 默认一开始就是新的段落
 
-  char partial[8][16] = {"html", "style", "head", ""};
-  char filename[32];
+  char partial[MAX_PART][MAX_PART] = {"html", "style", "head", ""};
+  char filename[MAX_NAME];
   FILE *fp = NULL;
   int flag = 1;// 所有文件是否成功打开
   for (i = 0; partial[i][0] != 0; i ++) {
@@ -52,8 +52,8 @@ void footer()
   MAGENTA("%s", render);// TODO
   fputs(render, html);
 
-  char partial[8][16] = {"js", "katex", "body"};
-  char filename[32];
+  char partial[MAX_PART][MAX_PART] = {"js", "katex", "body"};
+  char filename[MAX_NAME];
   FILE *fp = NULL;
   int flag = 1;// 所有文件是否成功打开
   int i = 0;

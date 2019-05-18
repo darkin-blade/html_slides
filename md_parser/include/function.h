@@ -21,6 +21,7 @@ void isTitle()
   } else {// TODO,清除多余的环境
     endText();// 清除之前的所有环境
     sprintf(render, "<h%d>", title);
+    sprintf(line, "%s", line + i);// 裁剪字符串,TODO
     textRend();
     int rend_tail = strlen(render);
     sprintf(render + rend_tail, "</h%d>\n", title);
@@ -34,9 +35,11 @@ void isUL()
   assert(tag != -1);
 
   while (line[i] == ' ') i ++;// 清除空格
-  length = strlen(line + i);
+  sprintf(line, "%s", line + i);// 缩短字符串,TODO
+  length = strlen(line);
 
-  if (length == 0 || i == tag + 1) {// 不合语法,注意如果-之后全是空格也是符合语法的
+  if (length == 0) {// 不合语法;注意如果-之后全是空格也是符合语法的
+    assert(i == tag + 1);// TODO
     isPara();// 即使之前有无序表也会被清除
     return;
   } else {
@@ -115,7 +118,7 @@ void isOL()
 
     if ((stackTop == 0)||(tag > tagStack[stackTop - 1]))
     {// 没有找到符合之前级数的缩进/更小一级
-      assert(stackTop < 8);
+      assert(stackTop < MAX_TAG);
       tagStack[stackTop] = tag;
       evnStack[stackTop] = 2;// ol
       stackTop ++;

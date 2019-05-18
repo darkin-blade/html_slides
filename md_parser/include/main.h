@@ -41,13 +41,15 @@
 // 原文件一行的长度
 #define MAX_REND 2048
 // 渲染之后一行的长度
-#define MAX_TAG 8
+#define MAX_TAG 16
 // 无序/有序表缩进级数
 #define MAX_NAME 32
 // 文件名长度
 #define MAX_STR 64
 // 一些特殊字符的长度
 // 如: clear_tag, escp_char
+#define MAX_PART 16
+// html模板文件个数及文件名长度(一定要小于文件名最大长度)
 
 int my_max(int a, int b)
 {
@@ -90,7 +92,7 @@ int length = 0;// 每一行的长度
 char render[MAX_REND];// 解析后的字符串
 
 int tag = -1;// 缩进级数(空格数)
-int tagStack[MAX_TAG]; // 最多8种不同缩进
+int tagStack[MAX_TAG]; // 最多?种不同缩进
 int evnStack[MAX_TAG]; // 语言环境栈
 // 0: default, 1: title, 2: paragraph, 3: blockquote, 4: ul, 5: ol
 int stackTop = 0;// 语言环境栈顶
