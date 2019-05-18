@@ -90,8 +90,12 @@ void isPara()
   if (textEvn == 0) {// 新的段落
     sprintf(render, "<p>\n");
     textEvn = 2;// 进入段落环境
-  } else {// title,段落中,引用...TODO
+  } else if (textEvn == 2) {// 段落中,TODO
     assert(stackTop == 0);// 处于段落之中不应该有表
+    sprintf(render, " ");// 将上一行与此行之间加上空格(用于垃圾katex渲染)
+  } else {// 由于不合语法导致的新的段落,强制新段落,TODO
+    endText();// 清除所有环境
+    assert(stackTop == 0);
     sprintf(render, " ");// 将上一行与此行之间加上空格(用于垃圾katex渲染)
   }
   textRend();
