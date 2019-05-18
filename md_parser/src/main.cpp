@@ -68,6 +68,7 @@ void readFile()
 void isText()
 {
   int i = my_max(tag, 0);
+  int escape = 0;// 转义:'\', 0: 之前一个字符不是'\', 1: 之前一个字符是'\'
   if (paragraph == 0) {// 新的段落
     assert(textEvn == 0);
     tag = -1;
@@ -112,8 +113,12 @@ void isText()
       }
       else
       {// TODO
-        render[rend_tail] = line[i];
-        rend_tail ++;
+        if (escape == 1 || line[i] != '\\') {// 无视转义
+          render[rend_tail] = line[i];
+          rend_tail ++;
+        } else {
+          escape = 1;
+        }
       }
     }
     else
@@ -158,9 +163,19 @@ void isText()
       }
 
       if (textEvn != 0)
-      {// 无视一切其他字符
-        render[rend_tail] = line[i];
-        rend_tail ++;
+      {
+        if (textEvn == 1 || textEvn == 2) {// 无视一切其他字符
+          render[rend_tail] = line[i];
+          rend_tail ++;
+        } else {// latex公式需要注意转义
+          assert(textEvn == 3 || textEvn == 4);
+          if (escape == 1 || line[i] != '\\') {// 无视转义
+            render[rend_tail] = line[i];
+            rend_tail ++;
+          } else {
+            escape = 1;
+          }
+        }
       }
     }
     render[rend_tail] = '\0';// TODO
