@@ -20,7 +20,10 @@ void isTitle()
   if (length == 0 || i == title) {// 不合语法
     isPara();
   } else {// TODO,清除多余的环境
-    sprintf(render, "%s<h%d>%s</h%d>\n", clear_tag, title, line + i, title);
+    sprintf(render, "<h%d>", title);
+    textRend();
+    int rend_tail = strlen(render);
+    sprintf(render + rend_tail, "</h%d>\n", title);
   }
 }
 

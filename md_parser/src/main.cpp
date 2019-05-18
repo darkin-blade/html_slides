@@ -232,9 +232,8 @@ void readFile()
     } else if (line[0] == '#') {// 标题,标题前不能有空格,#后要有空格
       isTitle();
     } 
-    else if (line[0] == '-' && line[i + 1] == '-' && line[i + 2] == '-') 
-    {// 分割线
-        isSlide();
+    else if (line[0] == '-' && line[i + 1] == '-' && line[i + 2] == '-') {// 分割线
+      isSlide();
     } else {
       for (i = 0, tag = 0; line[i] == ' '; i ++) {// 清除空格
         tag ++;// 缩进级数增加
