@@ -193,7 +193,6 @@ void textRend()
 
 void isSlide()
 {
-  assert(textEvn == 0);
   if (slide_num == 0) {// 文章开头
     sprintf(render, "<div class=\"slide\">\n<div class=\"content\">\n");
     MAGENTA("%s", render);

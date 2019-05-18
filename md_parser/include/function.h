@@ -8,8 +8,7 @@ void isTitle()
 {
   int i = 0;
   int title = 0;// 标题级数
-  tag = -1;// 清空tag
-  endTag();// 清空之前的ul,ol
+  endText();// 清除之前的所有环境
 
   for (i = 0; line[i] == '#'; i ++) {
     title ++;// 标题级数增加,TODO 最大标题级数
@@ -19,10 +18,8 @@ void isTitle()
   length = strlen(line + i);
 
   if (length == 0 || i == title) {// 不合语法
-    assert(tag == -1);// 注意初始化-1
-    textRend();
-  } else {
-    endText();// 结束之前的段落
+    isPara();
+  } else {// TODO,清除多余的环境
     sprintf(render, "%s<h%d>%s</h%d>\n", clear_text, title, line + i, title);
   }
 }
