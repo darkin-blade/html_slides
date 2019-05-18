@@ -20,21 +20,52 @@ void endText()
   }
 }
 
+
+void doEscape(int &i, int &rend_tail)// TODO
+{
+  int j = 0;// 不要使用i
+  if (escape == 1) {
+    escape = 0;// 取消转义
+    for (j = 0; escp_char[j] != '\0'; j ++) {
+      if (line[i] == escp_char[j]) {// 需要进行转义
+        render[rend_tail] = line[i];
+        rend_tail ++;
+        return;
+      }
+    }
+    // 后接非转义字符
+    render[rend_tail] = '\\';// 把'\'补上
+    rend_tail ++;
+    render[rend_tail] = line[i];
+    rend_tail ++;
+    return;
+  } else if (line[i] == '\\') {// 进入转义
+    escape = 1;
+  } else {// 正常环境,且不是转义字符
+    render[rend_tail] = line[i];
+    rend_tail ++;
+  }
+}
+
+void isPara()
+{
+  if (textEvn != 2) {// 新的段落
+    endText();// 清除之前的所有环境,TODO
+    sprintf(render, "%s<p>\n", clear_text);
+    textEvn = 2;// 进入段落环境
+  } else {// 段落中
+    assert(stackTop == 0);// 处于段落之中不应该有表
+    sprintf(render, " ");// 将上一行与此行之间加上空格(用于垃圾katex渲染)
+  }
+  textRend();
+}
+
 void textRend()
 {
   int i = my_max(tag, 0);
   escape = 0;// 转义:'\', 0: 之前一个字符不是'\', 1: 之前一个字符是'\'
   // 每新的一行,转义进行刷新
-  if (paragraph == 0) {// 新的段落
-    assert(textEvn == 0);
-    tag = -1;
-    endTag();// 清空之前的表
-    sprintf(render, "%s<p>\n", clear_text);
-    paragraph = 1;
-  } else {
-    sprintf(render, " ");// TODO
-    assert(stackTop == 0);// 处于段落之中不应该有表
-  }
+
   int rend_tail = strlen(render);
   assert(render[rend_tail] == '\0');
 
@@ -129,32 +160,6 @@ void textRend()
   }
 
   render[rend_tail] = '\0';
-}
-
-void doEscape(int &i, int &rend_tail)// TODO
-{
-  int j = 0;// 不要使用i
-  if (escape == 1) {
-    escape = 0;// 取消转义
-    for (j = 0; escp_char[j] != '\0'; j ++) {
-      if (line[i] == escp_char[j]) {// 需要进行转义
-        render[rend_tail] = line[i];
-        rend_tail ++;
-        return;
-      }
-    }
-    // 后接非转义字符
-    render[rend_tail] = '\\';// 把'\'补上
-    rend_tail ++;
-    render[rend_tail] = line[i];
-    rend_tail ++;
-    return;
-  } else if (line[i] == '\\') {// 进入转义
-    escape = 1;
-  } else {// 正常环境,且不是转义字符
-    render[rend_tail] = line[i];
-    rend_tail ++;
-  }
 }
 
 void isSlide()
