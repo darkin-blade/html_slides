@@ -33,8 +33,12 @@ void endLine()
   if (lineEvn == 1 || lineEvn == 2) {// code
     sprintf(render, "\n</code>\n");// TODO,换行
   } else {
-    assert(lineEvn == 3 || lineEvn == 4);// latex,什么事都不要做
+    assert(0);// TODO,说明公式写的有问题
+    assert(lineEvn == 3 || lineEvn == 4);// latex TODO
+    sprintf(render, "\n");// TODO,换行
   }
+  MAGENTA("%s", render);
+  fputs(render, html);
   lineEvn = 0;
 }
 
