@@ -1,5 +1,16 @@
 #include <main.h>
 
+#define MAX_LINE 1024
+// 原文件一行的长度
+#define MAX_REND 2048
+// 渲染之后一行的长度
+#define MAX_TAG 8
+// 无序/有序表缩进级数
+#define MAX_NAME 32
+// 文件名长度
+#define MAX_CLEAR 64
+// 清除<ul><ol><p>的最大长度
+
 char mdFileName[32];
 char htmlFileName[32];
 FILE *md;
