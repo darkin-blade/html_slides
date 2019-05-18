@@ -36,21 +36,23 @@
 #define white(format, ...) \
   printf("\033[1;37m" format "\33[0m", ## __VA_ARGS__)
 
-void readFile();
+// 文件操作
 void openFile();
-void isTable();// 表格
-void isTitle();// 标题
-void isPara();// 段落
-void isUL();// 无序表
-void isOL();// 有序表
-void clearTag();// 清除ul,ol
-void textRend();// 正文
+void readFile();
 void header();// 添加<html>
 void footer();// 添加</html>
+
 void isCodeblock();// 代码段
-void isLatex();// latex
-void endEvn();// 结束之前所有的环境
 void isSlide();// 分割线
+void isTable();// 表格,TODO
+void isTitle();// 标题
+void isPara();// 段落,TODO
+void isUL();// 无序表
+void isOL();// 有序表
+
+void clearTag();// 清除ul,ol
+void textRend();// 文字渲染(注意和段落区别)
+void endEvn();// 结束之前所有的环境,TODO
 void doEscape(int &i, int &rend_tail);// 正常文本的转义处理
 
 int my_max(int a, int b)
