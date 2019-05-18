@@ -30,19 +30,19 @@ void isTitle()
 
 void isUL()
 {
-  int i = tag + 1;// 跳过 "-"
+  int i = tag + 2;// 跳过 "- ",TODO
   int rend_tail = 0;
   assert(tag != -1);
 
   while (line[i] == ' ') i ++;// 清除空格
-  sprintf(line, "%s", line + i);// 缩短字符串,TODO
-  length = strlen(line);
+  length = strlen(line + i);
 
   if (length == 0) {// 不合语法;注意如果-之后全是空格也是符合语法的
-    assert(i == tag + 1);// TODO
+    assert(i == tag + 2);// TODO
     isPara();// 即使之前有无序表也会被清除
     return;
   } else {
+    sprintf(line, "%s", line + i);// 缩短字符串,TODO
     if (textEvn != 4 && textEvn != 5) {// 之前不是表环境
       endText();// 结束之前的所有环境,TODO
       textEvn = 4;// 进入ul环境
