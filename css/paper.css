@@ -54,3 +54,41 @@ h1 {
   background: rgb(200, 200, 200);
   font-family: 'DejaVu Sans Mono for Powerline';
 }
+
+blockquote {
+  padding-left: 10px;
+  border-radius: 3px;
+  border-left: 30px solid rgb(225, 225, 225);
+  border-right: 2px solid rgb(225, 225, 225);
+  border-top: 2px solid rgb(225, 225, 225);
+  border-bottom: 2px solid rgb(225, 225, 225);
+}
+
+blockquote blockquote {
+  border-left: 30px solid rgb(210, 210, 210);
+  border-right: 2px solid rgb(210, 210, 210);
+  border-top: 2px solid rgb(210, 210, 210);
+  border-bottom: 2px solid rgb(210, 210, 210);
+}
+
+blockquote blockquote blockquote {
+  border-left: 30px solid rgb(195, 195, 195);
+  border-right: 2px solid rgb(195, 195, 195);
+  border-top: 2px solid rgb(195, 195, 195);
+  border-bottom: 2px solid rgb(195, 195, 195);
+}
+
+blockquote blockquote blockquote blockquote {
+  border-left: 30px solid rgb(180, 180, 180);
+  border-right: 2px solid rgb(180, 180, 180);
+  border-top: 2px solid rgb(180, 180, 180);
+  border-bottom: 2px solid rgb(180, 180, 180);
+}
+
+blockquote blockquote blockquote blockquote blockquote {
+  border-left: 30px solid rgb(165, 165, 165);
+  border-right: 2px solid rgb(165, 165, 165);
+  border-top: 2px solid rgb(165, 165, 165);
+  border-bottom: 2px solid rgb(165, 165, 165);
+}
+
