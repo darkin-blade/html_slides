@@ -68,7 +68,8 @@ void readFile()
 void isText()
 {
   int i = my_max(tag, 0);
-  int escape = 0;// 转义:'\', 0: 之前一个字符不是'\', 1: 之前一个字符是'\'
+  escape = 0;// 转义:'\', 0: 之前一个字符不是'\', 1: 之前一个字符是'\'
+  // 每新的一行,转义进行刷新
   if (paragraph == 0) {// 新的段落
     assert(textEvn == 0);
     tag = -1;
@@ -113,12 +114,7 @@ void isText()
       }
       else
       {// TODO
-        if (escape == 1 || line[i] != '\\') {// 无视转义
-          render[rend_tail] = line[i];
-          rend_tail ++;
-        } else {
-          escape = 1;
-        }
+        doEscape(i, rend_tail);
       }
     }
     else
@@ -169,12 +165,7 @@ void isText()
           rend_tail ++;
         } else {// latex公式需要注意转义
           assert(textEvn == 3 || textEvn == 4);
-          if (escape == 1 || line[i] != '\\') {// 无视转义
-            render[rend_tail] = line[i];
-            rend_tail ++;
-          } else {
-            escape = 1;
-          }
+          doEscape(i, rend_tail);
         }
       }
     }
@@ -183,6 +174,32 @@ void isText()
   }
 
   render[rend_tail] = '\0';
+}
+
+void doEscape(int &i, int &rend_tail)// TODO
+{
+  int j = 0;// 不要使用i
+  if (escape == 1) {
+    escape = 0;// 取消转义
+    for (j = 0; escp_car[j] != '0'; j ++) {
+      if (line[i] == escp_car[j]) {// 需要进行转义
+        render[rend_tail] = line[i];
+        rend_tail ++;
+        return;
+      }
+    }
+    // 后接非转义字符
+    render[rend_tail] = '\\';// 把'\'补上
+    rend_tail ++;
+    render[rend_tail] = line[i];
+    rend_tail ++;
+    return;
+  } else if (line[i] == '\\') {// 进入转义
+    escape = 1;
+  } else {// 正常环境,且不是转义字符
+    render[rend_tail] = line[i];
+    rend_tail ++;
+  }
 }
 
 void isSlide()

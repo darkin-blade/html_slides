@@ -41,7 +41,7 @@ sfa`
 
 $$
 \begin{pmatrix}
-a & b \\
-b & a\_{a + b}\sum\_a \\
+a & b \\\\
+b & a\_{a + b}\sum\_a \\\\
 \end{pmatrix}
 $$
