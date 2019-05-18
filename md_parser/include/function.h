@@ -7,6 +7,7 @@
 void isTitle()
 {
   int i = 0;
+  int rend_tail = 0;
   int title = 0;// 标题级数
 
   for (i = 0; line[i] == '#'; i ++) {
@@ -23,7 +24,7 @@ void isTitle()
     sprintf(render, "<h%d>", title);
     sprintf(line, "%s", line + i);// 裁剪字符串,TODO
     textRend();
-    int rend_tail = strlen(render);
+    rend_tail = strlen(render);
     sprintf(render + rend_tail, "</h%d>\n", title);
   }
 }
@@ -84,9 +85,10 @@ void isOL()
 {
   int i = tag;// 不跳过
   int j = 0;
+  int rend_tail = 0;
   int num = 0;
   assert(tag != -1);
-  while (line[i] >= '1' && line[i] <= '9') {
+  while (line[i] >= '1' && line[i] <= '9') {// 字符串转数字
     num = num * 10 + line[i] - 48;
     i ++;
   }
@@ -95,40 +97,49 @@ void isOL()
     return;// TODO
   } else {
     i ++;// 跳转至空格处
-    j = i;
+    j = i;// 为后面判断空格做准备
   }
 
   while (line[i] == ' ') i ++;// 清除空格
   length = strlen(line + i);
 
-  if (length == 0 || i == j) {// 不合语法,TODO
-    textRend();
+  if (length == 0 || i == j) {// 不合语法
+    isPara();// 不要裁剪字符串,强制进入段落环境(isPara内部实现),TODO
     return;// TODO
   } else {
+    sprintf(line, "%s", line + i);// 缩短字符串,TODO
     endText();// 结束之前的段落
+    textEvn = 5;// ol
   }
 
   if ((stackTop >= 1)&&(tag == tagStack[stackTop - 1])) {// 同级
-    YELLOW("%s", line);
     assert(stackTop != 0);
-    sprintf(render, "<li>\n%s</li>\n", line + i);
+    sprintf(render, "<li>\n");
+    textRend();
+    rend_tail = strlen(render);
+    sprintf(render + rend_tail, "</li>\n");// TODO
   } else {
     endTag();// 向前回溯
     assert(stackTop >= 0);
-
     if ((stackTop == 0)||(tag > tagStack[stackTop - 1]))
-    {// 没有找到符合之前级数的缩进/更小一级
+    {// 没有找到符合之前级数的缩进->增加tag级数
       assert(stackTop < MAX_TAG);
       tagStack[stackTop] = tag;
-      evnStack[stackTop] = 2;// ol
+      evnStack[stackTop] = 5;// ol
       stackTop ++;
       assert(tagStack[stackTop] == -1);
       assert(evnStack[stackTop] == 0);
-      sprintf(render, "%s<ol start=\"%d\">\n<li>\n%s\n</li>\n",
-          clear_tag, num, line + i);// TODO
+
+      sprintf(render, "<ol start=\"%d\">\n<li>\n", num);
+      textRend();
+      rend_tail = strlen(render);
+      sprintf(render + rend_tail, "\n</li>\n");// TODO
     } else {// 找到之前的同级
       assert(tag == tagStack[stackTop - 1]);
-      sprintf(render, "%s<li>\n%s\n</li>\n", clear_tag, line + i);
+      sprintf(render, "<li>\n", num);
+      textRend();
+      rend_tail = strlen(render);
+      sprintf(render + rend_tail, "\n</li>\n");// TODO
     }
   }
 }
