@@ -62,13 +62,17 @@ void isUL()
       stackTop ++;
       assert(tagStack[stackTop] == -1);
       assert(evnStack[stackTop] == 0);
+
       sprintf(render, "<ul>\n<li>\n");
       textRend();
       rend_tail = strlen(render);
       sprintf(render + rend_tail, "\n</li>\n");// TODO
     } else {// 找到之前的同级
       assert(tag == tagStack[stackTop - 1]);
-      sprintf(render, "%s<li>\n%s\n</li>\n", clear_tag, line + i);
+      sprintf(render, "<li>\n");
+      textRend();
+      rend_tail = strlen(render);
+      sprintf(render + rend_tail, "\n</li>\n");// TODO
     }
   }
 }
