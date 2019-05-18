@@ -24,8 +24,15 @@ int tagStack[8]; // 最多8种缩进
 int tagStackTop = 0;// 栈顶
 int typeStack[8]; // 1 for ul, 2 for ol, 3 for p, 4 for blockquote
 char clear[64];// 存放</ol> </ul> </p>
-int textEvn = 0;// 当前语言环境 0: normal, 1: code`, 2: code``, 3: latex$, 4: latex$$
-// 5: em, 6: strong
+int textEvn = 0;// 当前语言环境 
+// 0: normal, 1: code`, 2: code``, 3: latex$, 4: latex$$
+// 0: plain, 1: title, 2: paragraph, 3: blockquote, 4: ul, 5: ol
+int paraEvn = 0;// 每一段的语言环境
+// 0: normal, 1: em, 2: strong
+int latexEvn = 0;// latex语言环境
+// 0: none, 1: $latex$, 2: $$latex$$
+int codeEvn = 0;
+// 0: none, 1: `code`, 2: ``code``
 int escape = 0;// 转义'\'
 char escp_char[32] = "*_\\";
 int paragraph = 0;// 0: 没有新的段落, 1: 有段落没有结束
