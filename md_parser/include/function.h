@@ -145,13 +145,11 @@ void isCodeblock()
 {
   int i = tag + 3;// 跳过```
   char language[16];// 语言类型
-  endTag();
-  endText();// 结束之前的段落
+  endText();// 结束之前的所有环境
 
   while (line[i] == ' ') i ++;// 跳过空格
   sprintf(language, "%s", line + i);// 有可能为空
-  sprintf(render, "%s<figure class=\"highlight %s\">\n<pre>\n<code>\n",
-      clear_tag, language);
+  sprintf(render, "<figure class=\"highlight %s\">\n<pre>\n<code>\n", language);
   WHITE("[%d] %s", line_num, line);
   MAGENTA("%s", render);
   fputs(render, html);
