@@ -28,16 +28,17 @@ void readFile()
       isText();
     } else if (line[0] == '#') {// 标题,标题前不能有空格,#后要有空格
       isTitle();
+    } 
+    else if (line[0] == '-' && line[i + 1] == '-' && line[i + 2] == '-') 
+    {// 分割线)
+        isSlide();
     } else {
       for (i = 0, tag = 0; line[i] == ' '; i ++) {// 清除空格
         tag ++;// 缩进级数增加
       }
       assert(i == tag);
 
-
-      if (line[i] == '-' && line[i + 1] == '-' && line[i + 2] == '-') {// 分割线
-        isSlide();
-      } else if (line[i] == '-' && line[i + 1] != '\0') 
+      if (line[i] == '-' && line[i + 1] != '\0') 
       {// 无序表,TODO 条件
         isUL();
       } 
@@ -177,8 +178,9 @@ void isSlide()
     MAGENTA("%s", render);
     fputs(render, html);
   } else {// 需要结束之前的段落
-    int i = tag + 3;// 跳过---
-    while (i == ' ') i ++;// 跳过空格
+    int i = 0;
+    while (line[i] == '-') i ++;// 跳过-
+    while (line[i] == ' ') i ++;// 跳过空格
     length = strlen(line + i);
     if (length != 0) {// 不合语法
       isText();
