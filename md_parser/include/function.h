@@ -35,9 +35,7 @@ void isUL()
   int rend_tail = 0;
   assert(tag != -1);
 
-  while (line[i] == ' ') i ++;// 清除空格
-  length = strlen(line + i);
-
+  length = strlen(line + i);// 不要清除空格,TODO
   if (length == 0) {// 不合语法;注意如果-之后全是空格也是符合语法的
     assert(i == tag + 2);// TODO
     isPara();// 即使之前有无序表也会被清除
@@ -84,7 +82,6 @@ void isUL()
 void isOL()
 {
   int i = tag;// 不跳过
-  int j = 0;
   int rend_tail = 0;
   int num = 0;
   assert(tag != -1);
@@ -96,14 +93,11 @@ void isOL()
     isPara();// 不合语法
     return;// TODO
   } else {
-    i ++;// 跳转至空格处
-    j = i;// 为后面判断空格做准备
+    i += 2;// 跳转至空格后,注意{num}.后只有空格也是符合语法的
   }
 
-  while (line[i] == ' ') i ++;// 清除空格
-  length = strlen(line + i);
-
-  if (length == 0 || i == j) {// 不合语法
+  length = strlen(line + i);// 不要清除空格,TODO
+  if (length == 0) {// 不合语法
     isPara();// 不要裁剪字符串,强制进入段落环境(isPara内部实现),TODO
     return;// TODO
   } else {
@@ -119,10 +113,11 @@ void isOL()
     rend_tail = strlen(render);
     sprintf(render + rend_tail, "</li>\n");// TODO
   } else {
-    endTag();// 向前回溯
     assert(stackTop >= 0);
+    endTag();// 向前回溯
     if ((stackTop == 0)||(tag > tagStack[stackTop - 1]))
     {// 没有找到符合之前级数的缩进->增加tag级数
+      RED("%d", tag);
       assert(stackTop < MAX_TAG);
       tagStack[stackTop] = tag;
       evnStack[stackTop] = 5;// ol

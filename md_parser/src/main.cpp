@@ -47,7 +47,6 @@ void endLine()
     lineEvn = 0;
   }
 
-  RED("%d", textEvn);
   if (textEvn == 2) {// TODO
     sprintf(render, "\n</p>\n");// 终止当前段落
     MAGENTA("%s", render);
@@ -234,7 +233,6 @@ void readFile()
       length --;
     }
     if (length == 0) {// 空行 
-      BLUE("empty");
       endLine();// 终止段落,终止行内环境
       continue;
     }
