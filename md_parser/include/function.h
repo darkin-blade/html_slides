@@ -218,7 +218,7 @@ void header()
   }
 
   if (flag == 1) {// 所有文件均存在
-    for (i = 0; i < sizeof(partial) / sizeof(char *); i ++) {
+    for (i = 0; partial[i][0] != 0; i ++) {
       sprintf(filename, "./partial/%s.html", partial[i]);
       fp = fopen(filename, "r");
       assert(fp != NULL);
@@ -249,6 +249,7 @@ void footer()
   char filename[32];
   FILE *fp = NULL;
   int flag = 1;// 所有文件是否成功打开
+  int i = 0;
   for (i = 0; partial[i][0] != 0; i ++) {
     sprintf(filename, "./partial/%s.html", partial[i]);
     fp = fopen(filename, "r");
@@ -258,7 +259,7 @@ void footer()
   }
 
   if (flag == 1) {// 所有文件均存在
-    for (i = 0; i < sizeof(partial) / sizeof(char *); i ++) {
+    for (i = 0; partial[i][0] != 0; i ++) {
       sprintf(filename, "./partial/%s.html", partial[i]);
       fp = fopen(filename, "r");
       assert(fp != NULL);
