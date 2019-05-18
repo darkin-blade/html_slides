@@ -58,8 +58,10 @@ void charRend(int &i, int &rend_tail)// TODO
     } else if (line[i] == '_') {
       if (line[i + 1] == '_') {// strong
         if (paraEvn == 0) {// 进入strong
+          RED("%d %s", paraEvn, render);
           strcat(render, "<strong>");
           paraEvn = 2;
+          YELLOW("%d %s", paraEvn, render);
         } else if (paraEvn == 2) {// 跳出strong
           strcat(render, "</strong>");
           paraEvn = 0;
@@ -78,6 +80,7 @@ void charRend(int &i, int &rend_tail)// TODO
           goto normal_char;
         }
       }
+      rend_tail += strlen(render + rend_tail);// 刷新长度,TODO
     } else if (line[i] == '<' && isLetter(line[i + 1])) {
       assert(0);// TODO,html内嵌代码
     } else {// 正常字符
