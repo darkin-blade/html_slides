@@ -87,10 +87,11 @@ void isPara()
   } else if (textEvn == 2) {// 段落中,TODO
     assert(stackTop == 0);// 处于段落之中不应该有表
     sprintf(render, " ");// 将上一行与此行之间加上空格(用于垃圾katex渲染)
-  } else {// 由于不合语法导致的新的段落,强制新段落,TODO
+  } else {// 由于不合语法导致的新的段落,TODO
     endText();// 清除所有环境
     assert(stackTop == 0);
-    sprintf(render, " ");// 将上一行与此行之间加上空格(用于垃圾katex渲染)
+    sprintf(render, "<p>\n");
+    textEvn = 2;// 强制新段落
   }
   textRend();
 }
@@ -208,13 +209,13 @@ void readFile()
     }
 
     if (lineEvn != 0 || paraEvn != 0) {// 有code/latex/ 强调 环境未结束,TODO
-      // [默认行间公式的优先度大于标题等]
+      // [默认行间公式/ 强调 的优先度大于标题等]
       isPara();// TODO,不能够新开段落?
     } else if (line[0] == '#') {// 标题,标题前不能有空格,#后要有空格
       isTitle();
     } 
-    else if (line[0] == '-' && line[i + 1] == '-' && line[i + 2] == '-') {// 分割线
-      isSlide();
+    else if (line[0] == '-' && line[i + 1] == '-' && line[i + 2] == '-') {
+      isSlide();// 分割线
     } else {
       for (i = 0, tag = 0; line[i] == ' '; i ++) {// 清除空格
         tag ++;// 缩进级数增加
@@ -236,6 +237,7 @@ void readFile()
       } 
       else 
       {// 正文
+        CYAN("paragraph");
         isPara();
       }
     }
