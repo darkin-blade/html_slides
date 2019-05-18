@@ -10,6 +10,7 @@ int main()
 
 void endText()
 {
+  endLine();// 先处理行内环境
   if (textEvn == 2) {// 有段落未结束
     sprintf(render, "\n</p>\n");// TODO
     MAGENTA("%s", render);
@@ -25,6 +26,16 @@ void endText()
   }
   assert(stackTop == 0);// 不应有ul,ol
   textEvn = 0;
+}
+
+void endLine()
+{
+  if (lineEvn == 1 || lineEvn == 2) {// code
+    sprintf(render, "\n</code>\n");// TODO,换行
+  } else {
+    assert(lineEvn == 3 || lineEvn == 4);// latex,什么事都不要做
+  }
+  lineEvn = 0;
 }
 
 void doEscape(int &i, int &rend_tail)// TODO
