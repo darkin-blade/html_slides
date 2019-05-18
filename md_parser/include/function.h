@@ -19,13 +19,13 @@ FILE *html;
 char line[1024];// 每一行
 int length = 0;// 每一行的长度
 char render[2048];// 解析后的字符串
+
 int tag = -1;// 缩进级数
 int tagStack[8]; // 最多8种缩进
 int tagStackTop = 0;// 栈顶
 int typeStack[8]; // 1 for ul, 2 for ol, 3 for p, 4 for blockquote
-char clear[64];// 存放</ol> </ul> </p>
+char clear_text[64];// 存放</ol> </ul> </p>
 int textEvn = 0;// 当前语言环境 
-// 0: normal, 1: code`, 2: code``, 3: latex$, 4: latex$$
 // 0: plain, 1: title, 2: paragraph, 3: blockquote, 4: ul, 5: ol
 int paraEvn = 0;// 每一段的语言环境
 // 0: normal, 1: em, 2: strong
@@ -33,15 +33,11 @@ int latexEvn = 0;// latex语言环境
 // 0: none, 1: $latex$, 2: $$latex$$
 int codeEvn = 0;
 // 0: none, 1: `code`, 2: ``code``
+
 int escape = 0;// 转义'\'
 char escp_char[32] = "*_\\";
 int paragraph = 0;// 0: 没有新的段落, 1: 有段落没有结束
 int slide_num = 0;// 当前slide序号,初始0
-struct {
-  int id, len;// 序号,长度
-  char left[4];
-  char right[4];
-} latexPar[4];// latex公式环境
 
 void isTitle()
 {
@@ -61,8 +57,8 @@ void isTitle()
     assert(tag == -1);// 注意初始化-1
     isText();
   } else {
-    endPara();// 结束之前的段落
-    sprintf(render, "%s<h%d>%s</h%d>\n", clear, title, line + i, title);
+    endEvn();// 结束之前的段落
+    sprintf(render, "%s<h%d>%s</h%d>\n", clear_text, title, line + i, title);
   }
 }
 
@@ -78,7 +74,9 @@ void isUL()
     isText();
     return;// TODO
   } else {
-    endPara();// 结束之前的段落
+    if (textEvn != 4 && textEvn != 5) {// 之前不是表环境
+      endEvn();// 结束之前的段落
+    }
   }
 
   if ((tagStackTop >= 1)&&(tag == tagStack[tagStackTop - 1])) {// 同级
@@ -94,10 +92,10 @@ void isUL()
       tagStackTop ++;
       assert(tagStack[tagStackTop] == -1);
       assert(typeStack[tagStackTop] == 0);
-      sprintf(render, "%s<ul>\n<li>\n%s\n</li>\n", clear, line + i);// TODO
+      sprintf(render, "%s<ul>\n<li>\n%s\n</li>\n", clear_text, line + i);// TODO
     } else {// 找到之前的同级
       assert(tag == tagStack[tagStackTop - 1]);
-      sprintf(render, "%s<li>\n%s\n</li>\n", clear, line + i);
+      sprintf(render, "%s<li>\n%s\n</li>\n", clear_text, line + i);
     }
   }
 }
@@ -127,7 +125,7 @@ void isOL()
     isText();
     return;// TODO
   } else {
-    endPara();// 结束之前的段落
+    endEvn();// 结束之前的段落
   }
 
   if ((tagStackTop >= 1)&&(tag == tagStack[tagStackTop - 1])) {// 同级
@@ -147,24 +145,24 @@ void isOL()
       assert(tagStack[tagStackTop] == -1);
       assert(typeStack[tagStackTop] == 0);
       sprintf(render, "%s<ol start=\"%d\">\n<li>\n%s\n</li>\n",
-          clear, num, line + i);// TODO
+          clear_text, num, line + i);// TODO
     } else {// 找到之前的同级
       assert(tag == tagStack[tagStackTop - 1]);
-      sprintf(render, "%s<li>\n%s\n</li>\n", clear, line + i);
+      sprintf(render, "%s<li>\n%s\n</li>\n", clear_text, line + i);
     }
   }
 }
 
 void clearTag()
 {
-  memset(clear, 0, sizeof(clear));
+  memset(clear_text, 0, sizeof(clear_text));
   if (tagStackTop == 0) return;// 没有tag
   for (; tagStackTop >= 1 && tag < tagStack[tagStackTop - 1]; tagStackTop --) {
     if (typeStack[tagStackTop - 1] == 1) {// ul
-      strcat(clear, "</ul>\n");
+      strcat(clear_text, "</ul>\n");
     } else {// ol
       assert(typeStack[tagStackTop - 1] == 2);
-      strcat(clear, "</ol>\n");
+      strcat(clear_text, "</ol>\n");
     }
     tagStack[tagStackTop - 1] = -1;// 复原
     typeStack[tagStackTop - 1] = 0;// 复原
@@ -175,10 +173,10 @@ void clearTag()
         tagStackTop >= 1 && tag < tagStack[tagStackTop - 1]; tagStackTop --) 
     {
       if (typeStack[tagStackTop - 1] == 1) {// ul
-        strcat(clear, "</ul>\n");
+        strcat(clear_text, "</ul>\n");
       } else {// ol
         assert(typeStack[tagStackTop - 1] == 2);
-        strcat(clear, "</ol>\n");
+        strcat(clear_text, "</ol>\n");
       }
       tagStack[tagStackTop - 1] = -1;// 复原
       typeStack[tagStackTop - 1] = 0;// 复原
@@ -193,12 +191,12 @@ void isCodeblock()
   int i = tag + 3;// 跳过```
   char language[16];// 语言类型
   clearTag();
-  endPara();// 结束之前的段落
+  endEvn();// 结束之前的段落
 
   while (line[i] == ' ') i ++;// 跳过空格
   sprintf(language, "%s", line + i);// 有可能为空
   sprintf(render, "%s<figure class=\"highlight %s\">\n<pre>\n<code>\n",
-      clear, language);
+      clear_text, language);
   WHITE("%s", line);
   MAGENTA("%s", render);
   fputs(render, html);

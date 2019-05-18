@@ -7,7 +7,7 @@ int main()
   return 0;
 }
 
-void endPara()
+void endEvn()
 {
   if (paragraph == 1) {// 有段落未结束
     sprintf(render, "\n</p>\n");// TODO
@@ -32,7 +32,7 @@ void readFile()
       length --;
     }
     if (length == 0) {// 空行 
-      endPara();
+      endEvn();
       continue;
     }
 
@@ -86,7 +86,7 @@ void isText()
     assert(textEvn == 0);
     tag = -1;
     clearTag();// 清空之前的表
-    sprintf(render, "%s<p>\n", clear);
+    sprintf(render, "%s<p>\n", clear_text);
     paragraph = 1;
   } else {
     sprintf(render, " ");// TODO
@@ -233,10 +233,10 @@ void isSlide()
 
     tag = -1;
     clearTag();
-    if (strlen(clear) != 0) {
+    if (strlen(clear_text) != 0) {
       assert(paragraph == 0);
     }
-    endPara();
+    endEvn();
     sprintf(render,
         "</div>\n</div>\n<div class=\"slide\">\n<div class=\"content\">\n");
     // 注意如果不是开头,不能够直接把html写进文件
@@ -306,10 +306,10 @@ void footer()
 {
   tag = -1;
   clearTag();
-  if (strlen(clear) != 0) {// 如果有表,那么不应该处于段落之中
+  if (strlen(clear_text) != 0) {// 如果有表,那么不应该处于段落之中
     assert(paragraph == 0);
   }
-  endPara();// 注意endPara会直接写入文件
+  endEvn();// 注意endEvn会直接写入文件
   sprintf(render, "</div>\n</div>\n");// 结束slide
   MAGENTA("%s", render);// TODO
   fputs(render, html);
@@ -340,7 +340,7 @@ void footer()
     }
   } else {
     YELLOW("No footer module");
-    sprintf(render, "%s</body>\n</html>\n", clear);
+    sprintf(render, "%s</body>\n</html>\n", clear_text);
     MAGENTA("%s", render);
     fputs(render, html);
   }

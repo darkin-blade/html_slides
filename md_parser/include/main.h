@@ -48,7 +48,7 @@ void header();// 添加<html>
 void footer();// 添加</html>
 void isCodeblock();// 代码段
 void isLatex();// latex
-void endPara();// 结束段落
+void endEvn();// 结束之前所有的环境
 void isSlide();// 分割线
 void doEscape(int &i, int &rend_tail);// 正常文本的转义处理
 
