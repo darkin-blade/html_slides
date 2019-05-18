@@ -249,7 +249,7 @@ void header()
   int i = 0;
   for (i = 0; i < 8; i ++) {// 初始化tag栈,TODO 有序,无序
     tagStack[i] = -1;
-    typeStack[i] = 0;
+    evnStack[i] = 0;
   }
   if (0) {// 初始化latex环境
     latexPar[0].id = 0;
