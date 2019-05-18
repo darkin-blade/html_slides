@@ -169,3 +169,28 @@ void isCodeblock()
   }
   assert(0);
 }
+
+void isSlide()
+{
+  if (slide_num == 0) {// 文章开头
+    sprintf(render, "<div class=\"slide\">\n<div class=\"content\">\n");
+    MAGENTA("%s", render);
+    fputs(render, html);
+  } else {// 需要结束之前的slide
+    int i = 0;
+    while (line[i] == '-') i ++;// 跳过-
+    while (line[i] == ' ') i ++;// 跳过空格
+    length = strlen(line + i);
+
+    if (length != 0) {// 不合语法
+      isPara();// 视作段落
+      return;// TODO
+    }
+
+    endText();// 除去之前任何环境
+    sprintf(render,
+        "</div>\n</div>\n<div class=\"slide\">\n<div class=\"content\">\n");
+    // 注意如果不是开头,不能够直接把html写进文件
+  }
+  slide_num ++;
+}
