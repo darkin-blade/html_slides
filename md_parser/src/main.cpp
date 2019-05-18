@@ -12,7 +12,7 @@ int main()
 void doEscape(int &i, int &rend_tail)// TODO
 {
   int j = 0;// 不要使用i
-  if (escape == 1) {
+  if (escape == 1) {// 是转义环境
     escape = 0;// 取消转义
     for (j = 0; escp_char[j] != '\0'; j ++) {
       if (line[i] == escp_char[j]) {// 需要进行转义
@@ -29,9 +29,34 @@ void doEscape(int &i, int &rend_tail)// TODO
     return;
   } else if (line[i] == '\\') {// 进入转义
     escape = 1;
-  } else {// 正常环境,且不是转义字符
+  } else {// 正常环境,且不是转义字符,TODO
+    if (line[i] == '*') {
+      if (line[i + 1] == '*') {// strong
+        if (paraEvn == 0) {// 进入strong
+          strcat(render, "<strong>");
+          paraEvn = 2;
+        } else {// 跳出strong
+          strcat(render, "</strong>");
+          paraEvn = 0;
+        }
+        i ++;// 跳过*
+      } else {
+        if (paraEvn == 0) {// 进入strong
+          strcat(render, "<strong>");
+          paraEvn = 2;
+        } else {// 跳出strong
+          strcat(render, "</strong>");
+          paraEvn = 0;
+        }
+      }
+    } else if (line[i] == '_') {
+      ;
+    } else {// 正常字符
+      ;
+    }
     render[rend_tail] = line[i];
     rend_tail ++;
+    render[rend_tail] = '\0';
   }
 }
 

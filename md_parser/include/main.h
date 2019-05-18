@@ -63,6 +63,11 @@ int my_min(int a, int b)
   return b;
 }
 
+int isLetter(char c)// 是否是字母
+{
+  return ((c >= 'a')&&(c <= 'z'))||((c >= 'A')&&(c <= 'Z'));
+}
+
 void openFile();
 void readFile();
 void header();// 添加<html>
