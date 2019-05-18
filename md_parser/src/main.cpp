@@ -181,8 +181,8 @@ void doEscape(int &i, int &rend_tail)// TODO
   int j = 0;// 不要使用i
   if (escape == 1) {
     escape = 0;// 取消转义
-    for (j = 0; escp_car[j] != '0'; j ++) {
-      if (line[i] == escp_car[j]) {// 需要进行转义
+    for (j = 0; escp_char[j] != '\0'; j ++) {
+      if (line[i] == escp_char[j]) {// 需要进行转义
         render[rend_tail] = line[i];
         rend_tail ++;
         return;
