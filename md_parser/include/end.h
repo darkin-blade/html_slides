@@ -4,6 +4,11 @@
 
 #endif
 
+void endPara()
+{
+  ;
+}
+
 void endTag()
 {
   memset(render, 0, sizeof(render));// TODO
@@ -40,6 +45,7 @@ void endTag()
 void endText()
 {
   endLine();// 先处理行内环境
+  endPara();// 再处理强调环境
   if (textEvn == 0) {
     assert(stackTop == 0);
     return;// 什么事也不做

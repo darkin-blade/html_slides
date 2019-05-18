@@ -72,13 +72,16 @@ void isCodeblock();// 代码段
 void isSlide();// 分割线
 void isTable();// 表格,TODO
 void isTitle();// 标题
-void isPara();// 段落,TODO
+void isPara();// 段落
 void isUL();// 无序表
 void isOL();// 有序表
+void isImg();// 图片,TODO
+void isLink();// 链接,TODO
 
 void textRend();// 文字渲染(注意和段落区别)
-void endText();// 结束之前所有的环境,TODO
+void endText();// 结束之前所有的环境
 void endLine();// 除去行内环境
+void endPara();// 除去强调环境
 void endTag();// 向前回溯无序表/有序表
 void doEscape(int &i, int &rend_tail);// 正常文本的转义处理
 
@@ -96,13 +99,13 @@ int tagStack[MAX_TAG]; // 最多?种不同缩进
 int evnStack[MAX_TAG]; // 语言环境栈
 // 0: default, 1: title, 2: paragraph, 3: blockquote, 4: ul, 5: ol
 int stackTop = 0;// 语言环境栈顶
-char clear_tag[MAX_STR];// 清除语言环境
 int textEvn = 0;// 文章语言环境 
 // 0: plain, 1: title, 2: paragraph, 3: blockquote, 4: ul, 5: ol
-int paraEvn = 0;// 每一段的语言环境
+int paraEvn = 0;// 每一段的语言环境(强调环境)
 // 0: normal, 1: em, 2: strong
 int lineEvn = 0;// 行内语言环境
 // 0: plain, 1: `code`, 2: ``code``, 3: $latex$, 4: $$latex$$
+char clear_tag[MAX_STR];// 清除语言环境
 
 int escape = 0;// 转义'\'
 char escp_char[MAX_STR] = "*_\\";
