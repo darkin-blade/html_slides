@@ -33,7 +33,10 @@ void readFile()
       }
       assert(i == tag);
 
-      if (line[i] == '-' && line[i + 1] != '\0') 
+
+      if (line[i] == '-' && line[i + 1] == '-' && line[i + 2] == '-') {// 分割线
+        ;
+      } else if (line[i] == '-' && line[i + 1] != '\0') 
       {// 无序表,TODO 条件
         isUL();
       } 
@@ -169,4 +172,9 @@ void isText()
     cyan("%d", textEvn);
     RED("%s", render);
   }
+}
+
+void isSlide()
+{
+  ;
 }

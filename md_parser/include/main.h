@@ -49,6 +49,7 @@ void footer();// 添加</html>
 void isCodeblock();// 代码段
 void isLatex();// latex
 void endPara();// 结束段落
+void isSlide();// 分割线
 
 int my_max(int a, int b)
 {

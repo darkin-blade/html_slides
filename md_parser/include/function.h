@@ -13,8 +13,9 @@ int tagStack[8]; // 最多8种缩进
 int tagStackTop = 0;// 栈顶
 int typeStack[8]; // 1 for ul, 2 for ol
 char clear[64];// 存放</ol> </ul>
-int textEvn;// 当前语言环境 0: normal, 1: code`, 2: code``, 3: latex$, 4: latex$$
-int paragraph;// 0: 没有新的段落, 1: 有段落没有结束
+int textEvn = 0;// 当前语言环境 0: normal, 1: code`, 2: code``, 3: latex$, 4: latex$$
+int paragraph = 0;// 0: 没有新的段落, 1: 有段落没有结束
+int slide_num = 0;// 当前slide序号,初始0
 struct {
   int id, len;// 序号,长度
   char left[4];
