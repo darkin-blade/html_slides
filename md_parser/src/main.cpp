@@ -70,7 +70,7 @@ void isText()
     sprintf(render, "%s<p>\n", clear);
     paragraph = 1;
   } else {
-    memset(render, 0, sizeof(render));
+    sprintf(render, " ");// TODO
     assert(tagStackTop == 0);// 处于段落之中不应该有表
   }
   int rend_tail = strlen(render);
@@ -82,13 +82,11 @@ void isText()
       if (line[i] == '`')
       {// 行间代码
         if (line[i + 1] == '`') {
-          RED("%s", render);
           strcat(render, "<code class=\"code\">");
           rend_tail += strlen(render + rend_tail);// TODO
           i ++;
           textEvn = 2;// ``code``
         } else {
-          RED("%s", render);
           strcat(render, "<code class=\"code\">");
           rend_tail += strlen(render + rend_tail);// TODO
           textEvn = 1;// `code`
@@ -118,6 +116,7 @@ void isText()
       if (textEvn == 1)
       {
         if (line[i] == '`') {// 解除`code`
+          BLUE("%s", render);
           strcat(render, "</code>");
           rend_tail += strlen(render + rend_tail);// TODO
           textEvn = 0;
@@ -126,6 +125,7 @@ void isText()
       else if (textEvn == 2)
       {
         if (line[i] == '`' && line[i + 1] == '`') {// 解除``code``
+          BLUE("%s", render);
           strcat(render, "</code>");
           rend_tail += strlen(render + rend_tail);// TODO
           i ++;
@@ -165,4 +165,8 @@ void isText()
   }
 
   render[rend_tail] = '\0';
+  if (textEvn != 0) {
+    cyan("%d", textEvn);
+    RED("%s", render);
+  }
 }
