@@ -6,11 +6,17 @@
 
 void endPara()
 {
-  ;
+  RED("forget em / strong ?");// 正常情况下不应该调用此函数
+  if (paraEvn == 0) return;
+  if (paraEvn == 1) {// em
+    MAGENTA("%s", render);
+    fputs(render, html);// TODO
+  }
 }
 
 void endTag()
 {
+  assert(paraEvn == 0 && lineEvn == 0);// 表不可能做到换行环境
   memset(render, 0, sizeof(render));// TODO
   if (stackTop == 0) return;// 没有tag
   for (; stackTop >= 1 && tag < tagStack[stackTop - 1]; stackTop --) {
@@ -70,6 +76,7 @@ void endText()
 void endLine()
 {
   if (lineEvn == 1 || lineEvn == 2) {// code
+    RED("forget code ?");// 正常情况下不应该调用此函数
     sprintf(render, "\n</code>\n");// TODO,换行
   } else if (lineEvn == 3 || lineEvn == 4) {
     assert(0);// TODO,说明公式写的有问题
