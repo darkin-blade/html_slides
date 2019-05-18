@@ -78,7 +78,7 @@ void footer()
     }
   } else {
     YELLOW("No footer module");
-    sprintf(render, "</body>\n</html>\n");// TODO
+    sprintf(render, "</body>\n</html>\n");
     MAGENTA("%s", render);
     fputs(render, html);
   }
@@ -86,7 +86,7 @@ void footer()
 
 void openFile()
 {
-  YELLOW("Your current path: [%s]", getenv("PWD"));
+  YELLOW("Your current path: [%s]", getenv("PWD"));// 当前目录
 
   GREEN("Input markdown file name");
   scanf("%s", mdFileName);
@@ -102,7 +102,7 @@ void openFile()
 
   GREEN("Input html file name");
   // scanf("%s", htmlFileName);// TODO
-  sprintf(htmlFileName, "test.html");// TODO
+  sprintf(htmlFileName, "test.html");
   green("html filename is ");
   CYAN("%s", htmlFileName);
   html = fopen(htmlFileName, "w+");

@@ -34,19 +34,28 @@ void endText()
 
 void endLine()
 {
-  if (lineEvn == 0) return;
   if (lineEvn == 1 || lineEvn == 2) {// code
     sprintf(render, "\n</code>\n");// TODO,换行
-  } else {
+  } else if (lineEvn == 3 || lineEvn == 4) {
     assert(0);// TODO,说明公式写的有问题
     assert(lineEvn == 3 || lineEvn == 4);// latex TODO
     sprintf(render, "\n");// TODO,换行
   }
-  MAGENTA("%s", render);
-  fputs(render, html);
-  lineEvn = 0;
+  if (lineEvn != 0) {// lineEvn == 0 不能够直接 return
+    MAGENTA("%s", render);
+    fputs(render, html);
+    lineEvn = 0;
+  }
+
+  RED("%d", textEvn);
   if (textEvn == 2) {// TODO
-    textEvn = 0;// 终止当前段落
+    sprintf(render, "\n</p>\n");// 终止当前段落
+    MAGENTA("%s", render);
+    fputs(render, html);
+    textEvn = 0;
+  } else if (textEvn == 3) {
+    assert(0);// TODO
+    textEvn = 0;
   }
 }
 
@@ -79,7 +88,6 @@ void doEscape(int &i, int &rend_tail)// TODO
 void isPara()
 {
   if (textEvn == 0) {// 新的段落
-    endText();// 清除之前的所有环境,TODO
     sprintf(render, "<p>\n");
     textEvn = 2;// 进入段落环境
   } else {// title,段落中,引用...TODO
@@ -223,6 +231,7 @@ void readFile()
       length --;
     }
     if (length == 0) {// 空行 
+      BLUE("empty");
       endLine();// 终止段落,终止行内环境
       continue;
     }
@@ -261,7 +270,6 @@ void readFile()
     WHITE("%s", line);
     MAGENTA("%s", render);
     fputs(render, html);
-    RED("%d", textEvn);
   }
   footer();
 
