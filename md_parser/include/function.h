@@ -1,44 +1,8 @@
+#ifndef MAIN_H
+
 #include <main.h>
 
-#define MAX_LINE 1024
-// 原文件一行的长度
-#define MAX_REND 2048
-// 渲染之后一行的长度
-#define MAX_TAG 8
-// 无序/有序表缩进级数
-#define MAX_NAME 32
-// 文件名长度
-#define MAX_CLEAR 64
-// 清除<ul><ol><p>的最大长度
-
-char mdFileName[32];
-char htmlFileName[32];
-FILE *md;
-FILE *html;
-
-char line[1024];// 每一行
-int length = 0;// 每一行的长度
-char render[2048];// 解析后的字符串
-
-int tag = -1;// 缩进级数(空格数)
-int tagStack[8]; // 最多8种不同缩进
-int evnStack[8]; // 语言环境栈
-// 0: default, 1: title, 2: paragraph, 3: blockquote, 4: ul, 5: ol
-int stackTop = 0;// 语言环境栈顶
-char clear_text[64];// 清除语言环境
-int textEvn = 0;// 当前语言环境 
-// 0: plain, 1: title, 2: paragraph, 3: blockquote, 4: ul, 5: ol
-int paraEvn = 0;// 每一段的语言环境
-// 0: normal, 1: em, 2: strong
-int latexEvn = 0;// latex语言环境
-// 0: none, 1: $latex$, 2: $$latex$$
-int codeEvn = 0;
-// 0: none, 1: `code`, 2: ``code``
-
-int escape = 0;// 转义'\'
-char escp_char[32] = "*_\\";
-int paragraph = 0;// 0: 没有新的段落, 1: 有段落没有结束
-int slide_num = 0;// 当前slide序号,初始0
+#endif
 
 void isTitle()
 {
@@ -215,32 +179,4 @@ void isCodeblock()
     }
   }
   assert(0);
-}
-
-void openFile()
-{
-  YELLOW("Your current path: [%s]", getenv("PWD"));
-
-  GREEN("Input markdown file name");
-  scanf("%s", mdFileName);
-  green("md filename is ");
-  CYAN("%s", mdFileName);
-  md = fopen(mdFileName, "r");
-  if (md == NULL) {
-    RED("[%s] doesn't exist", mdFileName);
-  } else {
-    GREEN("open [%s] successfully", mdFileName);
-  }
-
-  GREEN("Input html file name");
-  // scanf("%s", htmlFileName);// TODO
-  sprintf(htmlFileName, "test.html");// TODO
-  green("html filename is ");
-  CYAN("%s", htmlFileName);
-  html = fopen(htmlFileName, "w+");
-  if (html == NULL) {
-    RED("[%s] open error", htmlFileName);
-  } else {
-    GREEN("open [%s] successfully", htmlFileName);
-  }
 }

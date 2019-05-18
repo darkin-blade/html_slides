@@ -1,4 +1,5 @@
 #include <function.h>
+#include <file.h>
 
 int main()
 {
@@ -17,64 +18,6 @@ void endEvn()
   } else {
     assert(paragraph == 0);// 什么也不做
   }
-}
-
-void readFile()
-{
-  int i = 0;
-
-  header();
-  isSlide();
-  while (fgets(line, 1000, md)) {// 读取一行
-    length = strlen(line);
-    if (line[length - 1] == '\n') {// 过滤换行
-      line[length - 1] = '\0';
-      length --;
-    }
-    if (length == 0) {// 空行 
-      endEvn();
-      continue;
-    }
-
-    if (textEvn != 0) {// 有code/latex环境未结束
-      textRend();
-    } else if (line[0] == '#') {// 标题,标题前不能有空格,#后要有空格
-      isTitle();
-    } 
-    else if (line[0] == '-' && line[i + 1] == '-' && line[i + 2] == '-') 
-    {// 分割线)
-        isSlide();
-    } else {
-      for (i = 0, tag = 0; line[i] == ' '; i ++) {// 清除空格
-        tag ++;// 缩进级数增加
-      }
-      assert(i == tag);
-
-      if (line[i] == '-' && line[i + 1] != '\0') 
-      {// 无序表,TODO 条件
-        isUL();
-      } 
-      else if (line[i] >= '1' && line[i] <= '9' && line[i + 1] != '\0') 
-      {// 有序表
-        isOL();
-      } 
-      else if (line[i] == '`' && line[i + 1] == '`'
-          && line[i + 2] == '`' && line[i + 3] != '`') 
-      {// 大代码块
-        isCodeblock();// TODO
-      } 
-      else 
-      {// 正文
-        textRend();
-      }
-    }
-    WHITE("%s", line);
-    MAGENTA("%s", render);
-    fputs(render, html);
-  }
-  footer();
-
-  return;
 }
 
 void textRend()
@@ -244,104 +187,60 @@ void isSlide()
   slide_num ++;
 }
 
-void header()
+void readFile()
 {
   int i = 0;
-  for (i = 0; i < 8; i ++) {// 初始化tag栈,TODO 有序,无序
-    tagStack[i] = -1;
-    evnStack[i] = 0;
-  }
-  if (0) {// 初始化latex环境
-    latexPar[0].id = 0;
-    latexPar[0].len = 1;
-    sprintf(latexPar[0].left, "$");
-    sprintf(latexPar[0].right, "$");
-    latexPar[1].id = 1;
-    latexPar[1].len = 2;
-    sprintf(latexPar[1].left, "$$");
-    sprintf(latexPar[1].right, "$$");
-    // latexPar[2].id = 2;
-    // latexPar[2].len = 2;
-    // sprintf(latexPar[2].left, "\\[");
-    // sprintf(latexPar[2].right, "\\]");
-    // latexPar[3].id = 3;
-    // latexPar[3].len = 2;
-    // sprintf(latexPar[3].left, "\\(");
-    // sprintf(latexPar[3].right, "\\)");
-  }
-  paragraph = 0;// 默认一开始就是新的段落
 
-  char partial[8][16] = {"html", "style", "head", ""};
-  char filename[32];
-  FILE *fp = NULL;
-  int flag = 1;// 所有文件是否成功打开
-  for (i = 0; partial[i][0] != 0; i ++) {
-    sprintf(filename, "./partial/%s.html", partial[i]);
-    fp = fopen(filename, "r");
-    if (fp == NULL) {// 打开失败
-      flag = 0;
+  header();
+  isSlide();
+  while (fgets(line, 1000, md)) {// 读取一行
+    length = strlen(line);
+    if (line[length - 1] == '\n') {// 过滤换行
+      line[length - 1] = '\0';
+      length --;
     }
-  }
+    if (length == 0) {// 空行 
+      endEvn();
+      continue;
+    }
 
-  if (flag == 1) {// 所有文件均存在
-    for (i = 0; partial[i][0] != 0; i ++) {
-      sprintf(filename, "./partial/%s.html", partial[i]);
-      fp = fopen(filename, "r");
-      assert(fp != NULL);
-      while (fgets(line, 1000, fp)) {// 读取一行
-        sprintf(render, "%s", line);
-        // MAGENTA("%s", render);
-        fputs(render, html);
+    if (textEvn != 0) {// 有code/latex环境未结束
+      textRend();
+    } else if (line[0] == '#') {// 标题,标题前不能有空格,#后要有空格
+      isTitle();
+    } 
+    else if (line[0] == '-' && line[i + 1] == '-' && line[i + 2] == '-') 
+    {// 分割线)
+        isSlide();
+    } else {
+      for (i = 0, tag = 0; line[i] == ' '; i ++) {// 清除空格
+        tag ++;// 缩进级数增加
+      }
+      assert(i == tag);
+
+      if (line[i] == '-' && line[i + 1] != '\0') 
+      {// 无序表,TODO 条件
+        isUL();
+      } 
+      else if (line[i] >= '1' && line[i] <= '9' && line[i + 1] != '\0') 
+      {// 有序表
+        isOL();
+      } 
+      else if (line[i] == '`' && line[i + 1] == '`'
+          && line[i + 2] == '`' && line[i + 3] != '`') 
+      {// 大代码块
+        isCodeblock();// TODO
+      } 
+      else 
+      {// 正文
+        textRend();
       }
     }
-  } else {
-    YELLOW("No header module");
-    sprintf(render, "<html>\n<head>\n</head>\n<body>\n");
+    WHITE("%s", line);
     MAGENTA("%s", render);
     fputs(render, html);
   }
-}
+  footer();
 
-void footer()
-{
-  tag = -1;
-  clearTag();
-  if (strlen(clear_text) != 0) {// 如果有表,那么不应该处于段落之中
-    assert(paragraph == 0);
-  }
-  endEvn();// 注意endEvn会直接写入文件
-  sprintf(render, "</div>\n</div>\n");// 结束slide
-  MAGENTA("%s", render);// TODO
-  fputs(render, html);
-
-  char partial[8][16] = {"js", "katex", "body"};
-  char filename[32];
-  FILE *fp = NULL;
-  int flag = 1;// 所有文件是否成功打开
-  int i = 0;
-  for (i = 0; partial[i][0] != 0; i ++) {
-    sprintf(filename, "./partial/%s.html", partial[i]);
-    fp = fopen(filename, "r");
-    if (fp == NULL) {// 打开失败
-      flag = 0;
-    }
-  }
-
-  if (flag == 1) {// 所有文件均存在
-    for (i = 0; partial[i][0] != 0; i ++) {
-      sprintf(filename, "./partial/%s.html", partial[i]);
-      fp = fopen(filename, "r");
-      assert(fp != NULL);
-      while (fgets(line, 1000, fp)) {// 读取一行
-        sprintf(render, "%s", line);
-        // MAGENTA("%s", render);
-        fputs(render, html);
-      }
-    }
-  } else {
-    YELLOW("No footer module");
-    sprintf(render, "%s</body>\n</html>\n", clear_text);
-    MAGENTA("%s", render);
-    fputs(render, html);
-  }
+  return;
 }
