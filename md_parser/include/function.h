@@ -30,13 +30,14 @@ void isTitle()
 void isUL()
 {
   int i = tag + 1;// 跳过 "-"
+  int rend_tail = 0;
   assert(tag != -1);
 
   while (line[i] == ' ') i ++;// 清除空格
   length = strlen(line + i);
 
-  if (length == 0 || i == tag + 1) {// 不合语法
-    textRend();// TODO
+  if (length == 0 || i == tag + 1) {// 不合语法,注意如果-之后全是空格也是符合语法的
+    isPara();// 即使之前有无序表也会被清除
     return;
   } else {
     if (textEvn != 4 && textEvn != 5) {// 之前不是表环境
@@ -47,18 +48,24 @@ void isUL()
 
   if ((stackTop >= 1)&&(tag == tagStack[stackTop - 1])) {// 同级
     assert(stackTop != 0);
-    sprintf(render, "<li>\n%s</li>\n", line + i);// TODO
+    sprintf(render, "<li>\n");
+    textRend();
+    rend_tail = strlen(render);
+    sprintf(render + rend_tail, "</li>\n");// TODO
   } else {
     endTag();// 向前回溯
     if ((stackTop == 0)||(tag > tagStack[stackTop - 1]))
-    {// 没有找到符合之前级数的缩进/更小一级
-      assert(stackTop < 8);
+    {// 没有找到符合之前级数的缩进,将tag增加
+      assert(stackTop < MAX_TAG);
       tagStack[stackTop] = tag;
-      evnStack[stackTop] = 1;// ul
+      evnStack[stackTop] = 4;// ul
       stackTop ++;
       assert(tagStack[stackTop] == -1);
       assert(evnStack[stackTop] == 0);
-      sprintf(render, "%s<ul>\n<li>\n%s\n</li>\n", clear_tag, line + i);// TODO
+      sprintf(render, "<ul>\n<li>\n");
+      textRend();
+      rend_tail = strlen(render);
+      sprintf(render + rend_tail, "\n</li>\n");// TODO
     } else {// 找到之前的同级
       assert(tag == tagStack[stackTop - 1]);
       sprintf(render, "%s<li>\n%s\n</li>\n", clear_tag, line + i);
@@ -77,7 +84,7 @@ void isOL()
     i ++;
   }
   if (line[i] != '.' || line[i + 1] != ' ') {
-    textRend();// 不合语法
+    isPara();// 不合语法
     return;// TODO
   } else {
     i ++;// 跳转至空格处
