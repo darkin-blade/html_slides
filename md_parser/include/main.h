@@ -84,8 +84,8 @@ void doEscape(int &i, int &rend_tail);// 正常文本的转义处理
 
 char mdFileName[MAX_NAME];
 char htmlFileName[MAX_NAME];
-FILE *md;
-FILE *html;
+FILE *md;// markdown源文件
+FILE *html;// html目标文件
 
 char line[MAX_LINE];// 每一行
 int length = 0;// 每一行的长度
@@ -99,14 +99,10 @@ int stackTop = 0;// 语言环境栈顶
 char clear_tag[MAX_STR];// 清除语言环境
 int textEvn = 0;// 文章语言环境 
 // 0: plain, 1: title, 2: paragraph, 3: blockquote, 4: ul, 5: ol
-int lineEvn = 0;// 行内语言环境
-// 0: plain, 1: `code`, 2: ``code``, 3: $latex$, 4: $$latex$$
 int paraEvn = 0;// 每一段的语言环境
 // 0: normal, 1: em, 2: strong
-int latexEvn = 0;// latex语言环境
-// 0: none, 1: $latex$, 2: $$latex$$
-int codeEvn = 0;
-// 0: none, 1: `code`, 2: ``code``
+int lineEvn = 0;// 行内语言环境
+// 0: plain, 1: `code`, 2: ``code``, 3: $latex$, 4: $$latex$$
 
 int escape = 0;// 转义'\'
 char escp_char[MAX_STR] = "*_\\";
