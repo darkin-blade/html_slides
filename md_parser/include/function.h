@@ -245,6 +245,9 @@ void footer()
     assert(paragraph == 0);
   }
   endPara();// 注意endPara会直接写入文件
+  sprintf(render, "</div></div>");// 结束slide
+  MAGENTA("%s", render);// TODO
+  fputs(render, html);
 
   char partial[8][16] = {"js", "katex", "body"};
   char filename[32];

@@ -12,6 +12,7 @@ void readFile()
   int i = 0;
 
   header();
+  isSlide();
   while (fgets(line, 1000, md)) {// 读取一行
     length = strlen(line);
     if (line[length - 1] == '\n') {// 过滤换行
@@ -168,13 +169,18 @@ void isText()
   }
 
   render[rend_tail] = '\0';
-  if (textEvn != 0) {
-    cyan("%d", textEvn);
-    RED("%s", render);
-  }
 }
 
 void isSlide()
 {
-  ;
+  if (slide_num != 0) {
+    sprintf(render, "<div class=\"slide\">\n<div class=\"content\">\n");
+    MAGENTA("%s", render);
+    fputs(render, html);
+  } else {
+    sprintf(render, "</div></div><div class=\"slide\">\n<div class=\"content\">\n");
+    MAGENTA("%s", render);
+    fputs(render, html);
+  }
+  slide_num ++;
 }
