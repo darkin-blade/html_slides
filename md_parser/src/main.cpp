@@ -190,21 +190,17 @@ void isSlide()
     sprintf(render, "<div class=\"slide\">\n<div class=\"content\">\n");
     MAGENTA("%s", render);
     fputs(render, html);
-  } else {// 需要结束之前的段落
+  } else {// 需要结束之前的slide
     int i = 0;
     while (line[i] == '-') i ++;// 跳过-
     while (line[i] == ' ') i ++;// 跳过空格
     length = strlen(line + i);
+
     if (length != 0) {// 不合语法
-      textRend();
+      isPara();// 视作段落
       return;// TODO
     }
 
-    tag = -1;
-    endTag();
-    if (strlen(clear_text) != 0) {
-      assert(paragraph == 0);
-    }
     endText();// 除去之前任何环境
     sprintf(render,
         "</div>\n</div>\n<div class=\"slide\">\n<div class=\"content\">\n");
