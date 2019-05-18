@@ -40,6 +40,9 @@ void endLine()
   MAGENTA("%s", render);
   fputs(render, html);
   lineEvn = 0;
+  if (textEvn == 2) {// TODO
+    textEvn = 0;// 终止当前段落
+  }
 }
 
 void doEscape(int &i, int &rend_tail)// TODO
@@ -214,7 +217,7 @@ void readFile()
   int i = 0;
 
   header();
-  isSlide();
+  isSlide();// 第一张slide
   while (fgets(line, 1000, md)) {// 读取一行
     length = strlen(line);
     if (line[length - 1] == '\n') {// 过滤换行
