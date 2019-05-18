@@ -7,14 +7,18 @@
 void endPara()
 {
   if (paraEvn == 0) return;
-  RED("forget em / strong ?");// 正常情况下不应该调用此函数
+  RED("should not reach here");// 正常情况下不应该调用此函数
   if (paraEvn == 1) {// em
     sprintf(render, "</em>");
     MAGENTA("%s", render);
     fputs(render, html);// TODO
-  } else {// strong
-    assert(paraEvn == 2);
+  } else if (paraEvn == 2) {// strong
     sprintf(render, "</strong>");
+    MAGENTA("%s", render);
+    fputs(render, html);// TODO
+  } else {
+    assert(paraEvn == 3);
+    sprintf(render, "</del>");
     MAGENTA("%s", render);
     fputs(render, html);// TODO
   }

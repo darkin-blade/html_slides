@@ -107,7 +107,7 @@ int stackTop = 0;// 语言环境栈顶
 int textEvn = 0;// 文章语言环境 
 // 0: plain, 1: title, 2: paragraph, 3: blockquote, 4: ul, 5: ol
 int paraEvn = 0;// 每一段的语言环境(强调环境)
-// 0: normal, 1: em, 2: strong
+// 0: normal, 1: em, 2: strong, 3: del
 int lineEvn = 0;// 行内语言环境
 // 0: plain, 1: `code`, 2: ``code``, 3: $latex$, 4: $$latex$$
 char clear_tag[MAX_STR];// 清除语言环境

@@ -42,7 +42,7 @@ void charRend(int &i, int &rend_tail)// TODO
         } else {// 多个环境嵌套,未定义行为
           goto normal_char;// TODO
         }
-        i ++;// 跳过*
+        i ++;// 跳过**
       } else {// em
         if (paraEvn == 0) {// 进入em
           strcat(render, "<em>");
@@ -68,7 +68,7 @@ void charRend(int &i, int &rend_tail)// TODO
         } else {
           goto normal_char;
         }
-        i ++;// 跳过_
+        i ++;// 跳过__
       } else {// em
         if (paraEvn == 0) {// 进入em
           strcat(render, "<em>");
@@ -80,6 +80,18 @@ void charRend(int &i, int &rend_tail)// TODO
           goto normal_char;
         }
       }
+      rend_tail += strlen(render + rend_tail);// 刷新长度,TODO
+    } else if (line[i] == '~' && line[i + 1] == '~') {// 删除线
+      if (paraEvn == 0) {// 进入del
+        strcat(render, "<del>");
+        paraEvn = 3;
+      } else if (paraEvn == 3) {// 跳出del
+        strcat(render, "</del>");
+        paraEvn = 0;
+      } else {// 未定义行为
+        goto normal_char;
+      }
+      i ++;// 跳过~~
       rend_tail += strlen(render + rend_tail);// 刷新长度,TODO
     } else if (line[i] == '<' && isLetter(line[i + 1])) {
       assert(0);// TODO,html内嵌代码
