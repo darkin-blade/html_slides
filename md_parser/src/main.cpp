@@ -37,7 +37,7 @@ void readFile()
     }
 
     if (textEvn != 0) {// 有code/latex环境未结束
-      isText();
+      textRend();
     } else if (line[0] == '#') {// 标题,标题前不能有空格,#后要有空格
       isTitle();
     } 
@@ -65,7 +65,7 @@ void readFile()
       } 
       else 
       {// 正文
-        isText();
+        textRend();
       }
     }
     WHITE("%s", line);
@@ -77,7 +77,7 @@ void readFile()
   return;
 }
 
-void isText()
+void textRend()
 {
   int i = my_max(tag, 0);
   escape = 0;// 转义:'\', 0: 之前一个字符不是'\', 1: 之前一个字符是'\'
@@ -227,7 +227,7 @@ void isSlide()
     while (line[i] == ' ') i ++;// 跳过空格
     length = strlen(line + i);
     if (length != 0) {// 不合语法
-      isText();
+      textRend();
       return;// TODO
     }
 

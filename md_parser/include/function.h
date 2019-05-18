@@ -20,11 +20,11 @@ char line[1024];// 每一行
 int length = 0;// 每一行的长度
 char render[2048];// 解析后的字符串
 
-int tag = -1;// 缩进级数
-int tagStack[8]; // 最多8种缩进
+int tag = -1;// 缩进级数(空格数)
+int tagStack[8]; // 最多8种不同缩进
 int evnStack[8]; // 语言环境栈
 // 0: default, 1: title, 2: paragraph, 3: blockquote, 4: ul, 5: ol
-int stackTop = 0;// 栈顶
+int stackTop = 0;// 语言环境栈顶
 char clear_text[64];// 清除语言环境
 int textEvn = 0;// 当前语言环境 
 // 0: plain, 1: title, 2: paragraph, 3: blockquote, 4: ul, 5: ol
@@ -56,7 +56,7 @@ void isTitle()
 
   if (length == 0 || i == title) {// 不合语法
     assert(tag == -1);// 注意初始化-1
-    isText();
+    textRend();
   } else {
     endEvn();// 结束之前的段落
     sprintf(render, "%s<h%d>%s</h%d>\n", clear_text, title, line + i, title);
@@ -72,7 +72,7 @@ void isUL()
   length = strlen(line + i);
 
   if (length == 0 || i == tag + 1) {// 不合语法
-    isText();
+    textRend();
     return;// TODO
   } else {
     if (textEvn != 4 && textEvn != 5) {// 之前不是表环境
@@ -112,7 +112,7 @@ void isOL()
     i ++;
   }
   if (line[i] != '.' || line[i + 1] != ' ') {
-    isText();// 不合语法
+    textRend();// 不合语法
     return;// TODO
   } else {
     i ++;// 跳转至空格处
@@ -123,7 +123,7 @@ void isOL()
   length = strlen(line + i);
 
   if (length == 0 || i == j) {// 不合语法,TODO
-    isText();
+    textRend();
     return;// TODO
   } else {
     endEvn();// 结束之前的段落

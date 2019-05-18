@@ -38,12 +38,13 @@
 
 void readFile();
 void openFile();
-void isTitle();// 标题
 void isTable();// 表格
+void isTitle();// 标题
+void isPara();// 段落
 void isUL();// 无序表
 void isOL();// 有序表
 void clearTag();// 清除ul,ol
-void isText();// 正文
+void textRend();// 正文
 void header();// 添加<html>
 void footer();// 添加</html>
 void isCodeblock();// 代码段
