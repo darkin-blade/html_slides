@@ -111,11 +111,15 @@ void isPara()
   } else if (textEvn == 2) {// 段落中,TODO
     assert(stackTop == 0);// 处于段落之中不应该有表
     sprintf(render, " ");// 将上一行与此行之间加上空格(用于垃圾katex渲染)
-  } else {// 由于不合语法导致的新的段落,TODO
-    endText();// 清除所有环境
-    assert(stackTop == 0);
-    sprintf(render, "<p>\n");
-    textEvn = 2;// 强制新段落
+  } else {
+    if (empty_line == 1) {// 之前有空行
+      endText();// 清除所有环境
+      assert(stackTop == 0);
+      sprintf(render, "<p>\n");
+      textEvn = 2;// 强制新段落
+    } else {// 继承之前的环境
+      sprintf(render, " ");// 将上一行与此行之间加上空格(用于垃圾katex渲染)
+    }
   }
   textRend();
 }
@@ -227,6 +231,7 @@ void readFile()
       length --;
     }
     if (length == 0) {// 空行 
+      empty_line = 1;// 记录空行
       endLine();// 终止段落,终止行内环境
       endPara();// 终止强调环境
       // 以上两个函数如果起了作用,说明md代码有问题
@@ -239,7 +244,7 @@ void readFile()
     } else if (line[0] == '#') {// 标题,标题前不能有空格,#后要有空格
       isTitle();
     } 
-    else if (line[0] == '-' && line[i + 1] == '-' && line[i + 2] == '-') {
+    else if (line[0] == '-' && line[1] == '-' && line[2] == '-') {
       isSlide();// 分割线
     } else {
       for (i = 0, tag = 0; line[i] == ' '; i ++) {// 清除空格
@@ -250,7 +255,7 @@ void readFile()
       if (line[i] == '`' && line[i + 1] == '`'
           && line[i + 2] == '`' && line[i + 3] != '`') 
       {// 大代码块
-        isCodeblock();// TODO
+        isCodeblock();
       } 
       else if (line[i] == '-' && line[i + 1] != '\0') 
       {// 无序表,TODO 条件
@@ -269,6 +274,7 @@ void readFile()
     WHITE("[%d] %s", line_num, line);
     MAGENTA("%s", render);
     fputs(render, html);
+    empty_line = 0;// 刷新空行,TODO
   }
   footer();
 

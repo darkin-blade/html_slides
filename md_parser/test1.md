@@ -43,6 +43,7 @@ Z8.addition_table(names = 'elements')
  - 单位元存在性
  - 逆元存在性
 
+---
 
 ```python
 S8 = SymmetricGroup(8)
@@ -91,6 +92,8 @@ G.gen()
 # 3
 ```
 
+---
+
 ### 四元群$Q\_8$
 
 - $Q\_8=\{\pm1,\pm I,\pm J,\pm K\}$,其中
@@ -137,6 +140,8 @@ sage: CC.multiplication_table(elements = H, names = ['1', '-1', 'i', '-i'])
 #  i|  i -i -1  1
 # -i| -i  i  1 -1
 ```
+
+---
 
 ### 二面体群(Dihedral Group)$D\_n$
 
@@ -186,6 +191,8 @@ sigma**2
 # (2,4,5)
 ```
 
+---
+
 #### 循环置换群
 
 ```python
@@ -227,6 +234,8 @@ sg.list()
 # [(), (1,2,4), (1,4,2)]
 ```
 
+---
+
 > 穷举所有子群(注意`s`)
 
 ```python
@@ -264,6 +273,8 @@ rc_sorted == lc_sorted
 # True
 ```
 
+---
+
 - $H$是$G$的子群,index of $H=H$在$G$中左陪集的个数$=H$右陪集的个数,记作$[G:H]$
 
 ### 正规子群(Normal Subgroups)
@@ -300,6 +311,8 @@ $$\phi(a\cdot b)=\phi(a)\circ\phi(b),\forall a,b\in G$$
 $$\phi(a\cdot b)=\phi(a)\circ\phi(b),\forall a,b\in G$$
 
 - 核(kernel):群同态$\phi:G\to H$,$e$是$H$的单位元,$G$的子群$\phi^{-1}(\{e\})$是$\phi$的kernel
+
+---
 
 ```python
 A4.is_isomorphic(S4)
