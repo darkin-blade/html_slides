@@ -84,11 +84,11 @@ void isImg();// 图片,TODO
 void isLink();// 链接,TODO
 
 void textRend();// 文字渲染(注意和段落区别)
+void charRend(int &i, int &rend_tail);// 正常文本的转义处理等
 void endText();// 结束之前所有的环境
 void endLine();// 除去行内环境
 void endPara();// 除去强调环境
 void endTag();// 向前回溯无序表/有序表
-void doEscape(int &i, int &rend_tail);// 正常文本的转义处理
 
 char mdFileName[MAX_NAME];
 char htmlFileName[MAX_NAME];

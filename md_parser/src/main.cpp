@@ -9,9 +9,10 @@ int main()
   return 0;
 }
 
-void doEscape(int &i, int &rend_tail)// TODO
+void charRend(int &i, int &rend_tail)// TODO
 {
   int j = 0;// 不要使用i
+  assert(render[rend_tail] == '\0');// TODO
   if (escape == 1) {// 是转义环境
     escape = 0;// 取消转义
     for (j = 0; escp_char[j] != '\0'; j ++) {
@@ -29,7 +30,7 @@ void doEscape(int &i, int &rend_tail)// TODO
     return;
   } else if (line[i] == '\\') {// 进入转义
     escape = 1;
-  } else {// 正常环境,且不是转义字符,TODO
+  } else {
     if (line[i] == '*') {
       if (line[i + 1] == '*') {// strong
         if (paraEvn == 0) {// 进入strong
@@ -40,7 +41,18 @@ void doEscape(int &i, int &rend_tail)// TODO
           paraEvn = 0;
         }
         i ++;// 跳过*
-      } else {
+      } else {// em
+        if (paraEvn == 0) {// 进入em
+          strcat(render, "<em>");
+          paraEvn = 1;
+        } else {// 跳出em
+          strcat(render, "</em>");
+          paraEvn = 0;
+        }
+      }
+      rend_tail += strlen(render + rend_tail);// 刷新长度,TODO
+    } else if (line[i] == '_') {
+      if (line[i + 1] == '_') {// strong
         if (paraEvn == 0) {// 进入strong
           strcat(render, "<strong>");
           paraEvn = 2;
@@ -48,9 +60,16 @@ void doEscape(int &i, int &rend_tail)// TODO
           strcat(render, "</strong>");
           paraEvn = 0;
         }
+        i ++;// 跳过_
+      } else {// em
+        if (paraEvn == 0) {// 进入em
+          strcat(render, "<em>");
+          paraEvn = 1;
+        } else {// 跳出em
+          strcat(render, "</em>");
+          paraEvn = 0;
+        }
       }
-    } else if (line[i] == '_') {
-      ;
     } else if (line[i] == '<' && isLetter(line[i + 1])) {
       assert(0);// TODO,html内嵌代码
     } else {// 正常字符
@@ -115,7 +134,7 @@ void textRend()
       }
       else
       {// TODO
-        doEscape(i, rend_tail);
+        charRend(i, rend_tail);
       }
     }
     else
@@ -160,7 +179,7 @@ void textRend()
           rend_tail ++;
         } else {// latex公式需要注意转义
           assert(lineEvn == 3 || lineEvn == 4);
-          doEscape(i, rend_tail);
+          charRend(i, rend_tail);
         }
       }
     }
