@@ -10,16 +10,22 @@ int main()
 
 void endText()
 {
-  if (paragraph == 1) {// 有段落未结束
+  if (textEvn == 2) {// 有段落未结束
     sprintf(render, "\n</p>\n");// TODO
     MAGENTA("%s", render);
     fputs(render, html);
-    paragraph = 0;// 之后的文字属于新的段落
-  } else {
-    assert(paragraph == 0);// 什么也不做
+  } else if (textEvn == 3) {// 引用块
+    assert(0);// TODO
+  } else {// 清除ul,ol
+    assert(textEvn == 4 || textEvn == 5);// 暂未实现title
+    int old_tag = tag;
+    tag = -1;
+    endTag();
+    tag = old_tag;
   }
+  assert(stackTop == 0);// 不应有ul,ol
+  textEvn = 0;
 }
-
 
 void doEscape(int &i, int &rend_tail)// TODO
 {
