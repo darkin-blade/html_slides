@@ -24,7 +24,7 @@ struct {
 void endPara()
 {
   if (paragraph == 1) {// 有段落未结束
-    sprintf(render, "</p>");
+    sprintf(render, "\n</p>\n");// TODO
     MAGENTA("%s", render);
     fputs(render, html);
     paragraph = 0;// 之后的文字属于新的段落

@@ -23,7 +23,9 @@ void readFile()
       continue;
     }
 
-    if (line[0] == '#') {// 标题,标题前不能有空格,#后要有空格
+    if (textEvn != 0) {// 有code/latex环境未结束
+      isText();
+    } else if (line[0] == '#') {// 标题,标题前不能有空格,#后要有空格
       isTitle();
     } else {
       for (i = 0, tag = 0; line[i] == ' '; i ++) {// 清除空格
@@ -62,11 +64,13 @@ void isText()
 {
   int i = my_max(tag, 0);
   if (paragraph == 0) {// 新的段落
+    assert(textEvn == 0);
     tag = -1;
     clearTag();// 清空之前的表
     sprintf(render, "%s<p>\n", clear);
     paragraph = 1;
   } else {
+    memset(render, 0, sizeof(render));
     assert(tagStackTop == 0);// 处于段落之中不应该有表
   }
   int rend_tail = strlen(render);
@@ -78,11 +82,13 @@ void isText()
       if (line[i] == '`')
       {// 行间代码
         if (line[i + 1] == '`') {
+          RED("%s", render);
           strcat(render, "<code class=\"code\">");
           rend_tail += strlen(render + rend_tail);// TODO
           i ++;
           textEvn = 2;// ``code``
         } else {
+          RED("%s", render);
           strcat(render, "<code class=\"code\">");
           rend_tail += strlen(render + rend_tail);// TODO
           textEvn = 1;// `code`
@@ -158,8 +164,5 @@ void isText()
     assert((int)strlen(render) == rend_tail);
   }
 
-  if (textEvn != 0) {
-    assert(0);// TODO
-  }
   render[rend_tail] = '\0';
 }
