@@ -51,13 +51,13 @@ void doEscape(int &i, int &rend_tail)// TODO
       }
     } else if (line[i] == '_') {
       ;
+    } else if (line[i] == '<' && isLetter(line[i + 1])) {
+      assert(0);// TODO,html内嵌代码
     } else {// 正常字符
-      ;
+      render[rend_tail] = line[i];
+      rend_tail ++;
     }
-    render[rend_tail] = line[i];
-    rend_tail ++;
-    render[rend_tail] = '\0';
-  }
+  }// 末尾填上'\0'在textRend中完成
 }
 
 void isPara()
