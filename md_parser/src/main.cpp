@@ -78,11 +78,11 @@ void doEscape(int &i, int &rend_tail)// TODO
 
 void isPara()
 {
-  if (textEvn != 2) {// 新的段落
+  if (textEvn == 0) {// 新的段落
     endText();// 清除之前的所有环境,TODO
     sprintf(render, "<p>\n");
     textEvn = 2;// 进入段落环境
-  } else {// 段落中
+  } else {// title,段落中,引用...TODO
     assert(stackTop == 0);// 处于段落之中不应该有表
     sprintf(render, " ");// 将上一行与此行之间加上空格(用于垃圾katex渲染)
   }
@@ -261,6 +261,7 @@ void readFile()
     WHITE("%s", line);
     MAGENTA("%s", render);
     fputs(render, html);
+    RED("%d", textEvn);
   }
   footer();
 

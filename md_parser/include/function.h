@@ -8,7 +8,6 @@ void isTitle()
 {
   int i = 0;
   int title = 0;// 标题级数
-  endText();// 清除之前的所有环境
 
   for (i = 0; line[i] == '#'; i ++) {
     title ++;// 标题级数增加,TODO 最大标题级数
@@ -20,6 +19,7 @@ void isTitle()
   if (length == 0 || i == title) {// 不合语法
     isPara();
   } else {// TODO,清除多余的环境
+    endText();// 清除之前的所有环境
     sprintf(render, "<h%d>", title);
     textRend();
     int rend_tail = strlen(render);
