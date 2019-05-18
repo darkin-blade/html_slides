@@ -152,17 +152,18 @@ void isCodeblock()
   sprintf(language, "%s", line + i);// 有可能为空
   sprintf(render, "%s<figure class=\"highlight %s\">\n<pre>\n<code>\n",
       clear_tag, language);
-  WHITE("%s", line);
+  WHITE("[%d] %s", line_num, line);
   MAGENTA("%s", render);
   fputs(render, html);
 
   while (fgets(line, 1000, md)) {// 读取一行
+    line_num ++;// debug
     if (line[0] == '`' && line[1] == '`' && line[2] == '`' && line[3] != '`') {
       sprintf(render, "</code>\n</pre>\n</figure>\n");
       return;// TODO
     } else {// 继续留在代码块
       sprintf(render, "%s", line);// 包括回车,TODO 转义
-      WHITE("%s", line);
+      WHITE("[%d] %s", line_num, line);
       MAGENTA("%s", render);
       fputs(render, html);
     }
