@@ -62,10 +62,10 @@ void isPara();// 段落,TODO
 void isUL();// 无序表
 void isOL();// 有序表
 
-void clearTag();// 向前回溯
 void textRend();// 文字渲染(注意和段落区别)
 void endText();// 结束之前所有的环境,TODO
 void endLine();// 除去行内环境
+void endTag();// 向前回溯无序表/有序表
 void doEscape(int &i, int &rend_tail);// 正常文本的转义处理
 
 int my_max(int a, int b)

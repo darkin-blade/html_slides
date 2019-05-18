@@ -47,7 +47,7 @@ void header()
 void footer()
 {
   tag = -1;
-  clearTag();
+  endTag();
   if (strlen(clear_text) != 0) {// 如果有表,那么不应该处于段落之中
     assert(paragraph == 0);
   }

@@ -28,7 +28,7 @@ void textRend()
   if (paragraph == 0) {// 新的段落
     assert(textEvn == 0);
     tag = -1;
-    clearTag();// 清空之前的表
+    endTag();// 清空之前的表
     sprintf(render, "%s<p>\n", clear_text);
     paragraph = 1;
   } else {
@@ -175,7 +175,7 @@ void isSlide()
     }
 
     tag = -1;
-    clearTag();
+    endTag();
     if (strlen(clear_text) != 0) {
       assert(paragraph == 0);
     }

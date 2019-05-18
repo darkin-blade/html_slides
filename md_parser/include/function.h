@@ -9,7 +9,7 @@ void isTitle()
   int i = 0;
   int title = 0;// 标题级数
   tag = -1;// 清空tag
-  clearTag();// 清空之前的ul,ol
+  endTag();// 清空之前的ul,ol
 
   for (i = 0; line[i] == '#'; i ++) {
     title ++;// 标题级数增加,TODO 最大标题级数
@@ -49,7 +49,7 @@ void isUL()
     assert(stackTop != 0);
     sprintf(render, "<li>\n%s</li>\n", line + i);// TODO
   } else {
-    clearTag();// 向前回溯
+    endTag();// 向前回溯
     if ((stackTop == 0)||(tag > tagStack[stackTop - 1]))
     {// 没有找到符合之前级数的缩进/更小一级
       assert(stackTop < 8);
@@ -99,7 +99,7 @@ void isOL()
     assert(stackTop != 0);
     sprintf(render, "<li>\n%s</li>\n", line + i);
   } else {
-    clearTag();// 向前回溯
+    endTag();// 向前回溯
     assert(stackTop >= 0);
 
     if ((stackTop == 0)||(tag > tagStack[stackTop - 1]))
@@ -119,7 +119,7 @@ void isOL()
   }
 }
 
-void clearTag()
+void endTag()
 {
   memset(clear_text, 0, sizeof(clear_text));
   if (stackTop == 0) return;// 没有tag
@@ -156,7 +156,7 @@ void isCodeblock()
 {
   int i = tag + 3;// 跳过```
   char language[16];// 语言类型
-  clearTag();
+  endTag();
   endText();// 结束之前的段落
 
   while (line[i] == ' ') i ++;// 跳过空格
