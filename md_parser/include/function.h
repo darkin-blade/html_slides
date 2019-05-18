@@ -205,18 +205,34 @@ void header()
   }
   paragraph = 0;// 默认一开始就是新的段落
 
-  FILE *head = fopen("./partial/head.html", "r");
-  if (head == NULL) {// 没有模板文件
-    YELLOW("No head module");
+  char partial[8][16] = {"html", "style", "head", ""};
+  char filename[32];
+  FILE *fp = NULL;
+  int flag = 1;// 所有文件是否成功打开
+  for (i = 0; partial[i][0] != 0; i ++) {
+    sprintf(filename, "./partial/%s.html", partial[i]);
+    fp = fopen(filename, "r");
+    if (fp == NULL) {// 打开失败
+      flag = 0;
+    }
+  }
+
+  if (flag == 1) {// 所有文件均存在
+    for (i = 0; i < sizeof(partial) / sizeof(char *); i ++) {
+      sprintf(filename, "./partial/%s.html", partial[i]);
+      fp = fopen(filename, "r");
+      assert(fp != NULL);
+      while (fgets(line, 1000, fp)) {// 读取一行
+        sprintf(render, "%s", line);
+        // MAGENTA("%s", render);
+        fputs(render, html);
+      }
+    }
+  } else {
+    YELLOW("No header module");
     sprintf(render, "<html>\n<head>\n</head>\n<body>\n");
     MAGENTA("%s", render);
     fputs(render, html);
-  } else {// 有模板文件
-    while (fgets(line, 1000, head)) {// 读取一行
-      sprintf(render, "%s", line);
-      // MAGENTA("%s", render);
-      fputs(render, html);
-    }
   }
 }
 
@@ -229,18 +245,34 @@ void footer()
   }
   endPara();// 注意endPara会直接写入文件
 
-  FILE *body = fopen("./partial/body.html", "r");
-  if (body == NULL) {// 没有模板文件
-    YELLOW("No body module");
+  char partial[8][16] = {"js", "katex", "body"};
+  char filename[32];
+  FILE *fp = NULL;
+  int flag = 1;// 所有文件是否成功打开
+  for (i = 0; partial[i][0] != 0; i ++) {
+    sprintf(filename, "./partial/%s.html", partial[i]);
+    fp = fopen(filename, "r");
+    if (fp == NULL) {// 打开失败
+      flag = 0;
+    }
+  }
+
+  if (flag == 1) {// 所有文件均存在
+    for (i = 0; i < sizeof(partial) / sizeof(char *); i ++) {
+      sprintf(filename, "./partial/%s.html", partial[i]);
+      fp = fopen(filename, "r");
+      assert(fp != NULL);
+      while (fgets(line, 1000, fp)) {// 读取一行
+        sprintf(render, "%s", line);
+        // MAGENTA("%s", render);
+        fputs(render, html);
+      }
+    }
+  } else {
+    YELLOW("No footer module");
     sprintf(render, "%s</body>\n</html>\n", clear);
     MAGENTA("%s", render);
     fputs(render, html);
-  } else {// 有body
-    while (fgets(line, 1000, body)) {// 读取一行
-      sprintf(render, "%s", line);
-      // MAGENTA("%s", render);
-      fputs(render, html);
-    }
   }
 }
 
