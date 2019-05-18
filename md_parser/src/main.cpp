@@ -154,6 +154,8 @@ void isText()
         rend_tail ++;
       }
     }
+    render[rend_tail] = '\0';// TODO
+    assert((int)strlen(render) == rend_tail);
   }
 
   if (textEvn != 0) {
