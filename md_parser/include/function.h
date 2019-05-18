@@ -245,7 +245,7 @@ void footer()
     assert(paragraph == 0);
   }
   endPara();// 注意endPara会直接写入文件
-  sprintf(render, "</div></div>");// 结束slide
+  sprintf(render, "</div>\n</div>\n");// 结束slide
   MAGENTA("%s", render);// TODO
   fputs(render, html);
 

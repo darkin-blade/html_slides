@@ -36,7 +36,7 @@ void readFile()
 
 
       if (line[i] == '-' && line[i + 1] == '-' && line[i + 2] == '-') {// 分割线
-        ;
+        isSlide();
       } else if (line[i] == '-' && line[i + 1] != '\0') 
       {// 无序表,TODO 条件
         isUL();
@@ -171,6 +171,7 @@ void isText()
 
 void isSlide()
 {
+  assert(textEvn == 0);
   if (slide_num == 0) {// 文章开头
     sprintf(render, "<div class=\"slide\">\n<div class=\"content\">\n");
     MAGENTA("%s", render);
@@ -190,9 +191,9 @@ void isSlide()
       assert(paragraph == 0);
     }
     endPara();
-    sprintf(render, "</div></div><div class=\"slide\">\n<div class=\"content\">\n");
-    MAGENTA("%s", render);
-    fputs(render, html);
+    sprintf(render,
+        "</div>\n</div>\n<div class=\"slide\">\n<div class=\"content\">\n");
+    // 注意如果不是开头,不能够直接把html写进文件
   }
   slide_num ++;
 }
