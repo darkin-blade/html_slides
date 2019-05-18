@@ -202,6 +202,8 @@ void readFile()
     }
     if (length == 0) {// 空行 
       endLine();// 终止段落,终止行内环境
+      endPara();// 终止强调环境
+      // 以上两个函数如果起了作用,说明md代码有问题
       continue;
     }
 

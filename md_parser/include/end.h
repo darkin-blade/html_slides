@@ -6,9 +6,15 @@
 
 void endPara()
 {
-  RED("forget em / strong ?");// 正常情况下不应该调用此函数
   if (paraEvn == 0) return;
+  RED("forget em / strong ?");// 正常情况下不应该调用此函数
   if (paraEvn == 1) {// em
+    sprintf(render, "</em>");
+    MAGENTA("%s", render);
+    fputs(render, html);// TODO
+  } else {// strong
+    assert(paraEvn == 2);
+    sprintf(render, "</strong>");
     MAGENTA("%s", render);
     fputs(render, html);// TODO
   }
