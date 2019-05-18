@@ -257,10 +257,10 @@ void readFile()
       {// 大代码块
         isCodeblock();// TODO
       } 
-      /// else if (line[i] == '-' && line[i + 1] != '\0') 
-      /// {// 无序表,TODO 条件
-      ///   isUL();
-      /// } 
+      else if (line[i] == '-' && line[i + 1] != '\0') 
+      {// 无序表,TODO 条件
+        isUL();
+      } 
       /// else if (line[i] >= '1' && line[i] <= '9' && line[i + 1] != '\0') 
       /// {// 有序表
       ///   isOL();
@@ -284,10 +284,10 @@ void endTag()
   memset(render, 0, sizeof(render));// TODO
   if (stackTop == 0) return;// 没有tag
   for (; stackTop >= 1 && tag < tagStack[stackTop - 1]; stackTop --) {
-    if (evnStack[stackTop - 1] == 1) {// ul
+    if (evnStack[stackTop - 1] == 4) {// ul
       strcat(render, "</ul>\n");
     } else {// ol
-      assert(evnStack[stackTop - 1] == 2);
+      assert(evnStack[stackTop - 1] == 5);
       strcat(render, "</ol>\n");
     }
     tagStack[stackTop - 1] = -1;// 复原
@@ -295,13 +295,11 @@ void endTag()
   }
   if (tag == 0) {// 没有缩进时不能多个li并列
     assert(stackTop <= 1);
-    for (tag = -1; 
-        stackTop >= 1 && tag < tagStack[stackTop - 1]; stackTop --) 
-    {
-      if (evnStack[stackTop - 1] == 1) {// ul
+    for (tag = -1; stackTop >= 1 && tag < tagStack[stackTop - 1]; stackTop --) {
+      if (evnStack[stackTop - 1] == 4) {// ul
         strcat(render, "</ul>\n");
       } else {// ol
-        assert(evnStack[stackTop - 1] == 2);
+        assert(evnStack[stackTop - 1] == 5);
         strcat(render, "</ol>\n");
       }
       tagStack[stackTop - 1] = -1;// 复原
