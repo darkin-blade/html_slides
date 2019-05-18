@@ -99,7 +99,7 @@ void textRend()
   assert(render[rend_tail] == '\0');
 
   for (; line[i] != '\0'; i ++) {
-    if (textEvn == 0)
+    if (lineEvn == 0)
     {// 正常文本
       if (line[i] == '`')
       {// 行间代码
@@ -107,11 +107,11 @@ void textRend()
           strcat(render, "<code class=\"code\">");
           rend_tail += strlen(render + rend_tail);// TODO
           i ++;
-          textEvn = 2;// ``code``
+          lineEvn = 2;// ``code``
         } else {
           strcat(render, "<code class=\"code\">");
           rend_tail += strlen(render + rend_tail);// TODO
-          textEvn = 1;// `code`
+          lineEvn = 1;// `code`
         }
       }
       else if (line[i] == '$')
@@ -120,11 +120,11 @@ void textRend()
           render[rend_tail] = render[rend_tail + 1] = '$';
           rend_tail += 2;
           i ++;
-          textEvn = 4;
+          lineEvn = 4;
         } else {
           render[rend_tail] = '$';
           rend_tail ++;
-          textEvn = 3;
+          lineEvn = 3;
         }
       }
       else
@@ -134,52 +134,46 @@ void textRend()
     }
     else
     {// 非正常文本
-      if (textEvn == 1)
-      {
+      if (lineEvn == 1) {
         if (line[i] == '`') {// 解除`code`
           strcat(render, "</code>");
           rend_tail += strlen(render + rend_tail);// TODO
-          textEvn = 0;
+          lineEvn = 0;
         }
       }
-      else if (textEvn == 2)
-      {
+      else if (lineEvn == 2) {
         if (line[i] == '`' && line[i + 1] == '`') {// 解除``code``
           strcat(render, "</code>");
           rend_tail += strlen(render + rend_tail);// TODO
           i ++;
-          textEvn = 0;
+          lineEvn = 0;
         }
       } 
-      else if (textEvn == 3) 
-      {
+      else if (lineEvn == 3) {
         if (line[i] == '$') {// 解除$latex$
           render[rend_tail] = '$';
           rend_tail += 1;
-          textEvn = 0;
+          lineEvn = 0;
         }
       } 
-      else if (textEvn == 4)
-      {
+      else if (lineEvn == 4) {
         if (line[i] == '$' && line[i + 1] == '$') {// 解除$$ latex $$
           render[rend_tail] = render[rend_tail + 1] = '$';
           rend_tail += 2;
           i ++;
-          textEvn = 0;
+          lineEvn = 0;
         }
       }
-      else
-      {// 不可能有其他环境
+      else {// 不可能有其他环境
         assert(0);// TODO
       }
 
-      if (textEvn != 0)
-      {
-        if (textEvn == 1 || textEvn == 2) {// 无视一切其他字符
+      if (lineEvn != 0) {
+        if (lineEvn == 1 || lineEvn == 2) {// 无视一切其他字符
           render[rend_tail] = line[i];
           rend_tail ++;
         } else {// latex公式需要注意转义
-          assert(textEvn == 3 || textEvn == 4);
+          assert(lineEvn == 3 || lineEvn == 4);
           doEscape(i, rend_tail);
         }
       }
