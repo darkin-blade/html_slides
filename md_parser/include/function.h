@@ -72,17 +72,18 @@ void isUL()
   length = strlen(line + i);
 
   if (length == 0 || i == tag + 1) {// 不合语法
-    textRend();
-    return;// TODO
+    textRend();// TODO
+    return;
   } else {
     if (textEvn != 4 && textEvn != 5) {// 之前不是表环境
-      endEvn();// 结束之前的段落
+      endEvn();// 结束之前的所有环境,TODO
+      textEvn = 4;// 进入ul环境
     }
   }
 
   if ((stackTop >= 1)&&(tag == tagStack[stackTop - 1])) {// 同级
     assert(stackTop != 0);
-    sprintf(render, "<li>\n%s</li>\n", line + i);
+    sprintf(render, "<li>\n%s</li>\n", line + i);// TODO
   } else {
     clearTag();// 向前回溯
     if ((stackTop == 0)||(tag > tagStack[stackTop - 1]))
