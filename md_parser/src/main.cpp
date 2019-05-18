@@ -103,11 +103,11 @@ void textRend()
   int rend_tail = strlen(render);
   assert(render[rend_tail] == '\0');
 
-  for (; line[i] != '\0'; i ++) {
+  for (; line[i] != '\0'; i ++)
+  {
     if (lineEvn == 0)
     {// 正常文本
-      if (line[i] == '`')
-      {// 行间代码
+      if (line[i] == '`') {// 行间代码
         if (line[i + 1] == '`') {
           strcat(render, "<code class=\"code\">");
           rend_tail += strlen(render + rend_tail);// TODO
@@ -119,8 +119,7 @@ void textRend()
           lineEvn = 1;// `code`
         }
       }
-      else if (line[i] == '$')
-      {// latex公式
+      else if (line[i] == '$') {// latex公式
         if (line[i + 1] == '$') {// $$ latex $$
           render[rend_tail] = render[rend_tail + 1] = '$';
           rend_tail += 2;
@@ -132,8 +131,7 @@ void textRend()
           lineEvn = 3;
         }
       }
-      else
-      {// TODO
+      else {// TODO
         charRend(i, rend_tail);
       }
     }
