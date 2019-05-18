@@ -20,7 +20,7 @@ void isTitle()
   if (length == 0 || i == title) {// 不合语法
     isPara();
   } else {// TODO,清除多余的环境
-    sprintf(render, "%s<h%d>%s</h%d>\n", clear_text, title, line + i, title);
+    sprintf(render, "%s<h%d>%s</h%d>\n", clear_tag, title, line + i, title);
   }
 }
 
@@ -55,10 +55,10 @@ void isUL()
       stackTop ++;
       assert(tagStack[stackTop] == -1);
       assert(evnStack[stackTop] == 0);
-      sprintf(render, "%s<ul>\n<li>\n%s\n</li>\n", clear_text, line + i);// TODO
+      sprintf(render, "%s<ul>\n<li>\n%s\n</li>\n", clear_tag, line + i);// TODO
     } else {// 找到之前的同级
       assert(tag == tagStack[stackTop - 1]);
-      sprintf(render, "%s<li>\n%s\n</li>\n", clear_text, line + i);
+      sprintf(render, "%s<li>\n%s\n</li>\n", clear_tag, line + i);
     }
   }
 }
@@ -108,45 +108,12 @@ void isOL()
       assert(tagStack[stackTop] == -1);
       assert(evnStack[stackTop] == 0);
       sprintf(render, "%s<ol start=\"%d\">\n<li>\n%s\n</li>\n",
-          clear_text, num, line + i);// TODO
+          clear_tag, num, line + i);// TODO
     } else {// 找到之前的同级
       assert(tag == tagStack[stackTop - 1]);
-      sprintf(render, "%s<li>\n%s\n</li>\n", clear_text, line + i);
+      sprintf(render, "%s<li>\n%s\n</li>\n", clear_tag, line + i);
     }
   }
-}
-
-void endTag()
-{
-  memset(clear_text, 0, sizeof(clear_text));
-  if (stackTop == 0) return;// 没有tag
-  for (; stackTop >= 1 && tag < tagStack[stackTop - 1]; stackTop --) {
-    if (evnStack[stackTop - 1] == 1) {// ul
-      strcat(clear_text, "</ul>\n");
-    } else {// ol
-      assert(evnStack[stackTop - 1] == 2);
-      strcat(clear_text, "</ol>\n");
-    }
-    tagStack[stackTop - 1] = -1;// 复原
-    evnStack[stackTop - 1] = 0;// 复原
-  }
-  if (tag == 0) {// 没有缩进时不能多li
-    assert(stackTop <= 1);
-    for (tag = -1; 
-        stackTop >= 1 && tag < tagStack[stackTop - 1]; stackTop --) 
-    {
-      if (evnStack[stackTop - 1] == 1) {// ul
-        strcat(clear_text, "</ul>\n");
-      } else {// ol
-        assert(evnStack[stackTop - 1] == 2);
-        strcat(clear_text, "</ol>\n");
-      }
-      tagStack[stackTop - 1] = -1;// 复原
-      evnStack[stackTop - 1] = 0;// 复原
-    }
-    tag = 0;
-  }
-  assert(stackTop >= 0);
 }
 
 void isCodeblock()
@@ -159,7 +126,7 @@ void isCodeblock()
   while (line[i] == ' ') i ++;// 跳过空格
   sprintf(language, "%s", line + i);// 有可能为空
   sprintf(render, "%s<figure class=\"highlight %s\">\n<pre>\n<code>\n",
-      clear_text, language);
+      clear_tag, language);
   WHITE("%s", line);
   MAGENTA("%s", render);
   fputs(render, html);

@@ -47,7 +47,7 @@
 // 文件名长度
 #define MAX_STR 64
 // 一些特殊字符的长度
-// 如: clear_text, escp_char
+// 如: clear_tag, escp_char
 
 int my_max(int a, int b)
 {
@@ -94,7 +94,7 @@ int tagStack[MAX_TAG]; // 最多8种不同缩进
 int evnStack[MAX_TAG]; // 语言环境栈
 // 0: default, 1: title, 2: paragraph, 3: blockquote, 4: ul, 5: ol
 int stackTop = 0;// 语言环境栈顶
-char clear_text[MAX_STR];// 清除语言环境
+char clear_tag[MAX_STR];// 清除语言环境
 int textEvn = 0;// 文章语言环境 
 // 0: plain, 1: title, 2: paragraph, 3: blockquote, 4: ul, 5: ol
 int lineEvn = 0;// 行内语言环境

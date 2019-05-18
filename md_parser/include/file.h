@@ -47,10 +47,6 @@ void header()
 void footer()
 {
   tag = -1;
-  endTag();
-  if (strlen(clear_text) != 0) {// 如果有表,那么不应该处于段落之中
-    assert(paragraph == 0);
-  }
   endText();// 注意endText会直接写入文件
   sprintf(render, "</div>\n</div>\n");// 结束slide
   MAGENTA("%s", render);// TODO
@@ -82,7 +78,7 @@ void footer()
     }
   } else {
     YELLOW("No footer module");
-    sprintf(render, "%s</body>\n</html>\n", clear_text);
+    sprintf(render, "</body>\n</html>\n");// TODO
     MAGENTA("%s", render);
     fputs(render, html);
   }
