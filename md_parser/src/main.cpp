@@ -207,8 +207,9 @@ void readFile()
       continue;
     }
 
-    if (lineEvn != 0) {// 有code/latex环境未结束,TODO[默认行间公式的优先度大于标题等]
-      textRend();// TODO,不能够新开段落?
+    if (lineEvn != 0 || paraEvn != 0) {// 有code/latex/ 强调 环境未结束,TODO
+      // [默认行间公式的优先度大于标题等]
+      isPara();// TODO,不能够新开段落?
     } else if (line[0] == '#') {// 标题,标题前不能有空格,#后要有空格
       isTitle();
     } 
