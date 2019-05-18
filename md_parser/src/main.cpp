@@ -225,17 +225,17 @@ void readFile()
       length --;
     }
     if (length == 0) {// 空行 
-      /// endText();
+      endLine();// 终止段落,终止行内环境
       continue;
     }
 
-    if (textEvn != 0) {// 有code/latex环境未结束
-      textRend();
+    if (lineEvn != 0) {// 有code/latex环境未结束,TODO[默认行间公式的优先度大于标题等]
+      textRend();// TODO,不能够新开段落?
     } else if (line[0] == '#') {// 标题,标题前不能有空格,#后要有空格
       isTitle();
     } 
     else if (line[0] == '-' && line[i + 1] == '-' && line[i + 2] == '-') 
-    {// 分割线)
+    {// 分割线
         isSlide();
     } else {
       for (i = 0, tag = 0; line[i] == ' '; i ++) {// 清除空格
@@ -258,7 +258,7 @@ void readFile()
       /// } 
       else 
       {// 正文
-        textRend();
+        isPara();
       }
     }
     WHITE("%s", line);

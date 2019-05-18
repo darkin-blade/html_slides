@@ -99,6 +99,7 @@ void openFile()
   md = fopen(mdFileName, "r");
   if (md == NULL) {
     RED("[%s] doesn't exist", mdFileName);
+    exit(1);
   } else {
     GREEN("open [%s] successfully", mdFileName);
   }
@@ -111,6 +112,7 @@ void openFile()
   html = fopen(htmlFileName, "w+");
   if (html == NULL) {
     RED("[%s] open error", htmlFileName);
+    exit(1);
   } else {
     GREEN("open [%s] successfully", htmlFileName);
   }
