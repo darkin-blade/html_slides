@@ -146,7 +146,7 @@ void isQuote()
     } else {// 为空或者级数增加
 add_quote:
       tagStack[stackTop] = quote;
-      envStack[stackTop] = 3;// blockquote
+      evnStack[stackTop] = 3;// blockquote
       stackTop ++;
       assert(tagStack[stackTop] == -1);
       assert(evnStack[stackTop] == 0);
@@ -154,11 +154,14 @@ add_quote:
       sprintf(render, "<blockquote>\n");
       textRend();
     }
-  } else if (textEvn == 4 || textEvn == 3) {// 无条件继承环境
+  } else if (textEvn == 4 || textEvn == 3 || textEvn == 0) {// 无条件继承环境
     textEvn = 3;
     goto add_quote;// 级数增加
   } else {
-    assert(textEvn == 2);// 只有可能是段落了,且没有有序表和无序表
+    if (textEvn != 2) {// 只有可能是段落了,且没有有序表和无序表
+      YELLOW("%d", textEvn);
+      assert(0);
+    }
     endText();// 清除所有环境
     textEvn = 3;
     goto add_quote;// 级数增加
