@@ -209,7 +209,6 @@ add_quote:
     goto add_quote;// 级数增加
   } else {
     if (textEvn != 2) {// 只有可能是段落了,且没有有序表和无序表
-      YELLOW("%d", textEvn);
       assert(0);
     }
     endText();// 清除所有环境

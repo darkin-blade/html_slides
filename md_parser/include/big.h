@@ -81,11 +81,8 @@ void isTable()
           assert(mid == 1);
           left = 1;// 本来是未定义行为
         }
-      } else {// 非法字符
+      } else {// 结束表格
         line_len = strlen(line);
-        YELLOW("%s", next_line);
-        RED("%s", del_space);
-        RED("illegal[%d:%c]", i, del_space[i]);
         sprintf(line + line_len, "%s", next_line);// TODO,合并两行
         isPara();
         return;

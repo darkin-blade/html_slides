@@ -56,7 +56,6 @@ void charRend(int &i)// 单个 强调 字符
           RED("%d %s", paraEvn, render);
           strcat(render, "<strong>");
           paraEvn = 2;
-          YELLOW("%d %s", paraEvn, render);
         } else if (paraEvn == 2) {// 跳出strong
           strcat(render, "</strong>");
           paraEvn = 0;
