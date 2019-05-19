@@ -55,6 +55,10 @@ h1 {
   font-family: 'DejaVu Sans Mono for Powerline';
 }
 
+img {
+  width: 100%;
+}
+
 blockquote {
   padding-left: 10px;
   border-radius: 3px;
