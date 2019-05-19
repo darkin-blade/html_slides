@@ -51,24 +51,19 @@ void readFile()
       assert(i == tag);
 
       if (line[i] == '`' && line[i + 1] == '`'
-          && line[i + 2] == '`' && line[i + 3] != '`') 
-      {// 大代码块
-        isCodeblock();
+          && line[i + 2] == '`' && line[i + 3] != '`') {
+        isCodeblock();// 大代码块
       } 
-      else if (line[i] == '>')
-      {// 引用,注意: 该环境会与tag表无条件嵌套
-        isQuote();
+      else if (line[i] == '>') {
+        isQuote();// 引用,注意: 该环境会与tag表无条件嵌套
       }
-      else if (line[i] == '-' && line[i + 1] != '\0') 
-      {// 无序表,TODO 条件
-        isUL();
+      else if (line[i] == '-' && line[i + 1] != '\0') {
+        isUL();// 无序表,TODO 条件
       } 
-      else if (line[i] >= '0' && line[i] <= '9' && line[i + 1] != '\0') 
-      {// 有序表
-        isOL();
+      else if (line[i] >= '0' && line[i] <= '9' && line[i + 1] != '\0') {
+        isOL();// 有序表
       } 
-      else 
-      {// 正文
+      else {// 正文
         CYAN("%d, paragraph", __LINE__);
         isPara();
       }
