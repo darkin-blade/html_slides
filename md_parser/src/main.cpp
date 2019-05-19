@@ -10,7 +10,7 @@ int main()
   return 0;
 }
 
-void charRend(int &i, int &rend_tail)// TODO
+void charRend(int &i)// TODO
 {
   int j = 0;// 不要使用i
   assert(render[rend_tail] == '\0');// TODO
@@ -109,28 +109,28 @@ void textRend()
   int i = 0;// 在这个函数里面不会对i的位置进行修正,在调用之间要把字符串缩减,TODO
   escape = 0;// 转义:'\', 0: 之前一个字符不是'\', 1: 之前一个字符是'\'
   // 每新的一行,转义进行刷新
-  int rend_tail = strlen(render);
+  rend_tail = strlen(render);
   assert(render[rend_tail] == '\0');
 
   for (; line[i] != '\0'; i ++)
   {
     if (line[i] == '!' && line[i + 1] == '[') {// 可能是图片
-      imgRend(i, rend_tail);
+      imgRend(i);
     } else if (line[i] == '[') {
-      linkRend(i, rend_tail);
+      linkRend(i);
     } else {
-      lineRend(i, rend_tail);
+      lineRend(i);
     }
   }
   render[rend_tail] = '\0';
 }
 
-void imgRend(int &i, int &rend_tail)
+void imgRend(int &i)
 {
   assert(0);// TODO
 }
 
-void linkRend(int &i, int &rend_tail)// 链接
+void linkRend(int &i)// 链接
 {
   assert(0);
   for (; line[i] != '\0'; i ++)
@@ -141,7 +141,7 @@ void linkRend(int &i, int &rend_tail)// 链接
   }
 }
 
-void lineRend(int &i, int &rend_tail)
+void lineRend(int &i)
 {
   if (lineEvn == 0) {// 正常文本
     if (line[i] == '`') {// 行间代码
@@ -169,7 +169,7 @@ void lineRend(int &i, int &rend_tail)
       }
     }
     else {// TODO
-      charRend(i, rend_tail);
+      charRend(i);
     }
   }
   else {// 非正常文本
@@ -213,7 +213,7 @@ void lineRend(int &i, int &rend_tail)
         rend_tail ++;
       } else {// latex公式需要注意转义
         assert(lineEvn == 3 || lineEvn == 4);
-        charRend(i, rend_tail);
+        charRend(i);
       }
     }
   }

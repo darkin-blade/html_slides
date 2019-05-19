@@ -85,10 +85,10 @@ void isOL();// 有序表
 void isQuote();// 引用
 
 void textRend();// 所有文字渲染(注意和段落区别),可以转到图片或链接
-void lineRend(int &i, int &rend_tail);// 普通文字渲染
-void linkRend(int &i, int &rend_tail);// 链接
-void imgRend(int &i, int &rend_tail);// 图片链接
-void charRend(int &i, int &rend_tail);// 正常文本的转义处理等
+void lineRend(int &i);// 普通文字渲染
+void linkRend(int &i);// 链接
+void imgRend(int &i);// 图片链接
+void charRend(int &i);// 正常文本的转义处理等
 void endText();// 结束之前所有的环境
 void endLine();// 除去行内环境
 void endPara();// 除去强调环境
@@ -102,6 +102,7 @@ FILE *html;// html目标文件
 char line[MAX_LINE];// 每一行
 int line_len = 0;// 每一行的长度
 char render[MAX_REND];// 解析后的字符串
+int rend_tail = 0;// 当前解析位置
 
 int tag = -1;// 缩进级数(空格数)
 int tagStack[MAX_TAG]; // 最多?种不同缩进

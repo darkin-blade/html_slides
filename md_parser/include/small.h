@@ -7,8 +7,8 @@
 void isTitle()
 {
   int i = 0;
-  int rend_tail = 0;
   int title = 0;// 标题级数
+  rend_tail = 0;
 
   for (i = 0; line[i] == '#'; i ++) {
     title ++;// 标题级数增加,TODO 最大标题级数
