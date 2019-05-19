@@ -99,6 +99,7 @@ void isTable()
   sprintf(render, "<table>\n<thead>\n<tr>\n");
   int table_end = 0;// 表项字符串终止位置
   for (i = tag,// 跳过空格
+       table_end = 0,
        j = -1;// 初始化列数,TODO
        line[i] != '\0'; i ++) {// thead
     if (line[i] == '|') {// 新的column
@@ -128,12 +129,14 @@ void isTable()
       table_end ++;
     }
   }
-  sprintf(render + rend_tail, "</tr>\n</thead>\n<tbody>\n<tr>\n");// 结束表头
+  sprintf(render + rend_tail, "</tr>\n</thead>\n<tbody>\n");// 结束表头
   WHITE("[%d] %s", line_num, line);
   MAGENTA("%s", render);
   fputs(render, html);
 
-  while (fgets(line, MAX_READ, md)) {// 表格体
+  while (fgets(line, MAX_READ, md)) 
+  {// 表格体
+    sprintf(render, "<tr>\n");// 新的一行
     line_num ++;// debug
     for (i = 0, tag = 0; line[i] == ' '; i ++) {// 跳过空格
       tag ++;
@@ -141,8 +144,44 @@ void isTable()
     if (line[tag] != '|') {// 结束表格
       redo = 1;
       return;
+    } else {// 继续表格
+      for (i = tag,// 跳过空格
+           table_end = 0,
+           j = -1;// 记录当前列数,TODO
+           line[i] != '\0'; i ++) {// tbody
+        if (line[i] == '|') {// 新的column
+          if (j != -1) {// 不是开头
+            rend_tail = strlen(render);
+            if (table_align[j] == 0) {// center
+              sprintf(render + rend_tail, "<td style=\"text-align:center\">");// TODO
+            } else if (table_align[j] == -1) {// left
+              sprintf(render + rend_tail, "<td style=\"text-align:left\">");// TODO
+            } else if (table_align[j] == 1) {// right
+              sprintf(render + rend_tail, "<td style=\"text-align:right\">");// TODO
+            } else {
+              assert(0);
+            }
+
+            rend_tail += strlen(render + rend_tail);
+            line[i] = '\0';// 裁剪line
+            textRend();// TODO
+            sprintf(render + rend_tail, "</td>\n");
+            rend_tail += strlen(render + rend_tail);
+          }
+          sprintf(line, "%s", line + i + 1);// 除去空格和'|',TODO
+          i = -1;// TODO
+          table_end = 0;
+          j ++;
+        } else {
+          table_end ++;
+        }
+      }
     }
+    sprintf(render + rend_tail, "</tr>\n");// 结束一行
+    WHITE("[%d] %s", line_num, line);
+    MAGENTA("%s", render);
+    fputs(render, html);
   }
 
-  sprintf(render, "</tr>\n</tbody>\n</table>");// TODO
+  sprintf(render, "</tbody>\n</table>");// TODO
 }
