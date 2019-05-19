@@ -89,6 +89,7 @@ void charRend(int &i)// 单个 强调 字符
       i ++;// 跳过~~
       rend_tail += strlen(render + rend_tail);// 刷新长度,TODO
     } else if (line[i] == '<' && isLetter(line[i + 1])) {
+      goto normal_char;// TODO
       assert(0);// TODO,html内嵌代码
     } else {// 正常字符
 normal_char:// 多个环境嵌套,未定义行为
