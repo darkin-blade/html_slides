@@ -34,35 +34,25 @@ void isCodeblock()
 
 void isTable()
 {
-  int i = 0, j = 0;
+  int i = 0, j = 0;// 记录列数
   int table_align[32];// 最多32列,0: center, -1: left, 1: right
   int left = 0, right = 0;// 记录----两边是否有:
   int mid = 0;// 记录::中间是否有----
-  int column = 0;// 记录当前列数
   char next_line[MAX_LINE];// 下一行
-  char del_space_1[MAX_LINE];// 清除所有空格之后的原文件字符串
-  char del_space_2[MAX_LINE];// 针对next_line清除空格
-  assert(0);// TODO
-  for (i = 0, j = 0; line[i] != '\0'; i ++) {
-    if (line[i] != ' ') {// 除去空格
-      del_space_1[j] = line[i];
-      j ++;
-    }
-  }
-  del_space_1[j] = '\0';
+  char del_space[MAX_LINE];// 针对next_line清除空格
 
   if (fgets(next_line, MAX_READ, md)) {// 不是最后一行
     for (i = 0, j = 0; next_line[i] != '\0'; i ++) {
       if (next_line[i] != ' ') {// 除去空格
-        del_space_2[j] = line[i];
-        j ++
+        del_space[j] = line[i];
+        j ++;
       }
     }
-    del_space_2[j] = '\0';
+    del_space[j] = '\0';
 
     for (i = 0, j = -1;// j记录当前列数,TODO
-        del_space_2[i] != '\0'; i ++) {// 记录对齐样式
-      if (del_space_2[i] == '|') {// 新的一列
+        del_space[i] != '\0'; i ++) {// 记录对齐样式
+      if (del_space[i] == '|') {// 新的一列
         if (j != -1) {// 需要进行记录
           if (left == right) {// mid也有可能为0
             table_align[j] = 0;
@@ -73,13 +63,13 @@ void isTable()
           }
         }
         j ++;
-      } else if (del_space_2[i] == ':') {// TODO
+      } else if (del_space[i] == ':') {// TODO
         if (left == 0) {// `|:`
           left = 1;
         } else if (mid == 1) {// `|:-:`
           right = 1;
         }
-      } else if (del_space_2[i] == '-') {// TODO
+      } else if (del_space[i] == '-') {// TODO
         if (mid == 0) {// `|:-`
           mid = 1;
         } else if (left == 0 && right == 1) {// `|-:-`
@@ -87,8 +77,8 @@ void isTable()
           left = 1;// 本来是未定义行为
         }
       } else {// 非法字符
-        length = strlen(line);
-        sprintf(line + length, "%s", next_line);// TODO,合并两行
+        line_len = strlen(line);
+        sprintf(line + line_len, "%s", next_line);// TODO,合并两行
         isPara();
         return;
       }
@@ -118,7 +108,7 @@ void isTable()
 
         rend_tail += strlen(render + rend_tail);
         line[i] = '\0';// 裁剪line
-        rendText();// TODO
+        textRend();// TODO
         sprintf(render + rend_tail, "</th>\n");
         rend_tail += strlen(render + rend_tail);
       }
