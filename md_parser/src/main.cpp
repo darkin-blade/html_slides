@@ -132,21 +132,23 @@ void imgRend(int &i)
 
 void linkRend(int &i)// 链接
 {
+  int origin = i;// 原来的i
   for (; line[i] != '\0'; i ++)
   {
     if (line[i] == ']' && line[i + 1] == '(') {
       link_con_end = i;// 不包括i
-      goto link_content;
+      goto link_content_found;
     }
   }
   link_con_end = 0;// 判定失败
   assert(link_rel_end == 0);
-  return;
+  goto link_content_fail;
 
-link_content:
+link_content_found:
   int j = 0;
   memset(link_rel, 0, sizeof(link_rel));
-  for (i ++; line[i] != '\0'; i ++) {// 先跳过']('
+  for (i ++;// 先跳过']('
+      line[i] != '\0'; i ++) {
     if (line[i] == ')') {
       link_rel_end = i;// 不包括i
       return;
@@ -155,6 +157,19 @@ link_content:
     j ++;
   }
   link_con_end = link_rel_end = 0;// 判定失败
+
+link_content_fail:// 判定失败
+  for (i = origin; line[i] != '\0'; i ++) {// 要证明嵌套的正确性,TODO
+    lineRend(i);
+  }
+  return;
+
+link_content_succ:// 成功
+  sprintf(render + rend_tail; "", )
+  for (i = origin + 1;// 跳过'['
+      i < link_con_end; i ++) {// 渲染内容
+    ;
+  }
 }
 
 void lineRend(int &i)
