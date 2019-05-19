@@ -15,9 +15,9 @@ void isTitle()
   }
   assert(i == title);
   while (line[i] == ' ') i ++;// 除去空格
-  length = strlen(line + i);
+  line_len = strlen(line + i);
 
-  if (length == 0 || i == title) {// 不合语法
+  if (line_len == 0 || i == title) {// 不合语法
     isPara();// TODO,可以进行衔接
   } else {// TODO,清除多余的环境
     endText();// 清除之前的所有环境
@@ -34,8 +34,8 @@ void isUL()
   int i = tag + 2;// 跳过 "- ",TODO
   assert(tag != -1);
 
-  length = strlen(line + i);// 不要清除空格,TODO
-  if (length == 0) {// 不合语法;注意如果-之后全是空格也是符合语法的
+  line_len = strlen(line + i);// 不要清除空格,TODO
+  if (line_len == 0) {// 不合语法;注意如果-之后全是空格也是符合语法的
     assert(i == tag + 2);// TODO
     isPara();// TODO,可以进行衔接
     return;
@@ -89,8 +89,8 @@ void isOL()
     i += 2;// 跳转至空格后,注意{num}.后只有空格也是符合语法的
   }
 
-  length = strlen(line + i);// 不要清除空格,TODO
-  if (length == 0) {// 不合语法
+  line_len = strlen(line + i);// 不要清除空格,TODO
+  if (line_len == 0) {// 不合语法
     isPara();// TODO,可以进行衔接
     return;// TODO
   } else {
@@ -139,9 +139,9 @@ void isSlide()
     int i = 0;
     while (line[i] == '-') i ++;// 跳过-
     while (line[i] == ' ') i ++;// 跳过空格
-    length = strlen(line + i);
+    line_len = strlen(line + i);
 
-    if (length != 0) {// 不合语法
+    if (line_len != 0) {// 不合语法
       isPara();// TODO,可以进行衔接
       return;// TODO
     }
@@ -183,8 +183,8 @@ void isQuote()
     quote ++;
   }
 
-  length = strlen(line + i);
-  if (length == 0 || line[i] != ' ') {// 不合语法(>后没有空格)
+  line_len = strlen(line + i);
+  if (line_len == 0 || line[i] != ' ') {// 不合语法(>后没有空格)
     isPara();// TODO
   } else {
     i ++;// 跳过1个空格

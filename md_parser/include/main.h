@@ -100,7 +100,7 @@ FILE *md;// markdown源文件
 FILE *html;// html目标文件
 
 char line[MAX_LINE];// 每一行
-int length = 0;// 每一行的长度
+int line_len = 0;// 每一行的长度
 char render[MAX_REND];// 解析后的字符串
 
 int tag = -1;// 缩进级数(空格数)

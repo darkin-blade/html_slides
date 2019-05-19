@@ -132,7 +132,13 @@ void imgRend(int &i, int &rend_tail)
 
 void linkRend(int &i, int &rend_tail)// 链接
 {
-  assert(0);// TODO
+  assert(0);
+  for (; line[i] != '\0'; i ++)
+  {
+    if (line[i] == ']' && line[i + 1] == '(') {
+      break;
+    }
+  }
 }
 
 void lineRend(int &i, int &rend_tail)
@@ -223,12 +229,12 @@ void readFile()
   isSlide();// 第一张slide
   while (fgets(line, MAX_READ, md)) {// 读取一行
     line_num ++;// debug用,读取的行数
-    length = strlen(line);
-    if (line[length - 1] == '\n') {// 过滤换行
-      line[length - 1] = '\0';
-      length --;
+    line_len = strlen(line);
+    if (line[line_len - 1] == '\n') {// 过滤换行
+      line[line_len - 1] = '\0';
+      line_len --;
     }
-    if (length == 0) {// 空行 
+    if (line_len == 0) {// 空行 
       assert(empty_line >= 0);
       empty_line ++;// 记录空行
       if (empty_line >= 2) {// 这个是正常语法
