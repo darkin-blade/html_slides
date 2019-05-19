@@ -10,7 +10,6 @@ void endTag()
   if (textEvn == 4 || textEvn == 5) {// 结束上一个ol/ul的li
     sprintf(render, "\n</li>\n");
     MAGENTA("%s", render);
-    RED("%s", render);
     fputs(render, html);
   }
 
@@ -29,7 +28,6 @@ void endTag()
     evnStack[stackTop - 1] = 0;// 复原
   }
   MAGENTA("%s", render);
-  RED("%s", render);
   fputs(render, html);
   assert(stackTop >= 0);
 }

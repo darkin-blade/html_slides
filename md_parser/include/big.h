@@ -78,6 +78,7 @@ void isTable()
         }
       } else {// 非法字符
         line_len = strlen(line);
+        RED("illegal[%c]", del_space[i]);
         sprintf(line + line_len, "%s", next_line);// TODO,合并两行
         isPara();
         return;
