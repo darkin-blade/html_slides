@@ -106,11 +106,6 @@ normal_char:// 多个环境嵌套,未定义行为
 
 void textRend()
 {
-  lineRend;();
-}
-
-void lineRend();
-{
   int i = 0;// 在这个函数里面不会对i的位置进行修正,在调用之间要把字符串缩减,TODO
   escape = 0;// 转义:'\', 0: 之前一个字符不是'\', 1: 之前一个字符是'\'
   // 每新的一行,转义进行刷新
@@ -119,87 +114,89 @@ void lineRend();
 
   for (; line[i] != '\0'; i ++)
   {
-    if (lineEvn == 0)
-    {// 正常文本
-      if (line[i] == '`') {// 行间代码
-        if (line[i + 1] == '`') {
-          strcat(render, "<code class=\"code\">");
-          rend_tail += strlen(render + rend_tail);// TODO
-          i ++;
-          lineEvn = 2;// ``code``
-        } else {
-          strcat(render, "<code class=\"code\">");
-          rend_tail += strlen(render + rend_tail);// TODO
-          lineEvn = 1;// `code`
-        }
+    lineRend(i, rend_tail);
+  }
+  render[rend_tail] = '\0';
+}
+
+void lineRend(int &i, int &rend_tail)
+{
+  if (lineEvn == 0) {// 正常文本
+    if (line[i] == '`') {// 行间代码
+      if (line[i + 1] == '`') {
+        strcat(render, "<code class=\"code\">");
+        rend_tail += strlen(render + rend_tail);// TODO
+        i ++;
+        lineEvn = 2;// ``code``
+      } else {
+        strcat(render, "<code class=\"code\">");
+        rend_tail += strlen(render + rend_tail);// TODO
+        lineEvn = 1;// `code`
       }
-      else if (line[i] == '$') {// latex公式
-        if (line[i + 1] == '$') {// $$ latex $$
-          render[rend_tail] = render[rend_tail + 1] = '$';
-          rend_tail += 2;
-          i ++;
-          lineEvn = 4;
-        } else {
-          render[rend_tail] = '$';
-          rend_tail ++;
-          lineEvn = 3;
-        }
+    }
+    else if (line[i] == '$') {// latex公式
+      if (line[i + 1] == '$') {// $$ latex $$
+        render[rend_tail] = render[rend_tail + 1] = '$';
+        rend_tail += 2;
+        i ++;
+        lineEvn = 4;
+      } else {
+        render[rend_tail] = '$';
+        rend_tail ++;
+        lineEvn = 3;
       }
-      else {// TODO
+    }
+    else {// TODO
+      charRend(i, rend_tail);
+    }
+  }
+  else {// 非正常文本
+    if (lineEvn == 1) {
+      if (line[i] == '`') {// 解除`code`
+        strcat(render, "</code>");
+        rend_tail += strlen(render + rend_tail);// TODO
+        lineEvn = 0;
+      }
+    }
+    else if (lineEvn == 2) {
+      if (line[i] == '`' && line[i + 1] == '`') {// 解除``code``
+        strcat(render, "</code>");
+        rend_tail += strlen(render + rend_tail);// TODO
+        i ++;
+        lineEvn = 0;
+      }
+    } 
+    else if (lineEvn == 3) {
+      if (line[i] == '$') {// 解除$latex$
+        render[rend_tail] = '$';
+        rend_tail += 1;
+        lineEvn = 0;
+      }
+    } 
+    else if (lineEvn == 4) {
+      if (line[i] == '$' && line[i + 1] == '$') {// 解除$$ latex $$
+        render[rend_tail] = render[rend_tail + 1] = '$';
+        rend_tail += 2;
+        i ++;
+        lineEvn = 0;
+      }
+    }
+    else {// 不可能有其他环境
+      assert(0);// TODO
+    }
+
+    if (lineEvn != 0) {
+      if (lineEvn == 1 || lineEvn == 2) {// 无视一切其他字符
+        render[rend_tail] = line[i];
+        rend_tail ++;
+      } else {// latex公式需要注意转义
+        assert(lineEvn == 3 || lineEvn == 4);
         charRend(i, rend_tail);
       }
     }
-    else
-    {// 非正常文本
-      if (lineEvn == 1) {
-        if (line[i] == '`') {// 解除`code`
-          strcat(render, "</code>");
-          rend_tail += strlen(render + rend_tail);// TODO
-          lineEvn = 0;
-        }
-      }
-      else if (lineEvn == 2) {
-        if (line[i] == '`' && line[i + 1] == '`') {// 解除``code``
-          strcat(render, "</code>");
-          rend_tail += strlen(render + rend_tail);// TODO
-          i ++;
-          lineEvn = 0;
-        }
-      } 
-      else if (lineEvn == 3) {
-        if (line[i] == '$') {// 解除$latex$
-          render[rend_tail] = '$';
-          rend_tail += 1;
-          lineEvn = 0;
-        }
-      } 
-      else if (lineEvn == 4) {
-        if (line[i] == '$' && line[i + 1] == '$') {// 解除$$ latex $$
-          render[rend_tail] = render[rend_tail + 1] = '$';
-          rend_tail += 2;
-          i ++;
-          lineEvn = 0;
-        }
-      }
-      else {// 不可能有其他环境
-        assert(0);// TODO
-      }
-
-      if (lineEvn != 0) {
-        if (lineEvn == 1 || lineEvn == 2) {// 无视一切其他字符
-          render[rend_tail] = line[i];
-          rend_tail ++;
-        } else {// latex公式需要注意转义
-          assert(lineEvn == 3 || lineEvn == 4);
-          charRend(i, rend_tail);
-        }
-      }
-    }
-    render[rend_tail] = '\0';// TODO
-    assert((int)strlen(render) == rend_tail);
   }
-
-  render[rend_tail] = '\0';
+  render[rend_tail] = '\0';// TODO
+  assert((int)strlen(render) == rend_tail);
 }
 
 void readFile()
