@@ -15,7 +15,7 @@ var highlight_2 = [
 ];
 
 function dfs_c(my_node, found) {
-  if (my_node.className != null)
+  if ((my_node.className != null)&&(my_node.className.length >= 0))
   {
     if (my_node.className.match("highlight") != null)
     {
@@ -49,7 +49,6 @@ function dfs_c(my_node, found) {
       (temp_class == "hljs-keyword")// 多种关键字,需要特判,包括:for const int void enum等
       ||(temp_class == "hljs-attr")// 多种属性(html)?
     )) {
-      console.log("fuck");
       detail_hilight(my_node, my_node.className.replace(/hljs-/, ""), found)
     }
   }
@@ -74,7 +73,7 @@ function show_language() {
 
 function my_highlight_start() {
   show_language();
-  dfs_c(document.body, "");
+  setTimeout("dfs_c(document.body, '')", 100);
 }
 
 function detail_hilight(my_node, type, language) {// 细化
