@@ -99,10 +99,9 @@ void isTable()
   }
   // 到了这里说明是符合语法的
   sprintf(render, "<table>\n<thead>\n<tr>\n");
-  char table_con = 0;// 表项字符串终止位置
+  int table_end = 0;// 表项字符串终止位置
   for (i = tag,// 跳过空格
-       j = -1,// 初始化列数,TODO
-       table_con = tag;// 表项字符串终止位置对应line的位置
+       j = -1;// 初始化列数,TODO
        line[i] != '\0'; i ++) {// thead
     if (line[i] == '|') {// 新的column
       if (j != -1) {// 不是开头
@@ -119,12 +118,17 @@ void isTable()
 
         rend_tail += strlen(render + rend_tail);
         line[i] = '\0';// 裁剪line
-        rendText();
-        assert(0);// TODO
+        rendText();// TODO
+        sprintf(render + rend_tail, "</th>\n");
+        rend_tail += strlen(render + rend_tail);
       }
+      sprintf(line, "%s", line + i + 1);// 除去空格和'|',TODO
+      i = -1;// TODO
+      table_end = 0;
       j ++;
     } else {
-      table_con ++;
+      table_end ++;
     }
   }
+  sprintf(render + rend_tail, "</tr>\n</thead>\n");// 结束表头
 }
