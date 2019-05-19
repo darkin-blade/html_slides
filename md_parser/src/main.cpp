@@ -72,7 +72,6 @@ redo_environment:
         }
       }
       else {// 正文
-        CYAN("%d, paragraph", __LINE__);
         isPara();
       }
       RED("[%d] %d", __LINE__, textEvn);
@@ -108,9 +107,9 @@ void openFile()
 
   green("Input html file name ");
   YELLOW("(default: test.html)");
-  // scanf("%s", htmlFileName);// TODO
-  // if (strlen(mdFileName) == 0) {// TODO,ctrl-D
-  if (1) {
+  scanf("%s", htmlFileName);// TODO
+  if (strlen(htmlFileName) == 0) {// TODO,ctrl-D
+  // if (1) {
     sprintf(htmlFileName, "test.html");
   }
   green("html filename is ");

@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define DEBUG
+#ifdef DEBUG
 #define BLACK(format, ...) \
   printf("\033[1;30m" format "\33[0m\n", ## __VA_ARGS__)
 #define RED(format, ...) \
@@ -35,6 +37,40 @@
   printf("\033[1;36m" format "\33[0m", ## __VA_ARGS__)
 #define white(format, ...) \
   printf("\033[1;37m" format "\33[0m", ## __VA_ARGS__)
+#else
+#define BLACK(format, ...) \
+  assert(1)
+#define RED(format, ...) \
+  assert(1)
+#define GREEN(format, ...) \
+  assert(1)
+#define YELLOW(format, ...) \
+  assert(1)
+#define BLUE(format, ...) \
+  assert(1)
+#define MAGENTA(format, ...) \
+  assert(1)
+#define CYAN(format, ...) \
+  assert(1)
+#define WHITE(format, ...) \
+  assert(1)
+#define black(format, ...) \
+  assert(1)
+#define red(format, ...) \
+  assert(1)
+#define green(format, ...) \
+  assert(1)
+#define yellow(format, ...) \
+  assert(1)
+#define blue(format, ...) \
+  assert(1)
+#define magenta(format, ...) \
+  assert(1)
+#define cyan(format, ...) \
+  assert(1)
+#define white(format, ...) \
+  assert(1)
+#endif
 
 #define MAIN_H
 #define MAX_READ 1000
