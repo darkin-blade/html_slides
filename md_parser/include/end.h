@@ -22,7 +22,7 @@ void endTag()
       strcat(render, "</ol>\n");
     } else {
       assert(evnStack[stackTop - 1] == 3);// blockquote
-      strcat(render, "</blockquote>");
+      strcat(render, "</blockquote>\n");
     }
     tagStack[stackTop - 1] = -1;// 复原
     evnStack[stackTop - 1] = 0;// 复原
@@ -94,6 +94,7 @@ void endLine()
     assert(lineEvn == 3 || lineEvn == 4);// latex TODO
     sprintf(render, "\n");// TODO,换行
   }
+
   if (lineEvn != 0) {// lineEvn == 0 不能够直接 return
     assert(0);// TODO
     MAGENTA("%s", render);
@@ -105,6 +106,7 @@ void endLine()
     sprintf(render, "\n</p>\n");
     MAGENTA("%s", render);
     fputs(render, html);
+    textEvn = 0;// TODO
   } else if (textEvn == 3) {// 终止引用
     return;// TODO
   }

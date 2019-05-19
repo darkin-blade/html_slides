@@ -6,7 +6,7 @@
 #define BLACK(format, ...) \
   printf("\033[1;30m" format "\33[0m\n", ## __VA_ARGS__)
 #define RED(format, ...) \
-  printf("\033[1;31m" format "\33[0m\n", ## __VA_ARGS__)
+  printf("\033[1;31m[%s, %d]" format "\33[0m\n", __func__, __LINE__, ## __VA_ARGS__)
 #define GREEN(format, ...) \
   printf("\033[1;32m" format "\33[0m\n", ## __VA_ARGS__)
 #define YELLOW(format, ...) \
@@ -14,7 +14,7 @@
 #define BLUE(format, ...) \
   printf("\033[1;34m" format "\33[0m\n", ## __VA_ARGS__)
 #define MAGENTA(format, ...) \
-  printf("\033[1;35m" format "\33[0m\n", ## __VA_ARGS__)
+  printf("\033[1;35m[%s]" format "\33[0m\n", __func__, ## __VA_ARGS__)
 #define CYAN(format, ...) \
   printf("\033[1;36m" format "\33[0m\n", ## __VA_ARGS__)
 #define WHITE(format, ...) \
