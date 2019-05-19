@@ -17,9 +17,13 @@ void isCodeblock()
   MAGENTA("%s", render);
   fputs(render, html);
 
-  while (fgets(line, 1000, md)) {// 读取一行
+  while (fgets(line, MAX_READ, md)) {// 读取一行
     line_num ++;// debug
-    if (line[0] == '`' && line[1] == '`' && line[2] == '`' && line[3] != '`') {
+    for (i = 0; line[i] == ' '; i ++) {// 跳过空格
+      ;
+    }
+    if (line[i] == '`' && line[i + 1] == '`' 
+        && line[i + 2] == '`' && line[i + 3] != '`') {// 跳出代码块
       sprintf(render, "</code>\n</pre>\n</figure>\n");
       return;// TODO
     } else {// 继续留在代码块
@@ -128,6 +132,17 @@ void isTable()
   WHITE("[%d] %s", line_num, line);
   MAGENTA("%s", render);
   fputs(render, html);
+
+  while (fgets(line, MAX_READ, md)) {// 表格体
+    line_num ++;// debug
+    for (i = 0, tag = 0; line[i] == ' '; i ++) {// 跳过空格
+      tag ++;
+    }
+    if (line[tag] != '|') {// 结束表格
+      redo = 1;
+      return;
+    }
+  }
 
   sprintf(render, "</tr>\n</tbody>\n</table>");// TODO
 }

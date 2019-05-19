@@ -131,7 +131,7 @@ char escp_char[MAX_STR] = "*_\\";
 int paragraph = 0;// 0: 没有新的段落, 1: 有段落没有结束
 int slide_num = 0;// 当前slide序号,初始0
 int line_num = 0;// debug用,md文件读取的行数
-
+int redo = 0;// 解析失败(表格)但需要返回进行其他环境的判断
 
 
 

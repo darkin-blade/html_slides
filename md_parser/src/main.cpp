@@ -47,6 +47,7 @@ void readFile()
       for (i = 0, tag = 0; line[i] == ' '; i ++) {// 清除空格
         tag ++;// 缩进级数增加
       }
+redo_environment:
       assert(i == tag);
 
       if (line[i] == '`' && line[i + 1] == '`'
@@ -65,6 +66,9 @@ void readFile()
       else if (line[i] == '|' && line[i + 1] != '\0' 
           && textEvn == 0) {// 不能继承任何其他环境
         isTable();// 表格
+        if (redo == 1) {
+          goto redo_environment;// 重新判断
+        }
       }
       else {// 正文
         CYAN("%d, paragraph", __LINE__);
