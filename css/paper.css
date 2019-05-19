@@ -61,38 +61,8 @@ img {
 
 blockquote {
   padding-left: 10px;
-  border-radius: 3px;
-  border-left: 30px solid rgb(225, 225, 225);
-  border-right: 2px solid rgb(225, 225, 225);
-  border-top: 2px solid rgb(225, 225, 225);
-  border-bottom: 2px solid rgb(225, 225, 225);
+  padding-top: 1px;
+  padding-bottom: 1px;
+  border-left: 7px solid rgb(175, 175, 175);
+  background-color: rgb(238, 238, 238);
 }
-
-blockquote blockquote {
-  border-left: 30px solid rgb(210, 210, 210);
-  border-right: 2px solid rgb(210, 210, 210);
-  border-top: 2px solid rgb(210, 210, 210);
-  border-bottom: 2px solid rgb(210, 210, 210);
-}
-
-blockquote blockquote blockquote {
-  border-left: 30px solid rgb(195, 195, 195);
-  border-right: 2px solid rgb(195, 195, 195);
-  border-top: 2px solid rgb(195, 195, 195);
-  border-bottom: 2px solid rgb(195, 195, 195);
-}
-
-blockquote blockquote blockquote blockquote {
-  border-left: 30px solid rgb(180, 180, 180);
-  border-right: 2px solid rgb(180, 180, 180);
-  border-top: 2px solid rgb(180, 180, 180);
-  border-bottom: 2px solid rgb(180, 180, 180);
-}
-
-blockquote blockquote blockquote blockquote blockquote {
-  border-left: 30px solid rgb(165, 165, 165);
-  border-right: 2px solid rgb(165, 165, 165);
-  border-top: 2px solid rgb(165, 165, 165);
-  border-bottom: 2px solid rgb(165, 165, 165);
-}
-
