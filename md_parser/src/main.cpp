@@ -1,4 +1,5 @@
-#include <function.h>
+#include <big.h>
+#include <small.h>
 #include <file.h>
 #include <end.h>
 
@@ -101,71 +102,6 @@ normal_char:// 多个环境嵌套,未定义行为
       rend_tail ++;
     }
   }// 末尾填上'\0'在textRend中完成
-}
-
-void isPara()
-{
-  if (textEvn == 0) {// 新的段落
-    sprintf(render, "<p>\n");
-    textEvn = 2;// 进入段落环境
-  } else if (textEvn == 2) {// 段落中,TODO
-    assert(stackTop == 0);// 处于段落之中不应该有表
-    sprintf(render, " ");// 将上一行与此行之间加上空格(用于垃圾katex渲染)
-  } else {
-    if (empty_line == 1) {// 之前有空行
-      endText();// 清除所有环境
-      assert(stackTop == 0);
-      sprintf(render, "<p>\n");
-      textEvn = 2;// 强制新段落
-    } else {// 继承之前的环境
-      sprintf(render, " ");// 将上一行与此行之间加上空格(用于垃圾katex渲染)
-    }
-  }
-  textRend();
-}
-
-void isQuote()
-{
-  int i = tag;
-  int quote = 0;// 引用级数
-  for (; line[i] == '>'; i ++) {// 跳过'>'
-    quote ++;
-  }
-
-  length = strlen(line + i);
-  if (length == 0 || line[i] != ' ') {// 不合语法(>后没有空格)
-    isPara();// TODO
-  } else {
-    i ++;// 跳过1个空格
-    sprintf(line, "%s", line + i);// 缩短字符串
-  }
-
-  if (textEvn == 3) {// 需要考虑级数
-    if ((stackTop >= 1)&&(quote <= tagStack[stackTop - 1])) {// 视作同级blockquote
-      isPara();// TODO,那么引用符就没有用了
-    } else {// 为空或者级数增加
-add_quote:
-      tagStack[stackTop] = quote;
-      evnStack[stackTop] = 3;// blockquote
-      stackTop ++;
-      assert(tagStack[stackTop] == -1);
-      assert(evnStack[stackTop] == 0);
-
-      sprintf(render, "<blockquote>\n");
-      textRend();
-    }
-  } else if (textEvn == 4 || textEvn == 3 || textEvn == 0) {// 无条件继承环境
-    textEvn = 3;
-    goto add_quote;// 级数增加
-  } else {
-    if (textEvn != 2) {// 只有可能是段落了,且没有有序表和无序表
-      YELLOW("%d", textEvn);
-      assert(0);
-    }
-    endText();// 清除所有环境
-    textEvn = 3;
-    goto add_quote;// 级数增加
-  }
 }
 
 void textRend()
