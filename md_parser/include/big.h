@@ -116,7 +116,10 @@ void isTable()
         } else {
           assert(0);
         }
+
         rend_tail += strlen(render + rend_tail);
+        line[i] = '\0';// 裁剪line
+        rendText();
         assert(0);// TODO
       }
       j ++;

@@ -4,7 +4,7 @@
 
 #endif
 
-void charRend(int &i)// TODO
+void charRend(int &i)// 单个 强调 字符
 {
   int j = 0;// 不要使用i
   assert(render[rend_tail] == '\0');// TODO
@@ -98,7 +98,7 @@ normal_char:// 多个环境嵌套,未定义行为
   }// 末尾填上'\0'在textRend中完成
 }
 
-void textRend()
+void textRend()// code和latex环境
 {
   int i = 0;// 在这个函数里面不会对i的位置进行修正,在调用之间要把字符串缩减,TODO
   escape = 0;// 转义:'\', 0: 之前一个字符不是'\', 1: 之前一个字符是'\'
@@ -216,7 +216,7 @@ link_content_succ:// 成功
   return;
 }
 
-void lineRend(int &i)
+void lineRend(int &i)// 单个code/latex字符
 {
   if (lineEvn == 0) {// 正常文本
     if (line[i] == '`') {// 行间代码
