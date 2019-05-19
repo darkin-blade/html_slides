@@ -143,6 +143,9 @@ void isTable()
     }
     if (line[tag] != '|') {// 结束表格
       redo = 1;
+      sprintf(render, "</tbody>\n</table>");// TODO
+      MAGENTA("%s", render);
+      fputs(render, html);
       return;
     } else {// 继续表格
       for (i = tag,// 跳过空格
@@ -182,6 +185,5 @@ void isTable()
     MAGENTA("%s", render);
     fputs(render, html);
   }
-
-  sprintf(render, "</tbody>\n</table>");// TODO
+  assert(0);
 }
