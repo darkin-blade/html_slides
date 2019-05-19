@@ -55,6 +55,9 @@ a & b \\\\
 \end{pmatrix}
 $$
 
+这是链接[link](rel)
+[不换行](rel)
+
 # 进阶测试
 
 - 1

@@ -132,6 +132,7 @@ void imgRend(int &i)
 
 void linkRend(int &i)// 链接
 {
+  int j = 0;
   int origin = i;// 原来的i
   for (; line[i] != '\0'; i ++)
   {
@@ -143,9 +144,8 @@ void linkRend(int &i)// 链接
   goto link_content_fail;
 
 link_content_found:// 内容能够匹配
-  int j = 0;
   memset(link_rel, 0, sizeof(link_rel));
-  for (i ++;// 先跳过']('
+  for (i += 2;// 先跳过']('
       line[i] != '\0'; i ++) {
     if (line[i] == ')') {
       link_rel_end = i;// 不包括i
@@ -165,13 +165,13 @@ link_content_fail:// 判定失败
   assert(0);// should not reach there
 
 link_content_succ:// 成功
-  sprintf(render + rend_tail; "<a href=\"%s\">", link_rel);// TODO
+  sprintf(render + rend_tail, "<a href=\"%s\">", link_rel);// TODO
   rend_tail += strlen(render + rend_tail);// TODO
   for (i = origin + 1;// 跳过'['
       i < link_con_end; i ++) {// 渲染内容
     lineRend(i);// TODO
   }
-  sprintf(rend_tail + rend_tail, "</a>");
+  sprintf(render + rend_tail, "</a>");
   rend_tail += strlen(render + rend_tail);// TODO
   i = link_rel_end;// TODO
   link_con_end = link_rel_end = 0;// TODO
