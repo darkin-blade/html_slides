@@ -87,23 +87,31 @@ void openFile()
 {
   YELLOW("Your current path: [%s]", getenv("PWD"));// 当前目录
 
-  GREEN("Input markdown file name");
+  green("Input markdown file name ");
+  YELLOW("(default: test.md)");
   scanf("%s", mdFileName);
+  if (strlen(mdFileName) == 0) {// TODO,ctrl-D
+    sprintf(mdFileName, "test.md");
+  }
   green("md filename is ");
-  CYAN("%s", mdFileName);
+  YELLOW("%s", mdFileName);
+
   md = fopen(mdFileName, "r");
   if (md == NULL) {
     RED("[%s] doesn't exist", mdFileName);
     exit(1);
-  } else {
-    GREEN("open [%s] successfully", mdFileName);
   }
 
-  GREEN("Input html file name");
+  green("Input html file name ");
+  YELLOW("(default: test.html)");
   // scanf("%s", htmlFileName);// TODO
-  sprintf(htmlFileName, "test.html");
+  // if (strlen(mdFileName) == 0) {// TODO,ctrl-D
+  if (1) {
+    sprintf(htmlFileName, "test.html");
+  }
   green("html filename is ");
-  CYAN("%s", htmlFileName);
+  YELLOW("%s", htmlFileName);
+
   html = fopen(htmlFileName, "w+");
   if (html == NULL) {
     RED("[%s] open error", htmlFileName);
