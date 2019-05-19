@@ -108,11 +108,13 @@ void textRend()// code和latex环境
 
   for (; line[i] != '\0'; i ++)
   {
-    if (line[i] == '!' && line[i + 1] == '[') {// 可能是图片
+    if (lineEvn != 0) {// code和latex中严禁有链接/图片
+      lineRend(i);
+    } else if (line[i] == '!' && line[i + 1] == '[') {// 可能是图片
       imgRend(i);
     } else if (line[i] == '[') {
       linkRend(i);
-    } else if (i >= link_rel_end) {// 链接地址末端之后,TODO
+    } else {// TODO
       lineRend(i);
     }
   }
@@ -196,6 +198,7 @@ link_content_found:// 内容能够匹配
 
 link_content_fail:// 判定失败
   link_con_end = link_rel_end = 0;// 判定失败
+  RED("%s %d %d", line, lineEvn, paraEvn);
   for (i = origin; line[i] != '\0'; i ++) {// 要证明嵌套的正确性,TODO
     lineRend(i);
   }

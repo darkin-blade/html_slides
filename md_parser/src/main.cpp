@@ -75,6 +75,7 @@ redo_environment:
         CYAN("%d, paragraph", __LINE__);
         isPara();
       }
+      RED("[%d] %d", __LINE__, textEvn);
     }
     WHITE("[%d] %s", line_num, line);
     MAGENTA("%s", render);
