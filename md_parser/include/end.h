@@ -22,7 +22,6 @@ void endTag()
       strcat(render, "</ol>\n");
     } else {
       assert(evnStack[stackTop - 1] == 3);// blockquote
-      assert(tagStack[stackTop - 1] == -2);// TODO
       strcat(render, "</blockquote>");
     }
     tagStack[stackTop - 1] = -1;// 复原

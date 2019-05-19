@@ -282,6 +282,7 @@ void readFile()
       } else {// 正常情况下只处理blockquote
         endPara();// 终止段落,终止行内环境
       }
+      BLUE("empty_line");
       continue;
     }
 
