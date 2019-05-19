@@ -78,7 +78,7 @@ void isOL()
   int i = tag;// 不跳过
   int num = 0;
   assert(tag != -1);
-  while (line[i] >= '1' && line[i] <= '9') {// 字符串转数字
+  while (line[i] >= '0' && line[i] <= '9') {// 字符串转数字
     num = num * 10 + line[i] - 48;
     i ++;
   }
