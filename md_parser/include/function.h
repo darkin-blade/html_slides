@@ -18,7 +18,7 @@ void isTitle()
   length = strlen(line + i);
 
   if (length == 0 || i == title) {// 不合语法
-    isPara();
+    isPara();// TODO,可以进行衔接
   } else {// TODO,清除多余的环境
     endText();// 清除之前的所有环境
     sprintf(render, "<h%d>", title);
@@ -32,19 +32,20 @@ void isTitle()
 void isUL()
 {
   int i = tag + 2;// 跳过 "- ",TODO
-  int rend_tail = 0;
   assert(tag != -1);
 
   length = strlen(line + i);// 不要清除空格,TODO
   if (length == 0) {// 不合语法;注意如果-之后全是空格也是符合语法的
     assert(i == tag + 2);// TODO
-    isPara();// 即使之前有无序表也会被清除
+    isPara();// TODO,可以进行衔接
     return;
   } else {
     sprintf(line, "%s", line + i);// 缩短字符串,TODO
     if (textEvn != 4 && textEvn != 5) {// 之前不是表环境
       endText();// 结束之前的所有环境,TODO
       textEvn = 4;// 进入ul环境
+    } else {
+      endTag();// 向前回溯,TODO
     }
   }
 
@@ -52,10 +53,7 @@ void isUL()
     assert(stackTop != 0);
     sprintf(render, "<li>\n");
     textRend();
-    rend_tail = strlen(render);
-    sprintf(render + rend_tail, "</li>\n");// TODO
   } else {
-    endTag();// 向前回溯
     if ((stackTop == 0)||(tag > tagStack[stackTop - 1]))
     {// 没有找到符合之前级数的缩进,将tag增加
       assert(stackTop < MAX_TAG);
@@ -67,14 +65,10 @@ void isUL()
 
       sprintf(render, "<ul>\n<li>\n");
       textRend();
-      rend_tail = strlen(render);
-      sprintf(render + rend_tail, "\n</li>\n");// TODO
     } else {// 找到之前的同级
       assert(tag == tagStack[stackTop - 1]);
       sprintf(render, "<li>\n");
       textRend();
-      rend_tail = strlen(render);
-      sprintf(render + rend_tail, "\n</li>\n");// TODO
     }
   }
 }
@@ -82,7 +76,6 @@ void isUL()
 void isOL()
 {
   int i = tag;// 不跳过
-  int rend_tail = 0;
   int num = 0;
   assert(tag != -1);
   while (line[i] >= '1' && line[i] <= '9') {// 字符串转数字
@@ -90,7 +83,7 @@ void isOL()
     i ++;
   }
   if (line[i] != '.' || line[i + 1] != ' ') {
-    isPara();// 不合语法
+    isPara();// TODO,可以进行衔接
     return;// TODO
   } else {
     i += 2;// 跳转至空格后,注意{num}.后只有空格也是符合语法的
@@ -98,7 +91,7 @@ void isOL()
 
   length = strlen(line + i);// 不要清除空格,TODO
   if (length == 0) {// 不合语法
-    isPara();// 不要裁剪字符串,强制进入段落环境(isPara内部实现),TODO
+    isPara();// TODO,可以进行衔接
     return;// TODO
   } else {
     sprintf(line, "%s", line + i);// 缩短字符串,TODO
@@ -177,7 +170,7 @@ void isSlide()
     length = strlen(line + i);
 
     if (length != 0) {// 不合语法
-      isPara();// 视作段落
+      isPara();// TODO,可以进行衔接
       return;// TODO
     }
 
