@@ -84,32 +84,3 @@ void footer()
   }
 }
 
-void openFile()
-{
-  YELLOW("Your current path: [%s]", getenv("PWD"));// 当前目录
-
-  GREEN("Input markdown file name");
-  scanf("%s", mdFileName);
-  green("md filename is ");
-  CYAN("%s", mdFileName);
-  md = fopen(mdFileName, "r");
-  if (md == NULL) {
-    RED("[%s] doesn't exist", mdFileName);
-    exit(1);
-  } else {
-    GREEN("open [%s] successfully", mdFileName);
-  }
-
-  GREEN("Input html file name");
-  // scanf("%s", htmlFileName);// TODO
-  sprintf(htmlFileName, "test.html");
-  green("html filename is ");
-  CYAN("%s", htmlFileName);
-  html = fopen(htmlFileName, "w+");
-  if (html == NULL) {
-    RED("[%s] open error", htmlFileName);
-    exit(1);
-  } else {
-    GREEN("open [%s] successfully", htmlFileName);
-  }
-}
