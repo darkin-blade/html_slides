@@ -34,7 +34,7 @@ void isCodeblock()
 
 void isTable()
 {
-  int i = 0, j = 0, k = 0;
+  int i = 0, j = 0;
   int table_align[32];// 最多32列,0: center, -1: left, 1: right
   int left = 0, right = 0;// 记录----两边是否有:
   int mid = 0;// 记录::中间是否有----
@@ -99,10 +99,10 @@ void isTable()
   }
   // 到了这里说明是符合语法的
   sprintf(render, "<table>\n<thead>\n<tr>\n");
-  char table_con[MAX_LINE / 2];// 表项
+  char table_con = 0;// 表项字符串终止位置
   for (i = tag,// 跳过空格
        j = -1,// 初始化列数,TODO
-       k = 0;// 记录表项
+       table_con = tag;// 表项字符串终止位置对应line的位置
        line[i] != '\0'; i ++) {// thead
     if (line[i] == '|') {// 新的column
       if (j != -1) {// 不是开头
@@ -121,7 +121,7 @@ void isTable()
       }
       j ++;
     } else {
-      ;
+      table_con ++;
     }
   }
 }
