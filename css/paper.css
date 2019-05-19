@@ -66,3 +66,22 @@ blockquote {
   border-left: 6px solid rgb(175, 175, 175);
   background-color: rgb(238, 238, 238);
 }
+
+table {
+  border-left: 1px solid #ddd;
+  border-top-left-radius: 3px;
+  background-color: rgb(250, 250, 250);
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table th,
+table td {
+  line-height: 1.7;
+  border-bottom: 3px solid #ccc;
+  border-right: 1px solid #ddd;
+}
+
+table th {
+  border-top: 3px solid var(--code_grey);
+}

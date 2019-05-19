@@ -111,7 +111,6 @@ void isOL()
     assert(stackTop >= 0);
     if ((stackTop == 0)||(tag > tagStack[stackTop - 1]))
     {// 没有找到符合之前级数的缩进->增加tag级数
-      RED("%d", tag);
       assert(stackTop < MAX_TAG);
       tagStack[stackTop] = tag;
       evnStack[stackTop] = 5;// ol

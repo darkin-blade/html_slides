@@ -43,8 +43,8 @@ void isTable()
 
   if (fgets(next_line, MAX_READ, md)) {// 不是最后一行
     for (i = 0, j = 0; next_line[i] != '\0'; i ++) {
-      if (next_line[i] != ' ') {// 除去空格
-        del_space[j] = line[i];
+      if (next_line[i] != ' ' && next_line[i] != '\n') {// 除去空格和换行符
+        del_space[j] = next_line[i];
         j ++;
       }
     }
@@ -78,7 +78,9 @@ void isTable()
         }
       } else {// 非法字符
         line_len = strlen(line);
-        RED("illegal[%c]", del_space[i]);
+        YELLOW("%s", next_line);
+        RED("%s", del_space);
+        RED("illegal[%d:%c]", i, del_space[i]);
         sprintf(line + line_len, "%s", next_line);// TODO,合并两行
         isPara();
         return;
@@ -122,4 +124,9 @@ void isTable()
     }
   }
   sprintf(render + rend_tail, "</tr>\n</thead>\n");// 结束表头
+  WHITE("[%d] %s", line_num, line);
+  MAGENTA("%s", render);
+  fputs(render, html);
+
+  sprintf(render, "</table>");// TODO
 }
