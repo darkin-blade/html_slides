@@ -114,9 +114,25 @@ void textRend()
 
   for (; line[i] != '\0'; i ++)
   {
-    lineRend(i, rend_tail);
+    if (line[i] == '!' && line[i + 1] == '[') {// 可能是图片
+      imgRend(i, rend_tail);
+    } else if (line[i] == '[') {
+      linkRend(i, rend_tail);
+    } else {
+      lineRend(i, rend_tail);
+    }
   }
   render[rend_tail] = '\0';
+}
+
+void imgRend(int &i, int &rend_tail)
+{
+  assert(0);// TODO
+}
+
+void linkRend(int &i, int &rend_tail)// 链接
+{
+  assert(0);// TODO
 }
 
 void lineRend(int &i, int &rend_tail)
