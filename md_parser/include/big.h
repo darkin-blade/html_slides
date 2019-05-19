@@ -34,11 +34,15 @@ void isCodeblock()
 
 void isTable()
 {
+  int i = 0;
+  int table_align[32];// 最多32列,0: center, -1: left, 1: right
+  int left = 0, right = 0;// 记录----两边是否有:
   char next[MAX_LINE];// 下一行
+  char del_space[MAX_LINE];// 清除所有空格之后的原文件字符串
   sprintf(line, "%s", line + tag);// 裁剪上一行,TODO
   if (fgets(next, MAX_READ, md)) {// 不是最后一行
-    ;
   } else {
+table_fail_1:
     isPara();// 视作段落,TODO
   }
 }
