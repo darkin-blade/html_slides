@@ -132,11 +132,20 @@ void imgRend(int &i)
 
 void linkRend(int &i)// 链接
 {
-  assert(0);
+  memset(link_con, 0, sizeof(link_con));
+  memset(link_rel, 0, sizeof(link_rel));
+  int j = 0;
   for (; line[i] != '\0'; i ++)
   {
     if (line[i] == ']' && line[i + 1] == '(') {
-      break;
+      goto link_content;
+    }
+  }
+link_content:
+  for (i ++; line[i] != '\0'; i ++) {// 先跳过']('
+    if (line[i] == ')') {
+      ;
+      return;
     }
   }
 }

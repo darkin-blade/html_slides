@@ -103,6 +103,10 @@ char line[MAX_LINE];// 每一行
 int line_len = 0;// 每一行的长度
 char render[MAX_REND];// 解析后的字符串
 int rend_tail = 0;// 当前解析位置
+char link_con[MAX_LINE];// 链接内容
+int link_con_end = 0;// 从当前位置到link_con_end都是链接内容
+char link_rel[MAX_LINE];// 链接地址
+int link_rel_end = 0;// 从当前位置到link_rel_end都是链接地址
 
 int tag = -1;// 缩进级数(空格数)
 int tagStack[MAX_TAG]; // 最多?种不同缩进
