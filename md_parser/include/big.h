@@ -65,7 +65,7 @@ void isTable()
         left = mid = right = 0;
         j ++;
       } else if (del_space[i] == ':') {// TODO
-        if (left == 0) {// `|:`
+        if (left == 0 && mid == 0) {// `|:`
           left = 1;
         } else if (mid == 1) {// `|:-:`
           right = 1;
