@@ -102,7 +102,7 @@ char render[MAX_REND];// 解析后的字符串
 
 int tag = -1;// 缩进级数(空格数)
 int tagStack[MAX_TAG]; // 最多?种不同缩进
-// 注: blockquote的缩进全部视为-2
+// 注: blockquote的缩进级数('>'的个数)与tag不可比较
 int evnStack[MAX_TAG]; // 语言环境栈
 // 0: default, 1: title, 2: paragraph, 3: blockquote, 4: ul, 5: ol
 int stackTop = 0;// 语言环境栈顶

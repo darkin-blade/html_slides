@@ -126,11 +126,10 @@ void isPara()
 
 void isQuote()
 {
-  assert(0);// TODO
   int i = tag;
   int quote = 0;// 引用级数
   while (line[i] == '>') {
-    assert(0);// TODO
+    quote ++;
   }
 }
 
@@ -245,7 +244,7 @@ void readFile()
       empty_line ++;// 记录空行
       if (empty_line >= 2) {// 这个是正常语法
         endText();// 取消一切环境
-      } else {// 如果这个函数起到了作用,说明md语法错误
+      } else {// 正常情况下只处理blockquote
         endPara();// 终止段落,终止行内环境
       }
       continue;

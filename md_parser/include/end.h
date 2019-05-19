@@ -48,7 +48,7 @@ void endText()
     assert(0);// TODO
   } else {// 清除ul,ol,blockquote
     assert(textEvn == 4 || textEvn == 5 || textEvn == 3);// TODO
-    int old_tag = tag;
+    int old_tag = tag;// TODO
     tag = -1;
     endTag();
     tag = old_tag;
@@ -60,6 +60,12 @@ void endText()
 void endPara()
 {
   endLine();// 先处理行内环境
+  if (textEvn == 3) {// 如果blockquote遭到中断,会触发清除所有格式
+    int old_tag = tag;// TODO
+    tag = -1;
+    endTag();
+    tag = old_tag;
+  }
   if (paraEvn == 0) return;
   RED("should not reach here");// 正常情况下不应该调用此函数
   if (paraEvn == 1) {// em
