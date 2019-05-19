@@ -118,7 +118,7 @@ void textRend()
       imgRend(i);
     } else if (line[i] == '[') {
       linkRend(i);
-    } else {
+    } else if (i >= link_rel_end) {// 链接地址末端之后,TODO
       lineRend(i);
     }
   }
@@ -132,22 +132,29 @@ void imgRend(int &i)
 
 void linkRend(int &i)// 链接
 {
-  memset(link_con, 0, sizeof(link_con));
-  memset(link_rel, 0, sizeof(link_rel));
-  int j = 0;
   for (; line[i] != '\0'; i ++)
   {
     if (line[i] == ']' && line[i + 1] == '(') {
+      link_con_end = i;// 不包括i
       goto link_content;
     }
   }
+  link_con_end = 0;// 判定失败
+  assert(link_rel_end == 0);
+  return;
+
 link_content:
+  int j = 0;
+  memset(link_rel, 0, sizeof(link_rel));
   for (i ++; line[i] != '\0'; i ++) {// 先跳过']('
     if (line[i] == ')') {
-      ;
+      link_rel_end = i;// 不包括i
       return;
     }
+    link_rel[j] = line[i];// TODO
+    j ++;
   }
+  link_con_end = link_rel_end = 0;// 判定失败
 }
 
 void lineRend(int &i)
