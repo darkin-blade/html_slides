@@ -113,7 +113,10 @@ int lineEvn = 0;// 行内语言环境
 char clear_tag[MAX_STR];// 清除语言环境
 
 int escape = 0;// 转义'\'
-int empty_line = 0;// 空行,可以启动强制开启新段落
+int empty_line = 0;// 空行数
+// 0: 无空行,继承除标题外的其他任何环境
+// 1: 新开段落/引用,取消行内环境(这属于md语法错误)
+// >=2: 取消有序表/无序表
 char escp_char[MAX_STR] = "*_\\";
 int paragraph = 0;// 0: 没有新的段落, 1: 有段落没有结束
 int slide_num = 0;// 当前slide序号,初始0

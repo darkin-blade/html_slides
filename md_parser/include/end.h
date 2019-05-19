@@ -15,19 +15,25 @@ void endPara()
   } else if (paraEvn == 2) {// strong
     sprintf(render, "</strong>");
     MAGENTA("%s", render);
-    fputs(render, html);// TODO
+    fputs(render, html);
   } else {
     assert(paraEvn == 3);
     sprintf(render, "</del>");
     MAGENTA("%s", render);
-    fputs(render, html);// TODO
+    fputs(render, html);
   }
 }
 
 void endTag()
 {
   assert(paraEvn == 0 && lineEvn == 0);// 表不可能做到换行环境
-  memset(render, 0, sizeof(render));// TODO
+  if (textEvn == 4 || textEvn == 5) {// 结束上一个ol/ul的li
+    sprintf(render, "\n</li>\n");
+  }
+  MAGENTA("%s", render);
+  fputs(render, html);
+
+  memset(render, 0, sizeof(render));
   if (stackTop == 0) return;// 没有tag
   for (; stackTop >= 1 && tag < tagStack[stackTop - 1]; stackTop --) {
     if (evnStack[stackTop - 1] == 4) {// ul
