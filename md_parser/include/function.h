@@ -41,7 +41,7 @@ void isUL()
     return;
   } else {
     sprintf(line, "%s", line + i);// 缩短字符串,TODO
-    if (textEvn != 4 && textEvn != 5) {// 之前不是表环境
+    if (textEvn != 4 && textEvn != 5 && textEvn != 3) {// 之前不是表环境
       endText();// 结束之前的所有环境,TODO
     } else {
       endTag();// 向前回溯,TODO
@@ -95,7 +95,7 @@ void isOL()
     return;// TODO
   } else {
     sprintf(line, "%s", line + i);// 缩短字符串,TODO
-    if (textEvn != 4 && textEvn != 5) {// 之前不是表环境
+    if (textEvn != 4 && textEvn != 5 && textEvn != 3) {// 之前不是表环境,TODO
       endText();// 结束之前的段落
     } else {
       endTag();// 向前回溯,TODO
