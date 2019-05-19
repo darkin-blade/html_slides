@@ -25,20 +25,20 @@ void endTag()
     tagStack[stackTop - 1] = -1;// 复原
     evnStack[stackTop - 1] = 0;// 复原
   }
-  if (tag == 0) {// 没有缩进时不能多个li并列
-    assert(stackTop <= 1);
-    for (tag = -1; stackTop >= 1 && tag < tagStack[stackTop - 1]; stackTop --) {
-      if (evnStack[stackTop - 1] == 4) {// ul
-        strcat(render, "</ul>\n");
-      } else {// ol
-        assert(evnStack[stackTop - 1] == 5);
-        strcat(render, "</ol>\n");
-      }
-      tagStack[stackTop - 1] = -1;// 复原
-      evnStack[stackTop - 1] = 0;// 复原
-    }
-    tag = 0;
-  }
+  // if (tag == 0) {// 没有缩进时不能多个li并列
+  //   assert(stackTop <= 1);
+  //   for (tag = -1; stackTop >= 1 && tag < tagStack[stackTop - 1]; stackTop --) {
+  //     if (evnStack[stackTop - 1] == 4) {// ul
+  //       strcat(render, "</ul>\n");
+  //     } else {// ol
+  //       assert(evnStack[stackTop - 1] == 5);
+  //       strcat(render, "</ol>\n");
+  //     }
+  //     tagStack[stackTop - 1] = -1;// 复原
+  //     evnStack[stackTop - 1] = 0;// 复原
+  //   }
+  //   tag = 0;
+  // }
   MAGENTA("%s", render);
   fputs(render, html);
   assert(stackTop >= 0);
