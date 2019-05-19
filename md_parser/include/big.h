@@ -34,5 +34,11 @@ void isCodeblock()
 
 void isTable()
 {
-  assert(0);
+  char next[MAX_LINE];// 下一行
+  sprintf(line, "%s", line + tag);// 裁剪上一行,TODO
+  if (fgets(next, MAX_READ, md)) {// 不是最后一行
+    ;
+  } else {
+    isPara();// 视作段落,TODO
+  }
 }

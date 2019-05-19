@@ -54,9 +54,6 @@ void readFile()
           && line[i + 2] == '`' && line[i + 3] != '`') {
         isCodeblock();// 大代码块
       } 
-      else if (line[i] == '|' && line[i + 1] != '\0') {
-        isTable();// 表格
-      }
       else if (line[i] == '>' && line[i + 1] != '\0') {
         isQuote();// 引用,注意: 该环境会与tag表无条件嵌套
       }
@@ -66,6 +63,10 @@ void readFile()
       else if (line[i] >= '0' && line[i] <= '9' && line[i + 1] != '\0') {
         isOL();// 有序表
       } 
+      else if (line[i] == '|' && line[i + 1] != '\0' 
+          && textEvn == 0) {// 不能继承任何其他环境
+        isTable();// 表格
+      }
       else {// 正文
         CYAN("%d, paragraph", __LINE__);
         isPara();
