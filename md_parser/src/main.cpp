@@ -8,6 +8,7 @@ int main()
 {
   openFile();
   readFile();
+  GREEN("Compile success");
   return 0;
 }
 
@@ -119,7 +120,5 @@ void openFile()
   if (html == NULL) {
     RED("[%s] open error", htmlFileName);
     exit(1);
-  } else {
-    GREEN("open [%s] successfully", htmlFileName);
   }
 }

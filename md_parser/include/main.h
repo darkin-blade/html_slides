@@ -147,10 +147,10 @@ void readFile();
 void header();// 添加<html>
 void footer();// 添加</html>
 
+void isTitle();// 标题
 void isCodeblock();// 代码段
 void isTable();// 表格
 void isSlide();// 分割线
-void isTitle();// 标题
 void isPara();// 段落
 void isUL();// 无序表
 void isOL();// 有序表
