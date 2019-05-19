@@ -40,6 +40,7 @@ void endText()
     assert(stackTop == 0);
     return;// 什么事也不做
   }
+end_paragraph:
   if (textEvn == 2) {// 有段落未结束
     sprintf(render, "\n</p>\n");// TODO
     MAGENTA("%s", render);
@@ -60,11 +61,13 @@ void endText()
 void endPara()
 {
   endLine();// 先处理行内环境
+end_quote:
   if (textEvn == 3) {// 如果blockquote遭到中断,会触发清除所有格式
     int old_tag = tag;// TODO
     tag = -1;
     endTag();
     tag = old_tag;
+    textEvn = 0;// TODO
   }
   if (paraEvn == 0) return;
   RED("should not reach here");// 正常情况下不应该调用此函数
@@ -102,13 +105,9 @@ void endLine()
   }
 
   if (textEvn == 2) {// TODO
-    sprintf(render, "\n</p>\n");// 终止当前段落
-    MAGENTA("%s", render);
-    fputs(render, html);
-    textEvn = 0;
+    goto end_paragraph;// 终止当前段落
   } else if (textEvn == 3) {
-    assert(0);// TODO
-    textEvn = 0;
+    goto end_quote;// 清除引用
   }
 }
 
