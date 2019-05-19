@@ -1,6 +1,6 @@
 #include <big.h>
 #include <small.h>
-#include <file.h>
+#include <part.h>
 #include <end.h>
 #include <rend.h>
 
