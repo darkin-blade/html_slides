@@ -95,9 +95,13 @@ void isTable()
     return;
   }
   // 到了这里说明是符合语法的
-  char td[MAX_LINE / 2];
-  for (i = tag, j = 0;// 跳过空格,TODO
+  char table_con[MAX_LINE / 2];// 表项
+  for (i = tag, j = -1;// 跳过空格,初始化列数,TODO
       line[i] != '\0'; i ++) {// thead
-    if (line[i]);
+    if (line[i] == '|') {// 新的column
+      if (j != -1) {// 不是开头
+        ;
+      }
+    }
   }
 }
