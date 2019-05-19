@@ -82,6 +82,9 @@ void isTable()
       } else if (del_space_2[i] == '-') {// TODO
         if (mid == 0) {// `|:-`
           mid = 1;
+        } else if (left == 0 && right == 1) {// `|-:-`
+          assert(mid == 1);
+          left = 1;// 本来是未定义行为
         }
       } else {// 非法字符
         length = strlen(line);
@@ -95,6 +98,7 @@ void isTable()
     return;
   }
   // 到了这里说明是符合语法的
+  sprintf(render, "<table>\n<thead>\n<tr>\n");
   char table_con[MAX_LINE / 2];// 表项
   for (i = tag, j = -1;// 跳过空格,初始化列数,TODO
       line[i] != '\0'; i ++) {// thead
