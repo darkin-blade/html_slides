@@ -31,13 +31,3 @@ void isCodeblock()
   }
   assert(0);
 }
-
-void isImg()
-{
-  ;
-}
-
-void isLink()
-{
-  ;
-}

@@ -83,10 +83,10 @@ void isPara();// 段落
 void isUL();// 无序表
 void isOL();// 有序表
 void isQuote();// 引用
-void isImg();// 图片,TODO
-void isLink();// 链接,TODO
 
 void textRend();// 文字渲染(注意和段落区别)
+void linkRend();// 链接
+void imgRend();// 图片链接
 void charRend(int &i, int &rend_tail);// 正常文本的转义处理等
 void endText();// 结束之前所有的环境
 void endLine();// 除去行内环境
