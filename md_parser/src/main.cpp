@@ -130,7 +130,8 @@ void imgRend(int &i)
   int j = 0;
   int origin = i;// 原来的i
   memset(link_con, 0, sizeof(link_con));
-  for (; line[i] != '\0'; i ++)
+  for (i += 2;// 跳过'!['
+      line[i] != '\0'; i ++)
   {
     if (line[i] == ']' && line[i + 1] == '(') {
       link_con_end = i;// 不包括i
