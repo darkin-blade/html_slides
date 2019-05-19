@@ -124,10 +124,10 @@ void isTable()
       table_end ++;
     }
   }
-  sprintf(render + rend_tail, "</tr>\n</thead>\n");// 结束表头
+  sprintf(render + rend_tail, "</tr>\n</thead>\n<tbody>\n<tr>\n");// 结束表头
   WHITE("[%d] %s", line_num, line);
   MAGENTA("%s", render);
   fputs(render, html);
 
-  sprintf(render, "</table>");// TODO
+  sprintf(render, "</tr>\n</tbody>\n</table>");// TODO
 }
