@@ -3,70 +3,103 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define DEBUG
-#ifdef DEBUG
+#define red_log
+#define green_log
+#define yellow_log
+#define magenta_log
+#define white_log
+
+#ifdef black_log
 #define BLACK(format, ...) \
   printf("\033[1;30m" format "\33[0m\n", ## __VA_ARGS__)
-#define RED(format, ...) \
-  printf("\033[1;31m[%s, %d]" format "\33[0m\n", __func__, __LINE__, ## __VA_ARGS__)
-#define GREEN(format, ...) \
-  printf("\033[1;32m" format "\33[0m\n", ## __VA_ARGS__)
-#define YELLOW(format, ...) \
-  printf("\033[1;33m" format "\33[0m\n", ## __VA_ARGS__)
-#define BLUE(format, ...) \
-  printf("\033[1;34m" format "\33[0m\n", ## __VA_ARGS__)
-#define MAGENTA(format, ...) \
-  printf("\033[1;35m[%s]" format "\33[0m\n", __func__, ## __VA_ARGS__)
-#define CYAN(format, ...) \
-  printf("\033[1;36m" format "\33[0m\n", ## __VA_ARGS__)
-#define WHITE(format, ...) \
-  printf("\033[1;37m" format "\33[0m\n", ## __VA_ARGS__)
 #define black(format, ...) \
   printf("\033[1;30m" format "\33[0m", ## __VA_ARGS__)
-#define red(format, ...) \
-  printf("\033[1;31m" format "\33[0m", ## __VA_ARGS__)
-#define green(format, ...) \
-  printf("\033[1;32m" format "\33[0m", ## __VA_ARGS__)
-#define yellow(format, ...) \
-  printf("\033[1;33m" format "\33[0m", ## __VA_ARGS__)
-#define blue(format, ...) \
-  printf("\033[1;34m" format "\33[0m", ## __VA_ARGS__)
-#define magenta(format, ...) \
-  printf("\033[1;35m" format "\33[0m", ## __VA_ARGS__)
-#define cyan(format, ...) \
-  printf("\033[1;36m" format "\33[0m", ## __VA_ARGS__)
-#define white(format, ...) \
-  printf("\033[1;37m" format "\33[0m", ## __VA_ARGS__)
 #else
 #define BLACK(format, ...) \
   assert(1)
-#define RED(format, ...) \
-  assert(1)
-#define GREEN(format, ...) \
-  assert(1)
-#define YELLOW(format, ...) \
-  assert(1)
-#define BLUE(format, ...) \
-  assert(1)
-#define MAGENTA(format, ...) \
-  assert(1)
-#define CYAN(format, ...) \
-  assert(1)
-#define WHITE(format, ...) \
-  assert(1)
 #define black(format, ...) \
+  assert(1)
+#endif
+
+#ifdef red_log
+#define RED(format, ...) \
+  printf("\033[1;31m[%s, %d]" format "\33[0m\n", __func__, __LINE__, ## __VA_ARGS__)
+#define red(format, ...) \
+  printf("\033[1;31m" format "\33[0m", ## __VA_ARGS__)
+#else
+#define RED(format, ...) \
   assert(1)
 #define red(format, ...) \
   assert(1)
+#endif
+
+#ifdef green_log
+#define GREEN(format, ...) \
+  printf("\033[1;32m" format "\33[0m\n", ## __VA_ARGS__)
 #define green(format, ...) \
+  printf("\033[1;32m" format "\33[0m", ## __VA_ARGS__)
+#else
+#define GREEN(format, ...) \
+  assert(1)
+#define green(format, ...) \
+  assert(1)
+#endif
+
+#ifdef yellow_log
+#define YELLOW(format, ...) \
+  printf("\033[1;33m" format "\33[0m\n", ## __VA_ARGS__)
+#define yellow(format, ...) \
+  printf("\033[1;33m" format "\33[0m", ## __VA_ARGS__)
+#else
+#define YELLOW(format, ...) \
   assert(1)
 #define yellow(format, ...) \
   assert(1)
+#endif
+
+#ifdef blue_log
+#define BLUE(format, ...) \
+  printf("\033[1;34m" format "\33[0m\n", ## __VA_ARGS__)
 #define blue(format, ...) \
+  printf("\033[1;34m" format "\33[0m", ## __VA_ARGS__)
+#else
+#define BLUE(format, ...) \
+  assert(1)
+#define blue(format, ...) \
+  assert(1)
+#endif
+
+#ifdef magenta_log
+#define MAGENTA(format, ...) \
+  printf("\033[1;35m[%s]" format "\33[0m\n", __func__, ## __VA_ARGS__)
+#define magenta(format, ...) \
+  printf("\033[1;35m" format "\33[0m", ## __VA_ARGS__)
+#else
+#define MAGENTA(format, ...) \
   assert(1)
 #define magenta(format, ...) \
   assert(1)
+#endif
+
+#ifdef cyan_log
+#define CYAN(format, ...) \
+  printf("\033[1;36m" format "\33[0m\n", ## __VA_ARGS__)
 #define cyan(format, ...) \
+  printf("\033[1;36m" format "\33[0m", ## __VA_ARGS__)
+#else
+#define CYAN(format, ...) \
+  assert(1)
+#define cyan(format, ...) \
+  assert(1)
+#endif
+
+#ifdef white_log
+#define WHITE(format, ...) \
+  printf("\033[1;37m" format "\33[0m\n", ## __VA_ARGS__)
+#define white(format, ...) \
+  printf("\033[1;37m" format "\33[0m", ## __VA_ARGS__)
+#else
+#define WHITE(format, ...) \
   assert(1)
 #define white(format, ...) \
   assert(1)
