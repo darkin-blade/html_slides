@@ -43,10 +43,10 @@ void isUL()
     sprintf(line, "%s", line + i);// 缩短字符串,TODO
     if (textEvn != 4 && textEvn != 5) {// 之前不是表环境
       endText();// 结束之前的所有环境,TODO
-      textEvn = 4;// 进入ul环境
     } else {
       endTag();// 向前回溯,TODO
     }
+    textEvn = 4;// 进入ul环境
   }
 
   if ((stackTop >= 1)&&(tag == tagStack[stackTop - 1])) {// 同级
@@ -97,10 +97,10 @@ void isOL()
     sprintf(line, "%s", line + i);// 缩短字符串,TODO
     if (textEvn != 4 && textEvn != 5) {// 之前不是表环境
       endText();// 结束之前的段落
-      textEvn = 5;// ol
     } else {
       endTag();// 向前回溯,TODO
     }
+    textEvn = 5;// ol
   }
 
   if ((stackTop >= 1)&&(tag == tagStack[stackTop - 1])) {// 同级

@@ -128,8 +128,40 @@ void isQuote()
 {
   int i = tag;
   int quote = 0;// 引用级数
-  while (line[i] == '>') {
+  for (; line[i] == '>'; i ++) {// 跳过'>'
     quote ++;
+  }
+
+  length = strlen(line + i);
+  if (length == 0 || line[i] != ' ') {// 不合语法(>后没有空格)
+    isPara();// TODO
+  } else {
+    i ++;// 跳过1个空格
+    sprintf(line, "%s", line + i);// 缩短字符串
+  }
+
+  if (textEvn == 3) {// 需要考虑级数
+    if ((stackTop >= 1)&&(quote <= tagStack[stackTop - 1])) {// 视作同级blockquote
+      isPara();// TODO,那么引用符就没有用了
+    } else {// 为空或者级数增加
+add_quote:
+      tagStack[stackTop] = quote;
+      envStack[stackTop] = 3;// blockquote
+      stackTop ++;
+      assert(tagStack[stackTop] == -1);
+      assert(evnStack[stackTop] == 0);
+
+      sprintf(render, "<blockquote>\n");
+      textRend();
+    }
+  } else if (textEvn == 4 || textEvn == 3) {// 无条件继承环境
+    textEvn = 3;
+    goto add_quote;// 级数增加
+  } else {
+    assert(textEvn == 2);// 只有可能是段落了,且没有有序表和无序表
+    endText();// 清除所有环境
+    textEvn = 3;
+    goto add_quote;// 级数增加
   }
 }
 
