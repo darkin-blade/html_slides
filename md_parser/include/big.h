@@ -61,9 +61,9 @@ void isTable()
 
     for (i = 0, j = -1;// j记录当前列数,TODO
         del_space_2[i] != '\0'; i ++) {// 记录对齐样式
-      if (del_space_2[i] == '|') {
+      if (del_space_2[i] == '|') {// 新的一列
         if (j != -1) {// 需要进行记录
-          if (left == right) {
+          if (left == right) {// mid也有可能为0
             table_align[j] = 0;
           } else if (left == 1 && right == 0) {
             table_align[j] = -1;// 左对齐
@@ -79,16 +79,18 @@ void isTable()
           right = 1;
         }
       } else if (del_space_2[i] == '-') {// TODO
-        if (mid == 0) {// `|:-
+        if (mid == 0) {// `|:-`
           mid = 1;
         }
       } else {// 非法字符
         length = strlen(line);
         sprintf(line + length, "%s", next_line);// TODO,合并两行
         isPara();
+        return;
       }
     }
   } else {
     isPara();// 视作段落,TODO
+    return;
   }
 }
