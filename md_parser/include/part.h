@@ -52,7 +52,8 @@ void footer()
   MAGENTA("%s", render);// TODO
   fputs(render, html);
 
-  char partial[MAX_PART][MAX_PART] = {"js", "katex", "body"};
+  char partial[MAX_PART][MAX_PART] = {"js", "mathjax", "body"};
+  // char partial[MAX_PART][MAX_PART] = {"js", "katex", "body"};
   char filename[MAX_NAME];
   FILE *fp = NULL;
   int flag = 1;// 所有文件是否成功打开
