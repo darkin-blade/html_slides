@@ -84,9 +84,10 @@ void isUL();// 无序表
 void isOL();// 有序表
 void isQuote();// 引用
 
-void textRend();// 文字渲染(注意和段落区别)
-void linkRend();// 链接
-void imgRend();// 图片链接
+void textRend();// 所有文字渲染(注意和段落区别),可以转到图片或链接
+void lineRend(int &i, int &rend_tail);// 普通文字渲染
+void linkRend(int &i, int &rend_tail);// 链接
+void imgRend(int &i, int &rend_tail);// 图片链接
 void charRend(int &i, int &rend_tail);// 正常文本的转义处理等
 void endText();// 结束之前所有的环境
 void endLine();// 除去行内环境
