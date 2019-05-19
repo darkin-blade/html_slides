@@ -8,7 +8,7 @@
 #define green_log
 #define yellow_log
 // #define blue_log
-#define magenta_log
+// #define magenta_log
 // #define cyan_log
 // #define white_log
 

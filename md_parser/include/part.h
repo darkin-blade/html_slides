@@ -38,7 +38,7 @@ void header()
     }
   } else {
     YELLOW("No header module");
-    sprintf(render, "<html>\n<head>\n</head>\n<body>\n");
+    sprintf(render, "<!doctype html>\n<html>\n<head>\n</head>\n<body>\n");
     MAGENTA("%s", render);
     fputs(render, html);
   }
