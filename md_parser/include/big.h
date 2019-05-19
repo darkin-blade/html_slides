@@ -42,6 +42,7 @@ void isTable()
   char next_line[MAX_LINE];// 下一行
   char del_space_1[MAX_LINE];// 清除所有空格之后的原文件字符串
   char del_space_2[MAX_LINE];// 针对next_line清除空格
+  assert(0);// TODO
   for (i = 0, j = 0; line[i] != '\0'; i ++) {
     if (line[i] != ' ') {// 除去空格
       del_space_1[j] = line[i];
@@ -92,5 +93,11 @@ void isTable()
   } else {
     isPara();// 视作段落,TODO
     return;
+  }
+  // 到了这里说明是符合语法的
+  char td[MAX_LINE / 2];
+  for (i = tag, j = 0;// 跳过空格,TODO
+      line[i] != '\0'; i ++) {// thead
+    if (line[i]);
   }
 }
