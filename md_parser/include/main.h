@@ -3,11 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define red_log
+// #define black_log
+// #define red_log
 #define green_log
 #define yellow_log
+// #define blue_log
 #define magenta_log
-#define white_log
+// #define cyan_log
+// #define white_log
 
 #ifdef black_log
 #define BLACK(format, ...) \
