@@ -203,7 +203,7 @@ void readFile()
 
   header();
   isSlide();// 第一张slide
-  while (fgets(line, 1000, md)) {// 读取一行
+  while (fgets(line, MAX_READ, md)) {// 读取一行
     line_num ++;// debug用,读取的行数
     length = strlen(line);
     if (line[length - 1] == '\n') {// 过滤换行

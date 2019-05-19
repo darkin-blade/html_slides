@@ -37,9 +37,11 @@
   printf("\033[1;37m" format "\33[0m", ## __VA_ARGS__)
 
 #define MAIN_H
-#define MAX_LINE 1024
-// 原文件一行的长度
-#define MAX_REND 2048
+#define MAX_READ 1000
+// 读取原文件一行的最大长度
+#define MAX_LINE 1600
+// 原文件带渲染字符串最大长度
+#define MAX_REND 2400
 // 渲染之后一行的长度
 #define MAX_TAG 16
 // 无序/有序表缩进级数
