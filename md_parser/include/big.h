@@ -31,3 +31,8 @@ void isCodeblock()
   }
   assert(0);
 }
+
+void isTable()
+{
+  assert(0);
+}
