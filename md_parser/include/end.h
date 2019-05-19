@@ -4,26 +4,6 @@
 
 #endif
 
-void endPara()
-{
-  if (paraEvn == 0) return;
-  RED("should not reach here");// 正常情况下不应该调用此函数
-  if (paraEvn == 1) {// em
-    sprintf(render, "</em>");
-    MAGENTA("%s", render);
-    fputs(render, html);// TODO
-  } else if (paraEvn == 2) {// strong
-    sprintf(render, "</strong>");
-    MAGENTA("%s", render);
-    fputs(render, html);
-  } else {
-    assert(paraEvn == 3);
-    sprintf(render, "</del>");
-    MAGENTA("%s", render);
-    fputs(render, html);
-  }
-}
-
 void endTag()
 {
   assert(paraEvn == 0 && lineEvn == 0);// 表不可能做到换行环境
@@ -66,8 +46,7 @@ void endTag()
 
 void endText()
 {
-  endLine();// 先处理行内环境
-  endPara();// 再处理强调环境
+  endPara();// 先处理行内环境和强调环境
   if (textEvn == 0) {
     assert(stackTop == 0);
     return;// 什么事也不做
@@ -89,6 +68,27 @@ void endText()
   textEvn = 0;
 }
 
+void endPara()
+{
+  endLine();// 先处理行内环境
+  if (paraEvn == 0) return;
+  RED("should not reach here");// 正常情况下不应该调用此函数
+  if (paraEvn == 1) {// em
+    sprintf(render, "</em>");
+    MAGENTA("%s", render);
+    fputs(render, html);// TODO
+  } else if (paraEvn == 2) {// strong
+    sprintf(render, "</strong>");
+    MAGENTA("%s", render);
+    fputs(render, html);
+  } else {
+    assert(paraEvn == 3);
+    sprintf(render, "</del>");
+    MAGENTA("%s", render);
+    fputs(render, html);
+  }
+}
+
 void endLine()
 {
   if (lineEvn == 1 || lineEvn == 2) {// code
@@ -100,6 +100,7 @@ void endLine()
     sprintf(render, "\n");// TODO,换行
   }
   if (lineEvn != 0) {// lineEvn == 0 不能够直接 return
+    assert(0);// TODO
     MAGENTA("%s", render);
     fputs(render, html);
     lineEvn = 0;

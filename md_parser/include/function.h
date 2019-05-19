@@ -105,18 +105,17 @@ void isOL()
     if (textEvn != 4 && textEvn != 5) {// 之前不是表环境
       endText();// 结束之前的段落
       textEvn = 5;// ol
+    } else {
+      endTag();// 向前回溯,TODO
     }
   }
 
   if ((stackTop >= 1)&&(tag == tagStack[stackTop - 1])) {// 同级
     assert(stackTop != 0);
     sprintf(render, "<li>\n");
-    textRend();
-    rend_tail = strlen(render);
-    sprintf(render + rend_tail, "</li>\n");// TODO
+    textRend();// TODO
   } else {
     assert(stackTop >= 0);
-    endTag();// 向前回溯
     if ((stackTop == 0)||(tag > tagStack[stackTop - 1]))
     {// 没有找到符合之前级数的缩进->增加tag级数
       RED("%d", tag);
@@ -129,14 +128,10 @@ void isOL()
 
       sprintf(render, "<ol start=\"%d\">\n<li>\n", num);
       textRend();
-      rend_tail = strlen(render);
-      sprintf(render + rend_tail, "\n</li>\n");// TODO
     } else {// 找到之前的同级
       assert(tag == tagStack[stackTop - 1]);
       sprintf(render, "<li>\n");
       textRend();
-      rend_tail = strlen(render);
-      sprintf(render + rend_tail, "\n</li>\n");// TODO
     }
   }
 }

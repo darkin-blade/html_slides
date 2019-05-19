@@ -231,10 +231,14 @@ void readFile()
       length --;
     }
     if (length == 0) {// 空行 
-      empty_line = 1;// 记录空行
+      assert(empty_line >= 0);
+      empty_line ++;// 记录空行
       endLine();// 终止段落,终止行内环境
       endPara();// 终止强调环境
       // 以上两个函数如果起了作用,说明md代码有问题
+      if (empty_line >= 2) {// 这个是正常语法
+        endText();// 取消一切环境
+      }
       continue;
     }
 
