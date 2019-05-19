@@ -37,6 +37,8 @@ void isTable()
   int i = 0, j = 0;
   int table_align[32];// 最多32列,0: center, -1: left, 1: right
   int left = 0, right = 0;// 记录----两边是否有:
+  int mid = 0;// 记录::中间是否有----
+  int column = 0;// 记录当前列数
   char next_line[MAX_LINE];// 下一行
   char del_space_1[MAX_LINE];// 清除所有空格之后的原文件字符串
   char del_space_2[MAX_LINE];// 针对next_line清除空格
@@ -56,6 +58,36 @@ void isTable()
       }
     }
     del_space_2[j] = '\0';
+
+    for (i = 0, j = -1;// j记录当前列数,TODO
+        del_space_2[i] != '\0'; i ++) {// 记录对齐样式
+      if (del_space_2[i] == '|') {
+        if (j != -1) {// 需要进行记录
+          if (left == right) {
+            table_align[j] = 0;
+          } else if (left == 1 && right == 0) {
+            table_align[j] = -1;// 左对齐
+          } else if (left == 0 && right == 1) {
+            table_align[j] = 1;// 右对齐
+          }
+        }
+        j ++;
+      } else if (del_space_2[i] == ':') {// TODO
+        if (left == 0) {// `|:`
+          left = 1;
+        } else if (mid == 1) {// `|:-:`
+          right = 1;
+        }
+      } else if (del_space_2[i] == '-') {// TODO
+        if (mid == 0) {// `|:-
+          mid = 1;
+        }
+      } else {// 非法字符
+        length = strlen(line);
+        sprintf(line + length, "%s", next_line);// TODO,合并两行
+        isPara();
+      }
+    }
   } else {
     isPara();// 视作段落,TODO
   }
