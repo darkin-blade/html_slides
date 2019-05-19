@@ -54,7 +54,10 @@ void readFile()
           && line[i + 2] == '`' && line[i + 3] != '`') {
         isCodeblock();// 大代码块
       } 
-      else if (line[i] == '>') {
+      else if (line[i] == '|' && line[i + 1] != '\0') {
+        isTable();// 表格
+      }
+      else if (line[i] == '>' && line[i + 1] != '\0') {
         isQuote();// 引用,注意: 该环境会与tag表无条件嵌套
       }
       else if (line[i] == '-' && line[i + 1] != '\0') {
