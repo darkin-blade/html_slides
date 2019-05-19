@@ -80,6 +80,7 @@ void isTitle();// 标题
 void isPara();// 段落
 void isUL();// 无序表
 void isOL();// 有序表
+void isQuote();// 引用
 void isImg();// 图片,TODO
 void isLink();// 链接,TODO
 

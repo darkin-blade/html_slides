@@ -124,6 +124,16 @@ void isPara()
   textRend();
 }
 
+void isQuote()
+{
+  assert(0);// TODO
+  int i = tag;
+  int quote = 0;// 引用级数
+  while (line[i] == '>') {
+    assert(0);// TODO
+  }
+}
+
 void textRend()
 {
   int i = 0;// 在这个函数里面不会对i的位置进行修正,在调用之间要把字符串缩减,TODO
@@ -260,6 +270,10 @@ void readFile()
       {// 大代码块
         isCodeblock();
       } 
+      else if (line[i] == '>')
+      {// 引用,注意: 该环境会与tag表无条件嵌套
+        isQuote();
+      }
       else if (line[i] == '-' && line[i + 1] != '\0') 
       {// 无序表,TODO 条件
         isUL();

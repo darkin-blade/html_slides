@@ -18,27 +18,16 @@ void endTag()
   for (; stackTop >= 1 && tag < tagStack[stackTop - 1]; stackTop --) {
     if (evnStack[stackTop - 1] == 4) {// ul
       strcat(render, "</ul>\n");
-    } else {// ol
-      assert(evnStack[stackTop - 1] == 5);
+    } else if (evnStack[stackTop - 1] == 5) {// ol
       strcat(render, "</ol>\n");
+    } else {
+      assert(evnStack[stackTop - 1] == 3);// blockquote
+      assert(tagStack[stackTop - 1] == -2);// TODO
+      strcat(render, "</blockquote>");
     }
     tagStack[stackTop - 1] = -1;// 复原
     evnStack[stackTop - 1] = 0;// 复原
   }
-  // if (tag == 0) {// 没有缩进时不能多个li并列
-  //   assert(stackTop <= 1);
-  //   for (tag = -1; stackTop >= 1 && tag < tagStack[stackTop - 1]; stackTop --) {
-  //     if (evnStack[stackTop - 1] == 4) {// ul
-  //       strcat(render, "</ul>\n");
-  //     } else {// ol
-  //       assert(evnStack[stackTop - 1] == 5);
-  //       strcat(render, "</ol>\n");
-  //     }
-  //     tagStack[stackTop - 1] = -1;// 复原
-  //     evnStack[stackTop - 1] = 0;// 复原
-  //   }
-  //   tag = 0;
-  // }
   MAGENTA("%s", render);
   fputs(render, html);
   assert(stackTop >= 0);
@@ -57,8 +46,8 @@ void endText()
     fputs(render, html);
   } else if (textEvn == 3) {// 引用块
     assert(0);// TODO
-  } else {// 清除ul,ol
-    assert(textEvn == 4 || textEvn == 5);// 暂未实现title
+  } else {// 清除ul,ol,blockquote
+    assert(textEvn == 4 || textEvn == 5 || textEvn == 3);// TODO
     int old_tag = tag;
     tag = -1;
     endTag();
