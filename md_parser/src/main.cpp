@@ -129,16 +129,21 @@ void imgRend(int &i)
 {
   int j = 0;
   int origin = i;// 原来的i
+  memset(link_con, 0, sizeof(link_con));
   for (; line[i] != '\0'; i ++)
   {
     if (line[i] == ']' && line[i + 1] == '(') {
       link_con_end = i;// 不包括i
+      link_con[j] = '\0';
       goto img_content_found;
     }
+    link_con[j] = line[i];
+    j ++;
   }
   goto img_content_fail;
 
 img_content_found:// 内容能够匹配
+  j = 0;
   memset(link_rel, 0, sizeof(link_rel));
   for (i += 2;// 先跳过']('
       line[i] != '\0'; i ++) {
@@ -152,7 +157,7 @@ img_content_found:// 内容能够匹配
   }
 
 img_content_fail:// 判定失败
-  link_con_end = link_rel_end = 0;// 判定失败
+  link_rel_end = 0;// 判定失败,TODO
   for (i = origin; line[i] != '\0'; i ++) {// 要证明嵌套的正确性,TODO
     lineRend(i);
   }
@@ -160,16 +165,11 @@ img_content_fail:// 判定失败
   assert(0);// should not reach there
 
 img_content_succ:// 成功
-  sprintf(render + rend_tail, "<a href=\"%s\">", link_rel);// TODO
-  rend_tail += strlen(render + rend_tail);// TODO
-  for (i = origin + 1;// 跳过'['
-      i < link_con_end; i ++) {// 渲染内容
-    lineRend(i);// TODO
-  }
-  sprintf(render + rend_tail, "</a>");
+  sprintf(render + rend_tail, "<img src=\"%s\" alt=\"%s\">",
+    link_rel, link_con);// TODO
   rend_tail += strlen(render + rend_tail);// TODO
   i = link_rel_end;// TODO
-  link_con_end = link_rel_end = 0;// TODO
+  link_rel_end = 0;// TODO
   return;
 }
 
