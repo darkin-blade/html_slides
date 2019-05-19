@@ -62,6 +62,7 @@ void isTable()
             table_align[j] = 1;// 右对齐
           }
         }
+        left = mid = right = 0;
         j ++;
       } else if (del_space[i] == ':') {// TODO
         if (left == 0) {// `|:`
@@ -70,7 +71,7 @@ void isTable()
           right = 1;
         }
       } else if (del_space[i] == '-') {// TODO
-        if (mid == 0) {// `|:-`
+        if (mid == 0) {// `|:-` / `|-`
           mid = 1;
         } else if (left == 0 && right == 1) {// `|-:-`
           assert(mid == 1);

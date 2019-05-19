@@ -83,5 +83,5 @@ table td {
 }
 
 table th {
-  border-top: 3px solid var(--code_grey);
+  border-top: 3px solid #ccc;
 }
