@@ -140,36 +140,42 @@ void linkRend(int &i)// 链接
       goto link_content_found;
     }
   }
-  link_con_end = 0;// 判定失败
-  assert(link_rel_end == 0);
   goto link_content_fail;
 
-link_content_found:
+link_content_found:// 内容能够匹配
   int j = 0;
   memset(link_rel, 0, sizeof(link_rel));
   for (i ++;// 先跳过']('
       line[i] != '\0'; i ++) {
     if (line[i] == ')') {
       link_rel_end = i;// 不包括i
-      return;
+      link_rel[j] = '\0';// TODO
+      goto link_content_succ;// 成功
     }
     link_rel[j] = line[i];// TODO
     j ++;
   }
-  link_con_end = link_rel_end = 0;// 判定失败
 
 link_content_fail:// 判定失败
+  link_con_end = link_rel_end = 0;// 判定失败
   for (i = origin; line[i] != '\0'; i ++) {// 要证明嵌套的正确性,TODO
     lineRend(i);
   }
   return;
+  assert(0);// should not reach there
 
 link_content_succ:// 成功
-  sprintf(render + rend_tail; "", )
+  sprintf(render + rend_tail; "<a href=\"%s\">", link_rel);// TODO
+  rend_tail += strlen(render + rend_tail);// TODO
   for (i = origin + 1;// 跳过'['
       i < link_con_end; i ++) {// 渲染内容
-    ;
+    lineRend(i);// TODO
   }
+  sprintf(rend_tail + rend_tail, "</a>");
+  rend_tail += strlen(render + rend_tail);// TODO
+  i = link_rel_end;// TODO
+  link_con_end = link_rel_end = 0;// TODO
+  return;
 }
 
 void lineRend(int &i)
