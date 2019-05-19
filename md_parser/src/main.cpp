@@ -67,6 +67,7 @@ redo_environment:
           && textEvn == 0) {// 不能继承任何其他环境
         isTable();// 表格
         if (redo == 1) {
+          redo = 0;
           goto redo_environment;// 重新判断
         }
       }
