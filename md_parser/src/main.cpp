@@ -75,7 +75,6 @@ redo_environment:
       else {// 正文
         isPara();
       }
-      RED("[%d] %d", __LINE__, textEvn);
     }
     WHITE("[%d] %s", line_num, line);
     MAGENTA("%s", render);
