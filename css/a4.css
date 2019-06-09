@@ -1,0 +1,39 @@
+:root {
+  --width: 210mm;
+  --height: 290mm;
+}
+
+@page {
+  size: 210mm 290mm;
+  overflow: hidden;
+}
+
+
+.slide {
+  width: var(--width);
+  height: var(--height);
+
+  margin-left: auto;
+  margin-right: auto;
+
+  display: block;
+  overflow: hidden;
+}
+
+@media screen {
+  .slide {
+    border: 1px solid black;
+  }
+}
+
+.content {
+  max-width: var(--width);
+  max-height: var(--height);
+  overflow: hidden;
+
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
