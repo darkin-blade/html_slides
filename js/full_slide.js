@@ -20,8 +20,36 @@ function my_scroll() {
   scroll_slide();
 }
 
+function scroll_slide() {
+  var all_slides = document.querySelectorAll(".slide");
+  var slide_num = all_slides.length;
+  if (window.event && window.event.wheelDelta) {
+    var w_delta = window.event.wheelDelta;
+    if (w_delta > 0) {
+      // 向上
+      if (cur_slide > 0)
+        cur_slide --;
+    } else {
+      // 向下
+      if (cur_slide < slide_num - 1)
+        cur_slide ++;
+    }
+  }
+  for (i = 0; i < slide_num; i ++) {
+    all_slides[i].style.top = ((i - cur_slide) * c_height) + "px";
+  }
+  // console.log(slide_num, window.event.wheelDelta);
+}
+
+function resize_slide() {
+  c_width -= 0;
+  c_height -= 0;
+  
+  $(".slide").css("height", (c_height - 2) + "px");
+  console.log(c_height, c_width);
+}
+
 function cal_size() {
-  // 计算窗口大小
   // 获取窗口宽度
   if (window.innerWidth)
     c_width = window.innerWidth;
@@ -37,21 +65,4 @@ function cal_size() {
     c_width = document.documentElement.clientWidth;
     c_height = document.documentElement.clientHeight;
   }
-}
-
-function scroll_slide() {
-  var all_slides = document.querySelectorAll(".slide");
-  var slide_num = all_slides.length;
-  for (i = 0; i < slide_num; i ++) {
-    all_slides[i].style.top = (i * c_height) + "px";
-  }
-  // console.log(slide_num, window.event.wheelDelta);
-}
-
-function resize_slide() {
-  c_width -= 0;
-  c_height -= 0;
-
-  $(".slide").css("height", (c_height - 2) + "px");
-  console.log(c_height, c_width);
 }
