@@ -1,6 +1,7 @@
 (function(){
   document.body.setAttribute("onresize", "my_resize()");
   document.body.setAttribute("onmousewheel", "my_scroll()");
+  document.body.setAttribute("onkeydown", "my_keydown()");
   setTimeout("my_resize()", 0);
   setTimeout("my_scroll()", 0);
 }());
@@ -20,25 +21,45 @@ function my_scroll() {
   scroll_slide();
 }
 
+function my_keydown() {
+  cal_size();
+  scroll_slide();
+}
+
 function scroll_slide() {
   var all_slides = document.querySelectorAll(".slide");
   var slide_num = all_slides.length;
-  if (window.event && window.event.wheelDelta) {
-    var w_delta = window.event.wheelDelta;
-    if (w_delta > 0) {
-      // 向上
-      if (cur_slide > 0)
+  if (window.event || event) {
+    var e = window.event || event;
+
+    if (e.wheelDelta) {
+      // 鼠标滚轮  
+      var w_delta = e.wheelDelta;
+      if (w_delta > 0) {
+        // 向上
         cur_slide --;
-    } else {
-      // 向下
-      if (cur_slide < slide_num - 1)
+      } else {
+        // 向下
         cur_slide ++;
+      }
+    } else if (e.keyCode) {
+      // 按键
+      console.log(e.keyCode);
+      if (e.keyCode == 39 || e.keyCode == 40 
+          || e.keyCode == 13 || e.keyCode == 32) {// 回车或空格
+        cur_slide ++;
+      } else if (e.keyCode == 37 || e.keyCode == 38) {
+        cur_slide --;
+      }
     }
   }
+
+  if (cur_slide >= slide_num) cur_slide = slide_num - 1;
+  if (cur_slide < 0) cur_slide = 0;
+  
   for (i = 0; i < slide_num; i ++) {
     all_slides[i].style.top = ((i - cur_slide) * c_height) + "px";
   }
-  // console.log(slide_num, window.event.wheelDelta);
 }
 
 function resize_slide() {
