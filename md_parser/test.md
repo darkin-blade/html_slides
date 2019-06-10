@@ -61,7 +61,7 @@ $$
 ---
 
 ![img](img/伊鹤武士350.jpg)
-![加载不出来的图片](加载不出来的图片)
+![加载不出来的图片](this picture can't load)
 
 ----
 
@@ -112,5 +112,5 @@ $$
 # 变态测试
 
 <script>
-alert("markdown内置javascript");
+alert("markdown's inside javascript");
 </script>

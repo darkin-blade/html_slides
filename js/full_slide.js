@@ -1,4 +1,10 @@
+var cur_slide = 0;
+var c_height = 0;
+var c_width = 0;
+
 (function(){
+  set_print();// 需要把print_style在最先设置好
+  
   document.body.setAttribute("onresize", "my_resize()");
   document.body.setAttribute("onmousewheel", "my_scroll()");
   document.body.setAttribute("onkeydown", "my_keydown()");
@@ -6,15 +12,14 @@
   setTimeout("my_scroll()", 0);
 }());
 
-var cur_slide = 0;
-var c_height;
-var c_width;
 
 function my_resize() {
   cal_size();
   resize_slide();
   setTimeout("resize_slide()", 0);
 
+  change_print();
+  
   my_scroll();
 }
 
@@ -26,6 +31,19 @@ function my_scroll() {
 function my_keydown() {
   cal_size();
   scroll_slide();
+}
+
+function change_print() {
+  var page_style = document.getElementById("print_style");
+  page_style.innerHTML = "@page{size: " + c_width + "px " + c_height + "px;}";
+  console.log(page_style.innerHTML);
+}
+
+function set_print() {
+  // @page的打印设置选项
+  var page_style = document.createElement("style");
+  page_style.id = "print_style";// TODO
+  document.body.appendChild(page_style);// 将css附在body最后面
 }
 
 function scroll_slide() {
