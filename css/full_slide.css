@@ -5,11 +5,12 @@ body {
 .slide {
   transition-duration: 0.5s;
   width: 100%;
-
+  
   display: block;
   position: absolute;
   overflow: hidden;
 }
+
 
 @media screen {
   /* 打印之后没有边框 */
@@ -19,9 +20,13 @@ body {
   }
 }
 
+.content_hide {
+  opacity: 0;
+}
+
 .content {
   /* 页内容 */
-  transition-duration: 0.5s;
+  transition-duration: 0.8s;
   transition-timing-function: ease-in;
 
   overflow: hidden;
@@ -34,4 +39,14 @@ body {
   padding-right: 20px;
   padding-top: 30px;
   padding-bottom: 30px;
+}
+
+#certain {
+  background-color: white;
+  z-index: 999;
+  width: 100%;
+  height: 2000px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
 }

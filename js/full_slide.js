@@ -3,16 +3,25 @@ var c_height = 0;
 var c_width = 0;
 
 (function(){
-  set_print();// 需要把print_style在最先设置好
-  fade_init();
-  
   document.body.setAttribute("onresize", "my_resize()");
   document.body.setAttribute("onmousewheel", "my_scroll()");
   document.body.setAttribute("onkeydown", "my_keydown()");
-  setTimeout("my_resize()", 0);
-  setTimeout("my_scroll()", 0);
+
+  setTimeout("my_load()", 0);
 }());
 
+function my_load() {
+  set_print();// 需要把print_style在最先设置好
+  
+  setTimeout("my_resize()", 0);
+
+  var certain = document.createElement("div");
+  certain.id = "certain";
+  document.body.appendChild(certain);
+
+  $(".content").toggleClass("content_hide");
+  content_fade();
+}
 
 function my_resize() {
   cal_size();
@@ -21,17 +30,33 @@ function my_resize() {
 
   change_print();// 修改打印样式
   
-  my_scroll();
+  scroll_slide();// TODO
 }
 
 function my_scroll() {
-  cal_size();
-  scroll_slide();
+  my_keydown();
 }
 
 function my_keydown() {
   cal_size();
   scroll_slide();
+  content_fade();// TODO
+}
+
+function content_fade() {
+  console.log(cur_slide);
+  var all_content = document.querySelectorAll(".content");
+  var slide_num = all_content.length;
+  console.log(cur_slide);
+  
+  for (i = 0; i < slide_num; i ++) {
+    // 淡入,切换时调用
+    if (i == cur_slide) {
+      all_content[i].className = "content";
+    } else {
+      all_content[i].className = "content content_hide";
+    }
+  }
 }
 
 function change_print() {
@@ -80,33 +105,7 @@ function scroll_slide() {
   for (i = 0; i < slide_num; i ++) {
     all_slides[i].style.top = ((i - cur_slide) * c_height) + "px";
   }
-  setTimeout("content_fade()", 200);
 }
-
-function fade_init() {
-  var all_content = document.querySelectorAll(".content");
-  var slide_num = all_content.length;
-  
-  for (i = 0; i < slide_num; i ++) {
-    all_content[i].style.opacity = 0;
-  }
-}
-
-function content_fade() {
-  // 淡入,切换时调用
-  console.log(cur_slide);
-  var all_content = document.querySelectorAll(".content");
-  var slide_num = all_content.length;
-  
-  for (i = 0; i < slide_num; i ++) {
-    if (i == cur_slide) {
-      all_content[i].style.opacity = 1;
-    } else {
-      all_content[i].style.opacity = 0;
-    }
-  }
-}
-
 
 function resize_slide() {
   // 将幻灯片调成和浏览器等高
