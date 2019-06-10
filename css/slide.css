@@ -14,7 +14,8 @@
   height: var(--height);
   transform-origin: top left;
 
-  position: fixed;
+  display: block;
+  position: absolute;
   overflow: hidden;
 }
 

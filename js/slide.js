@@ -4,6 +4,11 @@
 }());
 
 function my_resize() {
+  change_slide();
+  setTimeout("change_slide()", 0);
+}
+
+function change_slide() {
   // 获取窗口宽度
   if (window.innerWidth)
     c_width = window.innerWidth;
