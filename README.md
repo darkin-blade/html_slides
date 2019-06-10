@@ -4,7 +4,7 @@
 
 ### 编译markdown
 
-在`html_slides/md_parser/`下`make run`,在`Input markdown file name (default: test.md)`后输入markdown文件名(带后缀),在`Input html file name (default: test.html)`后输入目标html文件名(生成在当前目录).
+在`html_slides/md_parser/`下`make run`,在`Input markdown file name (default: ***.md)`后输入markdown文件名(带后缀),在`Input html file name (default: ***.html)`后输入目标html文件名(生成在当前目录).
 
 如果使用`<ctrl-d>`结束输入,编译器会将文件名置为默认值
 
@@ -49,13 +49,21 @@
 
 > TODO
 
-# 其他
+# 文件说明
 
-## css说明
+## css
 
 使用了自己[博客](https://niabie.github.io)的css
 
-| 位置 | 功能 |
-| :--: | :--: |
-| code\_molokai.styl | sublime molokai风格的代码块 |
-| paper.css | 正文 |
+- `css/a4.css`:a4页面大小
+- `css/molokai.css`:`sublime`的`molokai`风格代码块
+- `css/paper.css`:基本样式
+
+## javascript
+
+- `js/highlight.min.js`:代码块解析
+- `js/deep_highlight.js`:优化代码块解析(配合`css/molokai.css`使用)
+
+## font
+
+字体文件

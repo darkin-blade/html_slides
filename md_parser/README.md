@@ -9,7 +9,7 @@
 - `include/part.h`:`partial/`下模板的加载
 - `include/rend.h`:主体段落的渲染
 - `include/small.h`:标题,列表,分割,段落,引用
-- `include/big.h`:大代码块,表格
+- `include/big.h`:代码块,表格
 - `include/end.h`:用于结束环境
 
 ### html模板
