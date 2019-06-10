@@ -1,6 +1,6 @@
 (function(){
   document.body.setAttribute("onresize", "my_resize()");
-  my_resize();
+  setTimeout("my_resize()", 0);
 }());
 
 function my_resize() {
@@ -19,25 +19,26 @@ function my_resize() {
     c_width = document.documentElement.clientWidth;
     c_height = document.documentElement.clientHeight;
   }
-  c_width -= 20;
-  c_height -= 20;
-  // var c_height = document.body.clientHeight;
-  // var c_width = document.body.clientWidth;
-  // var c_height = window.innerHeight - 20;
-  // var c_width = window.innerWidth - 20;
+  c_width -= 0;
+  c_height -= 0;
   
   var r_height = c_height / 700;
   var r_width = c_width / 1000;
+  var off_top = 0;
+  var off_left = 0;
   var rate = 1;
   if (r_height < r_width) {
     // 100%宽度
     rate = r_height;
-    $(".slide").css("left", "0px");
   } else {
     // 100%高度
     rate = r_width;
-    // $(".slide").css("top", "0px");
   }
-  console.log(c_height, c_width, rate);
+  off_left = (c_width - rate * 1000) / 2;
+  off_top = (c_height - rate * 700) / 2;
+  console.log(c_height, c_width, rate, off_top, off_left);
+
+  $(".slide").css("top", off_top + "px");
+  $(".slide").css("left", off_left + "px");
   $(".slide").css("transform", "scale(" + rate + ")");
 }

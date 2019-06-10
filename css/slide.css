@@ -14,8 +14,6 @@
   height: var(--height);
   transform-origin: top left;
 
-  margin: 10px;
-
   position: fixed;
   overflow: hidden;
 }
@@ -23,7 +21,7 @@
 @media screen {
   /* 打印之后没有边框 */
   .slide {
-    box-shadow: 0px 0px 3px black;
+    box-shadow: 0px 0px 10px black;
   }
 }
 
