@@ -14,6 +14,8 @@ function my_resize() {
   cal_size();
   resize_slide();
   setTimeout("resize_slide()", 0);
+
+  my_scroll();
 }
 
 function my_scroll() {
