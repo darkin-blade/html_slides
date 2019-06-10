@@ -3,7 +3,7 @@ body {
 }
 
 .slide {
-  transition-duration: 1s;
+  transition-duration: 0.5s;
   width: 100%;
 
   display: block;
@@ -21,6 +21,9 @@ body {
 
 .content {
   /* 页内容 */
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in;
+
   overflow: hidden;
   max-width: 1000px;
   

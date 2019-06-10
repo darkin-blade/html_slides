@@ -4,6 +4,7 @@ var c_width = 0;
 
 (function(){
   set_print();// 需要把print_style在最先设置好
+  fade_init();
   
   document.body.setAttribute("onresize", "my_resize()");
   document.body.setAttribute("onmousewheel", "my_scroll()");
@@ -18,7 +19,7 @@ function my_resize() {
   resize_slide();
   setTimeout("resize_slide()", 0);
 
-  change_print();
+  change_print();// 修改打印样式
   
   my_scroll();
 }
@@ -36,7 +37,6 @@ function my_keydown() {
 function change_print() {
   var page_style = document.getElementById("print_style");
   page_style.innerHTML = "@page{size: " + c_width + "px " + c_height + "px;}";
-  console.log(page_style.innerHTML);
 }
 
 function set_print() {
@@ -47,11 +47,9 @@ function set_print() {
 }
 
 function scroll_slide() {
-  var all_slides = document.querySelectorAll(".slide");
-  var slide_num = all_slides.length;
   if (window.event || event) {
     var e = window.event || event;
-
+    
     if (e.wheelDelta) {
       // 鼠标滚轮  
       var w_delta = e.wheelDelta;
@@ -64,30 +62,58 @@ function scroll_slide() {
       }
     } else if (e.keyCode) {
       // 按键
-      console.log(e.keyCode);
       if (e.keyCode == 39 || e.keyCode == 40 
-          || e.keyCode == 13 || e.keyCode == 32) {// 回车或空格
+        || e.keyCode == 13 || e.keyCode == 32) {// 回车或空格
         cur_slide ++;
       } else if (e.keyCode == 37 || e.keyCode == 38) {
         cur_slide --;
       }
     }
   }
-
-  if (cur_slide >= slide_num) cur_slide = slide_num - 1;
-  if (cur_slide < 0) cur_slide = 0;
+  
+  var all_slides = document.querySelectorAll(".slide");
+  var slide_num = all_slides.length;
+  if (cur_slide == slide_num) cur_slide = slide_num - 1;// TODO
+  if (cur_slide == -1) cur_slide = 0;
+  // 只进行特判,否则妨碍初始化
   
   for (i = 0; i < slide_num; i ++) {
     all_slides[i].style.top = ((i - cur_slide) * c_height) + "px";
   }
+  setTimeout("content_fade()", 200);
 }
 
+function fade_init() {
+  var all_content = document.querySelectorAll(".content");
+  var slide_num = all_content.length;
+  
+  for (i = 0; i < slide_num; i ++) {
+    all_content[i].style.opacity = 0;
+  }
+}
+
+function content_fade() {
+  // 淡入,切换时调用
+  console.log(cur_slide);
+  var all_content = document.querySelectorAll(".content");
+  var slide_num = all_content.length;
+  
+  for (i = 0; i < slide_num; i ++) {
+    if (i == cur_slide) {
+      all_content[i].style.opacity = 1;
+    } else {
+      all_content[i].style.opacity = 0;
+    }
+  }
+}
+
+
 function resize_slide() {
+  // 将幻灯片调成和浏览器等高
   c_width -= 0;
   c_height -= 0;
   
   $(".slide").css("height", (c_height - 2) + "px");
-  console.log(c_height, c_width);
 }
 
 function cal_size() {

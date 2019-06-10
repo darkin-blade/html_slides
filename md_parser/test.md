@@ -112,5 +112,5 @@ $$
 # 变态测试
 
 <script>
-alert("markdown's inside javascript");
+// alert("markdown's inside javascript");
 </script>
