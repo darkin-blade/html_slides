@@ -1,5 +1,5 @@
 *.html
+*.md
 img/
 new/
 md_parser
-*.md

@@ -91,7 +91,7 @@ void openFile()
   YELLOW("Your current path: [%s]", getenv("PWD"));// 当前目录
 
   green("Input markdown file name ");
-  sprintf(mdFileName, "171240525.md");// TODO,ctrl D
+  sprintf(mdFileName, "test.md");// TODO,ctrl D
   YELLOW("(default: %s)", mdFileName);
   scanf("%s", mdFileName);
   green("md filename is ");
@@ -104,7 +104,7 @@ void openFile()
   }
 
   green("Input html file name ");
-  sprintf(htmlFileName, "171240525.html");// TODO,ctrl D
+  sprintf(htmlFileName, "test.html");// TODO,ctrl D
   YELLOW("(default: %s)", htmlFileName);
   scanf("%s", htmlFileName);// TODO
   green("html filename is ");
