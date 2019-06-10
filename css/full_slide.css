@@ -1,0 +1,29 @@
+body {
+  overflow: hidden;
+}
+
+.slide {
+  width: 100%;
+
+  display: block;
+  position: absolute;
+  overflow: hidden;
+}
+
+@media screen {
+  /* 打印之后没有边框 */
+  .slide {
+    border-top: 1px solid red;
+    border-bottom: 1px solid red;
+  }
+}
+
+.content {
+  /* 页内容 */
+  overflow: hidden;
+
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}

@@ -1,0 +1,57 @@
+(function(){
+  document.body.setAttribute("onresize", "my_resize()");
+  document.body.setAttribute("onmousewheel", "my_scroll()");
+  setTimeout("my_resize()", 0);
+  setTimeout("my_scroll()", 0);
+}());
+
+var cur_slide = 0;
+var c_height;
+var c_width;
+
+function my_resize() {
+  cal_size();
+  resize_slide();
+  setTimeout("resize_slide()", 0);
+}
+
+function my_scroll() {
+  cal_size();
+  scroll_slide();
+}
+
+function cal_size() {
+  // 计算窗口大小
+  // 获取窗口宽度
+  if (window.innerWidth)
+    c_width = window.innerWidth;
+  else if ((document.body) && (document.body.clientWidth))
+    c_width = document.body.clientWidth;
+  // 获取窗口高度
+  if (window.innerHeight)
+    c_height = window.innerHeight;
+  else if ((document.body) && (document.body.clientHeight))
+    c_height = document.body.clientHeight;
+  // 通过深入 Document 内部对 body 进行检测，获取窗口大小
+  if (document.documentElement && document.documentElement.clientHeight && document.documentElement.clientWidth) {
+    c_width = document.documentElement.clientWidth;
+    c_height = document.documentElement.clientHeight;
+  }
+}
+
+function scroll_slide() {
+  var all_slides = document.querySelectorAll(".slide");
+  var slide_num = all_slides.length;
+  for (i = 0; i < slide_num; i ++) {
+    all_slides[i].style.top = (i * c_height) + "px";
+  }
+  // console.log(slide_num, window.event.wheelDelta);
+}
+
+function resize_slide() {
+  c_width -= 0;
+  c_height -= 0;
+
+  $(".slide").css("height", (c_height - 2) + "px");
+  console.log(c_height, c_width);
+}
