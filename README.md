@@ -12,7 +12,7 @@
 
 ## 使用
 
-### 编译模式
+### 编译模式的选择
 
 - A4大小:在`md_parser/partial/css.html`中引用`a4.css`
 - 仿WebSlides幻灯片:在`md_parser/partial/css.html`中引用`full_slide.css`,在`md_parser/partial/js.html`中引用`full_slide.js`
@@ -61,13 +61,26 @@
 
 ## TODO
 
+- 打印会有`1px`左右的偏差
+
 # 幻灯片模式
 
 ## 仿WebSlides
 
+### 使用
+
+#### 以slide为单位的动画
+
+在`md`文件中想要增加动画的部分,前后加上`<div class="ani">`,`</div>`,每个页面可以有多个这样的`div`
+
+#### 打印
+
+在浏览器窗口发生调整时会自动调节打印机的打印尺寸,打印的部分为`<div class="content">`的部分
+
 ### TODO
 
-打印模式会有`1px`左右的误差,导致打印成pdf的时候有时会多出一张
+- 打印模式会有`1px`左右的误差,导致打印成pdf的时候有时会多出一张
+- 嵌套`<div class="ani">`有时会影响`md`文件的解析
 
 ## 仿remark.js
 

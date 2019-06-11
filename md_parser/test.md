@@ -86,12 +86,14 @@ $$
    > 内部
     - 6
      > 内部
+<div class="ani">
   >>> 内部
   latex: $$ \begin{cases}
   1\ &\ (x < 0)\\\\
   0\ &\ (x\ge0)\\\\
   \end{cases}
   $$
+  </div>
   </div>
 
 ---
