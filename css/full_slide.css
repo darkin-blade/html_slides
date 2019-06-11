@@ -56,7 +56,7 @@ body {
 
 .content {
   /* 页内容 */
-  transition-duration: 0.5s;
+  transition-duration: 0.2s;
   transition-timing-function: ease-in;
 
   overflow: hidden;

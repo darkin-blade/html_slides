@@ -72,7 +72,7 @@ function ani_fade() {
 }
 
 function content_fade() {
-  setTimeout("ani_fresh()", 400);// TODO,时间
+  setTimeout("ani_fresh()", 500);// TODO,时间
 }
 
 
