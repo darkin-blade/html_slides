@@ -65,6 +65,10 @@
 
 ## 仿WebSlides
 
+### TODO
+
+打印模式会有`1px`左右的误差,导致打印成pdf的时候有时会多出一张
+
 ## 仿remark.js
 
 > TODO

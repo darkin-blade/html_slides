@@ -27,7 +27,7 @@ function my_load() {
 }
 
 function after_load() {
-  $(".curtain").css("z-index", "-10");
+  $(".curtain").css("display", "none");
 }
 
 function my_mousedown() {
@@ -107,7 +107,7 @@ function change_print() {
   var page_style = document.getElementById("print_style");
   var p_width = c_width;
   if (p_width > 1000) p_width = 1000;
-  page_style.innerHTML = "@page{size: " + p_width + "px " + c_height + "px;}";
+  page_style.innerHTML = "@page{size: " + p_width + "px " + (c_height + 1) + "px;}";// TODO
 }
 
 function set_print() {
@@ -164,7 +164,7 @@ function resize_slide() {
   c_width -= 0;
   c_height -= 0;
   
-  $(".slide").css("height", (c_height - 2) + "px");
+  $(".slide").css("height", (c_height - 2) + "px");// TODO
 }
 
 function cal_size() {
