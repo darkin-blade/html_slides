@@ -1,10 +1,26 @@
 # markdown编译器`md_parser`
 
+## 默认配置
+
+### js
+
+在`md_parser/partial/js.html`,默认加载:`jquery.min.js`,`highlight.min.js`,`deep_highlight.js`
+
+### css
+
+在`markdown/partial/css.html`,默认加载:`paper.css`,`molokai.css`
+
 ## 使用
+
+### 编译模式
+
+- A4大小:在`md_parser/partial/css.html`中引用`a4.css`
+- 仿WebSlides幻灯片:在`md_parser/partial/css.html`中引用`full_slide.css`,在`md_parser/partial/js.html`中引用`full_slide.js`
+- 仿remark.js幻灯片(`TODO`):在`md_parser/partial/css.html`中引用`scale_slide.css`,在`md_parser/partial/js.html`中引用`scale_slide.js`
 
 ### 编译markdown
 
-在`html_slides/md_parser/`下`make run`,在`Input markdown file name (default: ***.md)`后输入markdown文件名(带后缀),在`Input html file name (default: ***.html)`后输入目标html文件名(生成在当前目录).
+在`md_parser/`下`make run`,在`Input markdown file name (default: ***.md)`后输入markdown文件名(带后缀),在`Input html file name (default: ***.html)`后输入目标html文件名(生成在当前目录).
 
 如果使用`<ctrl-d>`结束输入,编译器会将文件名置为默认值
 
@@ -46,6 +62,10 @@
 ## TODO
 
 # 幻灯片模式
+
+## 仿WebSlides
+
+## 仿remark.js
 
 > TODO
 

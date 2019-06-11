@@ -105,7 +105,9 @@ function ani_fresh() {
 
 function change_print() {
   var page_style = document.getElementById("print_style");
-  page_style.innerHTML = "@page{size: " + c_width + "px " + c_height + "px;}";
+  var p_width = c_width;
+  if (p_width > 1000) p_width = 1000;
+  page_style.innerHTML = "@page{size: " + p_width + "px " + c_height + "px;}";
 }
 
 function set_print() {

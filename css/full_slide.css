@@ -14,10 +14,11 @@ body {
 
 @media screen {
   /* 幻灯片视角 */
-  /* 打印之后没有边框 */
   .slide {
+    /* 打印时没有边框 */
     border-top: 1px solid red;
     border-bottom: 1px solid red;
+    overflow: hidden;
   }
 
   .curtain_hide {
