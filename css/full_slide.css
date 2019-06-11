@@ -59,9 +59,11 @@ body {
 }
 
 .ani_show {
+  transition-duration: 0.5s;
   opacity: 1;
 }
 
 .ani {
+  transition-duration: 0.5s;
   opacity: 0;
 }
