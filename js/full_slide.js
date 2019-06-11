@@ -1,6 +1,9 @@
 var cur_slide = 0;
+// 当前slide编号
 var c_height = 0;
+// 当前窗口高度
 var c_width = 0;
+// 当前窗口宽度
 
 (function(){
   document.body.setAttribute("onload", "my_load()");
@@ -13,16 +16,18 @@ function my_load() {
   document.body.setAttribute("onresize", "my_resize()");
   document.body.setAttribute("onmousewheel", "my_scroll()");
   document.body.setAttribute("onkeydown", "my_keydown()");
+  document.body.setAttribute("onmousedown", "my_mousedown()");
   // 添加监听
   
   setTimeout("my_resize()", 0);
 
   content_fade();
-  setTimeout("after_load()", 0);
+  $("#curtain").toggleClass("curtain_hide");
+  $("#curtain").css("z-index", "-1000");
 }
 
-function after_load() {
-  $("#curtain").toggleClass("curtain_hide");
+function my_mousedown() {
+  $(".ani").toggleClass("ani_show ani");
 }
 
 function my_resize() {
@@ -46,10 +51,8 @@ function my_keydown() {
 }
 
 function content_fade() {
-  console.log(cur_slide);
   var all_content = document.querySelectorAll(".content");
   var slide_num = all_content.length;
-  console.log(cur_slide);
   
   for (i = 0; i < slide_num; i ++) {
     // 淡入,切换时调用
@@ -133,4 +136,5 @@ function cal_size() {
     c_width = document.documentElement.clientWidth;
     c_height = document.documentElement.clientHeight;
   }
+
 }

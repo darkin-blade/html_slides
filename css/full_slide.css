@@ -46,6 +46,7 @@ body {
 }
 
 #curtain {
+  /* 刚进入(第一页)时用于渐变 */
   transition-duration: 2s;
   background-color: white;
   width: 100%;
@@ -55,4 +56,12 @@ body {
   top: 0px;
   left: 0px;
   z-index: 999;
+}
+
+.ani_show {
+  opacity: 1;
+}
+
+.ani {
+  opacity: 0;
 }
