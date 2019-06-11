@@ -3,24 +3,26 @@ var c_height = 0;
 var c_width = 0;
 
 (function(){
-  document.body.setAttribute("onresize", "my_resize()");
-  document.body.setAttribute("onmousewheel", "my_scroll()");
-  document.body.setAttribute("onkeydown", "my_keydown()");
-
-  setTimeout("my_load()", 0);
+  document.body.setAttribute("onload", "my_load()");
+  // setTimeout("my_load()", 0);
 }());
 
 function my_load() {
   set_print();// 需要把print_style在最先设置好
   
+  document.body.setAttribute("onresize", "my_resize()");
+  document.body.setAttribute("onmousewheel", "my_scroll()");
+  document.body.setAttribute("onkeydown", "my_keydown()");
+  // 添加监听
+  
   setTimeout("my_resize()", 0);
 
-  var certain = document.createElement("div");
-  certain.id = "certain";
-  document.body.appendChild(certain);
-
-  $(".content").toggleClass("content_hide");
   content_fade();
+  setTimeout("after_load()", 0);
+}
+
+function after_load() {
+  $("#curtain").toggleClass("curtain_hide");
 }
 
 function my_resize() {

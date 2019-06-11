@@ -41,12 +41,18 @@ body {
   padding-bottom: 30px;
 }
 
-#certain {
+.curtain_hide {
+  opacity: 0;
+}
+
+#curtain {
+  transition-duration: 2s;
   background-color: white;
-  z-index: 999;
   width: 100%;
   height: 2000px;
+
   position: fixed;
   top: 0px;
   left: 0px;
+  z-index: 999;
 }
