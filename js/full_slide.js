@@ -21,12 +21,17 @@ function my_load() {
   
   setTimeout("my_resize()", 0);
 
+  $(".ani").toggleClass("ani_hide");// 隐藏所有动画
   content_fade();
-  $("#curtain").toggleClass("curtain_hide");
+  $(".curtain").toggleClass("curtain_hide curtain");
+  setTimeout("after_load()", 1000);
+}
+
+function after_load() {
+  $(".curtain_hide").css("z-index", "-10");
 }
 
 function my_mousedown() {
-  $(".ani").toggleClass("ani_show ani");
 }
 
 function my_resize() {
@@ -59,6 +64,20 @@ function content_fade() {
       all_content[i].className = "content";
     } else {
       all_content[i].className = "content content_hide";
+    }
+  }
+
+  // 刷新所有动画
+  var all_ani = document.querySelectorAll(".ani");
+  var ani_num = all_ani.length;
+  for (i = 0; i < ani_num; i ++) {
+    var t_offset = $(all_ani[i]).top - 0;
+    if (t_offset <= 0) {
+      // 在屏幕之上
+      all_ani[i].className = "ani ani_show";
+    } else if (t_offset >= c_height) {
+      // 在屏幕之下
+      all_ani[i].className = "ani ani_hide";
     }
   }
 }
