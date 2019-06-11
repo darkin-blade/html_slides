@@ -164,7 +164,7 @@ function resize_slide() {
   c_width -= 0;
   c_height -= 0;
   
-  $(".slide").css("height", (c_height - 2) + "px");// TODO
+  $(".slide").css("height", (c_height - 0) + "px");// TODO
 }
 
 function cal_size() {

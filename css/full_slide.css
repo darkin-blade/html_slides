@@ -16,8 +16,8 @@ body {
   /* 幻灯片视角 */
   .slide {
     /* 打印时没有边框 */
-    border-top: 1px solid red;
-    border-bottom: 1px solid red;
+    /* border-top: 1px solid red; */
+    /* border-bottom: 1px solid red; */
     overflow: hidden;
     margin: 0px;
     padding: 0px;
