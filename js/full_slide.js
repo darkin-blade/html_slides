@@ -23,7 +23,6 @@ function my_load() {
 
   content_fade();
   $("#curtain").toggleClass("curtain_hide");
-  $("#curtain").css("z-index", "-1000");
 }
 
 function my_mousedown() {
