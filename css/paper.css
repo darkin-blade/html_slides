@@ -52,8 +52,12 @@ table td {
   border-bottom: 1px solid #ccc;
 }
 
-table th {
-  border-top: 3px solid #ccc;
+table tr {
+  transition-duration: 0.5s;
+}
+
+table tr:hover {
+  background-color: rgb(240, 240, 240);
 }
 
 blockquote {
