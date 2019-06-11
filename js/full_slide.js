@@ -131,11 +131,12 @@ function scroll_slide() {
       }
     } else if (e.keyCode) {
       // 按键
-      if (e.keyCode == 39 || e.keyCode == 40 
-        || e.keyCode == 13 || e.keyCode == 32) {// 回车或空格
+      if (e.keyCode == 39 || e.keyCode == 40) {
         cur_slide ++;
       } else if (e.keyCode == 37 || e.keyCode == 38) {
         cur_slide --;
+      } else if (e.keyCode == 13 || e.keyCode == 32) {// 回车或空格
+        ani_fade();
       }
     }
   }
