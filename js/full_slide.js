@@ -72,6 +72,11 @@ function ani_fade() {
 }
 
 function content_fade() {
+  setTimeout("ani_fresh()", 400);// TODO,时间
+}
+
+
+function ani_fresh() {
   var all_content = document.querySelectorAll(".content");
   var slide_num = all_content.length;
   
@@ -84,10 +89,6 @@ function content_fade() {
     }
   }
 
-  setTimeout("ani_fresh()", 500);// TODO,时间
-}
-
-function ani_fresh() {
   // 刷新所有动画
   var all_ani = document.querySelectorAll(".ani");
   var ani_num = all_ani.length;

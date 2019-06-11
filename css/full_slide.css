@@ -14,12 +14,6 @@ body {
 
 @media screen {
   /* 幻灯片视角 */
-  .slide {
-    /* 打印时没有边框 */
-    /* border-top: 1px solid red; */
-    /* border-bottom: 1px solid red; */
-    overflow: hidden;
-  }
 
   .curtain_hide {
     opacity: 0;
@@ -27,7 +21,7 @@ body {
 
   .curtain {
     /* 刚进入(第一页)时用于渐变 */
-    transition-duration: 2s;
+    transition-duration: 0.5s;
     background-color: white;
     width: 100%;
     height: 2000px;
@@ -54,6 +48,7 @@ body {
   }
   
   .content_hide {
+    transition-duration: 0s;
     opacity: 0;
   }
 }
@@ -61,7 +56,7 @@ body {
 
 .content {
   /* 页内容 */
-  transition-duration: 0.8s;
+  transition-duration: 0.5s;
   transition-timing-function: ease-in;
 
   overflow: hidden;
