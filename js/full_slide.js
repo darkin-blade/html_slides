@@ -7,7 +7,6 @@ var c_width = 0;
 
 (function(){
   document.body.setAttribute("onload", "my_load()");
-  // setTimeout("my_load()", 0);
 }());
 
 function my_load() {
@@ -145,8 +144,9 @@ function scroll_slide() {
   var slide_num = all_slides.length;
   if (cur_slide == slide_num) cur_slide = slide_num - 1;// TODO
   if (cur_slide == -1) {
+    // 清除所有动画
     console.log("reset");
-    $(".ani .ani_show").toggleClass("ani_show ani_hide");
+    $(".ani_show").toggleClass("ani_show ani_hide");
     cur_slide = 0;
   }
   // 只进行特判,否则妨碍初始化
