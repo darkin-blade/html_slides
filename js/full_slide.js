@@ -32,6 +32,8 @@ function after_load() {
 }
 
 function my_mousedown() {
+  ani_fade();
+  // 动画依次出现
 }
 
 function my_resize() {
@@ -54,6 +56,22 @@ function my_keydown() {
   content_fade();// TODO
 }
 
+function ani_fade() {
+  // 动画依次出现
+  var all_ani = document.querySelectorAll(".ani");
+  var ani_num = all_ani.length;
+  for (i = 0; i < ani_num; i ++) {
+    var t_offset = $(all_ani[i]).offset().top - 0;
+    console.log(i, t_offset, c_height);
+    if (t_offset >= 0 && t_offset <= c_height) {
+      if (all_ani[i].className == "ani ani_hide") {
+        all_ani[i].className = "ani ani_show";
+        return;// 只显示一个
+      }
+    }
+  }
+}
+
 function content_fade() {
   var all_content = document.querySelectorAll(".content");
   var slide_num = all_content.length;
@@ -67,16 +85,15 @@ function content_fade() {
     }
   }
 
-  setTimeout("ani_fade()", 500);// TODO,时间
+  setTimeout("ani_fresh()", 500);// TODO,时间
 }
 
-function ani_fade() {
+function ani_fresh() {
   // 刷新所有动画
   var all_ani = document.querySelectorAll(".ani");
   var ani_num = all_ani.length;
   for (i = 0; i < ani_num; i++) {
     var t_offset = $(all_ani[i]).offset().top - 0;
-    console.log(i, t_offset);
     if (t_offset <= 0) {
       // 在屏幕之上
       all_ani[i].className = "ani ani_show";
@@ -127,7 +144,11 @@ function scroll_slide() {
   var all_slides = document.querySelectorAll(".slide");
   var slide_num = all_slides.length;
   if (cur_slide == slide_num) cur_slide = slide_num - 1;// TODO
-  if (cur_slide == -1) cur_slide = 0;
+  if (cur_slide == -1) {
+    console.log("reset");
+    $(".ani .ani_show").toggleClass("ani_show ani_hide");
+    cur_slide = 0;
+  }
   // 只进行特判,否则妨碍初始化
   
   for (i = 0; i < slide_num; i ++) {
