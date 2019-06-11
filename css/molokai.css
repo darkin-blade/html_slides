@@ -74,7 +74,6 @@ pre code {
 }
 
 pre {
-  padding-bottom: -10px;
   /* 强制换行必须要修改pre */
   word-break: break-all;
   white-space: pre-wrap;
