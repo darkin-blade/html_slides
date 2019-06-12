@@ -72,6 +72,12 @@
 
 ### 使用
 
+#### 按键
+
+- 下一张:`<right>`,`<down>`,`<scroll down>`
+- 上一张:`<left>`,`<up>`,`<scroll up>`
+- 下一个动画:`<space>`,`<enter>`,`<left mouse>`
+
 #### 以slide为单位的动画
 
 在`md`文件中想要增加动画的部分,前后加上`<div class="ani">`,`</div>`,每个页面可以有多个这样的`div`
