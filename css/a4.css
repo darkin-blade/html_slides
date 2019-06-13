@@ -8,7 +8,6 @@
   overflow: hidden;
 }
 
-
 .slide {
   /* 每一页 */
   width: var(--width);

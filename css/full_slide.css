@@ -1,10 +1,16 @@
 body {
   overflow: hidden;
+  font-size: large;
+}
+
+code {
+  font-size: large;
 }
 
 .slide {
   transition-duration: 0.5s;
   width: 100%;
+  /* 整个屏幕 */
   
   display: block;
   position: absolute;
