@@ -73,6 +73,11 @@ pre code {
   /* 所有普通字符 */
 }
 
+code {
+  font-family: 'DejaVu Sans Mono for Powerline', monospace;
+  font-size: large;
+}
+
 pre {
   /* 强制换行必须要修改pre */
   word-break: break-all;

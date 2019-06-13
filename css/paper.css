@@ -14,7 +14,7 @@
 
 body {
   margin: 0;
-  font-family: 'Microsoft Yahei', sans-serif;
+  font-size: large;
 }
 
 h1 {
@@ -23,7 +23,6 @@ h1 {
 
 .code {
   background: rgb(220, 220, 220);
-  font-family: 'DejaVu Sans Mono for Powerline';
 }
 
 img {
@@ -70,6 +69,10 @@ blockquote {
 
 p,
 ul,
+table {
+  font-family: 'Arimo for Powerline', serif;
+}
+
 h1,
 h2,
 h3,
@@ -77,10 +80,12 @@ h4,
 h5,
 h6 {
   word-break: normal;
+  font-family: 'Microsoft Yahei', sans-serif;
 }
 
 p strong,
 ul strong,
+table strong,
 h1 strong,
 h2 strong,
 h3 strong,
