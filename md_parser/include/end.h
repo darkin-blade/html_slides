@@ -90,7 +90,7 @@ void endLine()
     RED("forget code ?");// 正常情况下不应该调用此函数
     sprintf(render, "\n</code>\n");// TODO,换行
   } else if (lineEvn == 3 || lineEvn == 4) {
-    RED("Latex environment error at line %d", lineEvn);
+    RED("Latex environment error(%d)", lineEvn);
     assert(0);// TODO,说明公式写的有问题
     assert(lineEvn == 3 || lineEvn == 4);// latex TODO
     sprintf(render, "\n");// TODO,换行
