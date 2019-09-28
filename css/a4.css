@@ -15,6 +15,7 @@
 .slide {
   /* 每一页 */
   width: var(--width);
+  height: var(--height);
 
   margin-left: auto;
   margin-right: auto;
@@ -24,17 +25,24 @@
 
 @media screen {
   /* 打印之后没有边框 */
-  .slide {
-    border: 1px solid black;
+  /* 
+   * .slide {
+   *   border: 1px solid black;
+   * } */
+
+  .content {
+    padding: 60px;
   }
+}
+
+@page
+{
+  margin: 60px;
 }
 
 .content {
   /* 页内容 */
   max-width: var(--width);
   word-break: break-all;
-
-  padding-left: 20px;
-  padding-right: 20px;
 }
 
