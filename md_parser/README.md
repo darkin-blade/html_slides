@@ -21,3 +21,7 @@
 - `partial/mathjax/katex`:引用`latex`公式渲染`js`
 - `partial/body`:结束`<body>`
 
+## bug
+
+- 有序列表,无序列表交替
+- 列表中交替quote
